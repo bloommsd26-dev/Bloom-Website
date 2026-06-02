@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    @apply antialiased;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    @apply bg-white text-neutral-900;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-neutral-100;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-neutral-400 rounded-full hover:bg-neutral-500;
+}
+
+/* Typography */
+h1 {
+    @apply text-4xl sm:text-5xl font-bold;
+}
+
+h2 {
+    @apply text-3xl sm:text-4xl font-bold;
+}
+
+h3 {
+    @apply text-2xl font-bold;
+}
+
+h4 {
+    @apply text-xl font-semibold;
+}
+
+p {
+    @apply leading-relaxed;
+}
+
+a {
+    @apply transition-colors duration-200;
+}
+
+/* Utility Classes */
+.container-tight {
+    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.container-wide {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.gradient-primary {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600;
+}
+
+.gradient-secondary {
+    @apply bg-gradient-to-r from-secondary-500 to-secondary-600;
+}
+
+.text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-600;
+}
+
+.section-padding {
+    @apply py-16 sm:py-24 lg:py-32;
+}
+
+.section-padding-sm {
+    @apply py-8 sm:py-12 lg:py-16;
+}
+
+/* Animation Utilities */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fadeInDown {
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.animate-slideIn {
+    animation: slideIn 0.6s ease-out;
+}
+
+/* Focus Styles */
+:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+button:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Form Styles */
+input,
+textarea,
+select {
+    @apply transition-colors duration-200;
+}
+
+input::placeholder,
+textarea::placeholder {
+    @apply text-neutral-400;
+}
+
+/* Link Styles */
+a:not([class]) {
+    @apply text-primary-600 hover:text-primary-700 underline;
+}
+
+/* Image Optimization */
+img {
+    @apply max-w-full h-auto;
+}
