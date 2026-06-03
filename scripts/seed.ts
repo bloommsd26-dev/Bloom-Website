@@ -1,11 +1,11 @@
-import { connectDB } from './lib/db/connect';
-import { Admin } from './lib/models/Admin';
-import { Program } from './lib/models/Program';
-import { Blog } from './lib/models/Blog';
-import { Impact } from './lib/models/Impact';
-import { Testimonial } from './lib/models/Testimonial';
-import { hashPassword } from './lib/utils/auth';
-import { generateSlug, calculateReadingTime } from './lib/utils/helpers';
+import { connectDB } from '../lib/db/connect';
+import { Admin } from '../lib/models/Admin';
+import { Program } from '../lib/models/Program';
+import { Blog } from '../lib/models/Blog';
+import { Impact } from '../lib/models/Impact';
+import { Testimonial } from '../lib/models/Testimonial';
+import { hashPassword } from '../lib/utils/auth';
+import { calculateReadingTime } from '../lib/utils/helpers';
 
 async function seedDatabase() {
   try {
@@ -291,7 +291,7 @@ If you're interested in mentoring young artists or organizing creative workshops
     console.log('Created 3 blog posts');
 
     // Create impact record
-    const impact = await Impact.create({
+    await Impact.create({
       childrenReached: 2500,
       sessionsConducted: 500,
       volunteerHours: 1200,

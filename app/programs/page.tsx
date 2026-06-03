@@ -1,7 +1,6 @@
 import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/sections/SectionHeader';
-import { ProgramCard } from '@/components/cards/Card';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
 
 export const metadata: Metadata = generateMetadata(
@@ -11,74 +10,79 @@ export const metadata: Metadata = generateMetadata(
 
 const programsData = [
   {
-    title: 'Educational Support & Academic Empowerment',
+    title: 'Homework Tables',
     slug: 'education',
-    description: 'Quality education and academic support for underprivileged children',
-    longDescription: 'We provide comprehensive tutoring, study support, and digital literacy programs to help children excel academically.',
-    activities: ['Tutoring Sessions', 'Study Camps', 'Digital Literacy', 'Academic Resources', 'Homework Support'],
+    description: 'Small study circles where volunteers work beside children after school.',
+    longDescription: 'Homework Tables are deliberately small. A volunteer sits with a few children, opens the notebook, notices where the confusion begins, and builds from there. The goal is not a perfect worksheet. The goal is a child who feels less alone with the page.',
+    activities: ['Math help', 'Reading practice', 'Exam prep', 'Study habits', 'Notebook review'],
     goals: [
-      'Help 500+ children improve academic performance',
-      'Build digital literacy skills for the modern world',
-      'Create accessible educational resources',
-      'Support students in critical subjects',
+      'Make study support feel personal',
+      'Track recurring gaps across sessions',
+      'Build confidence before marks',
+      'Create repeatable study routines',
     ],
-    impact: 'Improved grades, increased confidence, and better academic opportunities for children in underserved communities.',
+    impact: 'Children return to schoolwork with clearer basics, steadier habits, and someone they can ask without fear.',
+    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'Personality Development & Confidence Building',
+    title: 'Voice Rooms',
     slug: 'personality',
-    description: 'Build confidence, communication, and leadership skills',
-    longDescription: 'Through interactive workshops and mentorship, we help children develop the confidence and communication skills needed to succeed.',
-    activities: ['Public Speaking Workshops', 'Debate Clubs', 'Leadership Training', 'Communication Skills', 'Confidence Building'],
+    description: 'A room where children practice speaking before the world asks them to perform.',
+    longDescription: 'Voice Rooms are not polished-stage workshops. They are practice spaces: one sentence today, a two-minute speech next week, a debate the week after. Children learn that confidence can be rehearsed.',
+    activities: ['Public speaking', 'Debate prompts', 'Story circles', 'Role-play', 'Peer feedback'],
     goals: [
-      'Train 200+ children in public speaking',
-      'Develop young leaders',
-      'Build self-confidence',
-      'Improve communication abilities',
+      'Help shy children speak safely',
+      'Turn listening into leadership',
+      'Make mistakes feel survivable',
+      'Build voice through repetition',
     ],
-    impact: 'Confident, articulate young people ready to express themselves and take on leadership roles.',
+    impact: 'Children who once avoided the front of the room begin volunteering for the first line.',
+    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'Creative Expression & Talent Development',
+    title: 'Blank Page Labs',
     slug: 'creative',
-    description: 'Unlock creativity through art, writing, storytelling, and performance',
-    longDescription: 'We provide platforms for children to express themselves creatively and develop their artistic talents.',
-    activities: ['Art Programs', 'Writing Workshops', 'Storytelling Circles', 'Theatre & Performance', 'Talent Showcases'],
+    description: 'Art, writing, theatre, and storytelling for children who need a place to begin.',
+    longDescription: 'Blank Page Labs start with the simplest invitation: make something. A scene, a sketch, a poem, a cardboard prop. The work is playful, but the outcome is serious: children learn that their imagination deserves space.',
+    activities: ['Art sessions', 'Writing prompts', 'Storytelling', 'Theatre games', 'Showcases'],
     goals: [
-      'Support 300+ children in creative pursuits',
-      'Create platforms for talent showcase',
-      'Build artistic skills and expression',
-      'Nurture creative confidence',
+      'Give quiet talent a platform',
+      'Build expression beyond academics',
+      'Make creativity low-cost and accessible',
+      'Celebrate process, not polish',
     ],
-    impact: 'Creative, expressive young people who can communicate their ideas and emotions through art.',
+    impact: 'Children leave with something they made and the feeling that their ideas can take shape.',
+    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'Women Empowerment & Gender Equality',
+    title: 'Girls Who Lead',
     slug: 'women',
-    description: 'Empower girls through education, leadership, and awareness',
-    longDescription: 'We focus on creating equal opportunities for girls through awareness campaigns, leadership programs, and education initiatives.',
-    activities: ['Girl Leadership Programs', 'Awareness Campaigns', 'Hygiene Education', 'Equal Opportunity Initiatives', 'Mentorship'],
+    description: 'Confidence, health, rights, and leadership sessions built for girls.',
+    longDescription: 'Girls Who Lead is about everyday power: asking questions, understanding health, naming unfairness, and stepping into responsibility. We pair practical awareness with mentorship so girls are not just included, but heard.',
+    activities: ['Leadership circles', 'Rights awareness', 'Health education', 'Mentorship', 'Peer support'],
     goals: [
-      'Empower 400+ girls',
-      'Raise awareness about gender equality',
-      'Create leadership opportunities',
-      'Ensure access to quality education',
+      'Help girls take up space',
+      'Create peer support networks',
+      'Make sensitive topics easier to ask about',
+      'Build visible young leaders',
     ],
-    impact: 'Empowered girls who understand their rights and have the confidence to pursue their dreams.',
+    impact: 'Girls begin leading discussions, asking sharper questions, and seeing themselves as decision-makers.',
+    image: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'Community Care & Awareness',
+    title: 'Care Drives',
     slug: 'community',
-    description: 'Create community support through donation drives and awareness',
-    longDescription: 'We organize donation camps and awareness campaigns to address community needs and foster social responsibility.',
-    activities: ['Donation Drives', 'Community Outreach', 'Awareness Campaigns', 'Health Education', 'Relief Programs'],
+    description: 'Donation and awareness drives run with planning, sorting, and follow-through.',
+    longDescription: 'Care Drives are not about collecting random piles of things. We collect what can actually be used, sort it carefully, record it, and connect it to families and children who need practical support.',
+    activities: ['Collection drives', 'Sorting days', 'Community outreach', 'Awareness walks', 'Distribution logs'],
     goals: [
-      'Reach 25+ communities',
-      'Collect resources for 500+ families',
-      'Raise awareness on key issues',
-      'Create culture of giving',
+      'Reduce waste through useful reuse',
+      'Match donations to real needs',
+      'Train volunteers in logistics',
+      'Make giving accountable',
     ],
-    impact: 'Strong communities supported through sustainable giving and awareness about social issues.',
+    impact: 'Families receive usable materials, and volunteers learn the discipline behind care.',
+    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80',
   },
 ];
 
@@ -89,12 +93,12 @@ export default function ProgramsPage() {
       <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
         <Container>
           <div className="max-w-3xl">
-            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Our Work</p>
+            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">What we run</p>
             <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
-              Five Focus Areas, One Mission
+              Five formats. Many rooms. One promise.
             </h1>
             <p className="text-xl text-neutral-600">
-              Through five comprehensive programs, we address different aspects of child development and community needs.
+              Bloom programs are designed for real rooms: noisy, uneven, full of different ages, and always worth returning to.
             </p>
           </div>
         </Container>
@@ -104,8 +108,8 @@ export default function ProgramsPage() {
       <section className="section-padding">
         <Container>
           <SectionHeader
-            title="Comprehensive Programs"
-            description="Each program is designed to address specific needs in our community while building skills, confidence, and opportunity."
+            title="Programs with a working rhythm"
+            description="Every format has a purpose, a prep list, and a follow-up note. That is how a student-led initiative becomes dependable."
             align="center"
           />
           <div className="space-y-12">
@@ -142,14 +146,14 @@ export default function ProgramsPage() {
                         </p>
                       </div>
                     </div>
-                    <div className="bg-gradient-to-br from-primary-100 to-secondary-100 h-80 rounded-lg flex items-center justify-center text-neutral-400">
-                      <span>{program.title} Image</span>
+                    <div className="h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+                      <img src={program.image} alt={program.title} className="w-full h-full object-cover" />
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="bg-gradient-to-br from-primary-100 to-secondary-100 h-80 rounded-lg flex items-center justify-center text-neutral-400">
-                      <span>{program.title} Image</span>
+                    <div className="h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+                      <img src={program.image} alt={program.title} className="w-full h-full object-cover" />
                     </div>
                     <div>
                       <h2 className="text-3xl font-bold text-neutral-900 mb-4">

@@ -1,47 +1,43 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/sections/SectionHeader';
 import { BlogCard } from '@/components/cards/BlogCard';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
 
 export const metadata: Metadata = generateMetadata(
   'Blog',
-  'Stories of impact, updates from Bloom, and insights into our work empowering children through education and mentorship.'
+  'Field notes, session stories, and volunteer reflections from Bloom.'
 );
 
 const blogPosts = [
   {
-    title: 'From Shy to Strong: One Student\'s Journey',
+    title: 'The First Time She Took the Front Row',
     slug: 'shy-to-strong-journey',
-    excerpt: 'How our personality development program helped a quiet 8th grader find her voice and confidence.',
-    content: 'Full content here...',
+    excerpt: 'A Voice Room note about confidence that arrived one sentence at a time.',
     author: 'Sarah Patel',
     date: new Date('2026-03-01'),
     readingTime: 5,
     category: 'inspiration',
-    coverImage: '/blog/journey.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'Tutoring That Transforms: Academic Success Stories',
+    title: 'What We Learned From One Math Notebook',
     slug: 'tutoring-transforms-academics',
-    excerpt: 'Our tutoring programs are helping children improve grades and discover their academic potential.',
-    content: 'Full content here...',
+    excerpt: 'Homework Tables are less about speed and more about finding the exact place a child got lost.',
     author: 'Arjun Kumar',
     date: new Date('2026-02-25'),
     readingTime: 7,
     category: 'education',
-    coverImage: '/blog/tutoring.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'What 1200+ Volunteer Hours Mean',
+    title: 'The Work Before the Visit',
     slug: 'volunteer-hours-impact',
-    excerpt: 'A look at the dedication behind our volunteer community and the tangible change they create.',
-    content: 'Full content here...',
+    excerpt: 'Sorting worksheets, assigning roles, packing supplies: the quiet preparation behind Bloom sessions.',
     author: 'Priya Singh',
     date: new Date('2026-02-20'),
     readingTime: 6,
     category: 'impact',
-    coverImage: '/blog/volunteers.jpg',
+    coverImage: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1200&q=80',
   },
 ];
 
@@ -51,12 +47,12 @@ export default function BlogPage() {
       <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
         <Container>
           <div className="max-w-3xl">
-            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Stories & Updates</p>
+            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Field Notes</p>
             <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
-              From Our Community
+              What the sessions teach us
             </h1>
             <p className="text-xl text-neutral-600">
-              Stories of impact, insights from our work, and updates about Bloom's mission to empower children.
+              Short reflections from the rooms, notebooks, sorting tables, and conversations that shape Bloom.
             </p>
           </div>
         </Container>

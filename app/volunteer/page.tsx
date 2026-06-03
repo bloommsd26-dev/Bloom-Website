@@ -5,41 +5,40 @@ import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/sections/SectionHeader';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Metadata } from 'next';
 
 const volunteerBenefits = [
   {
-    title: 'Real Impact',
-    description: 'Directly help underprivileged children access education and opportunities',
+    title: 'Prepare before you serve',
+    description: 'Help build prompts, worksheets, activity kits, and backup plans before a session begins.',
   },
   {
-    title: 'Leadership Experience',
-    description: 'Develop leadership skills through organizing programs and mentoring others',
+    title: 'Lead at child-height',
+    description: 'Learn how to explain without showing off and guide without taking over.',
   },
   {
-    title: 'Communication Skills',
-    description: 'Improve your ability to communicate, teach, and connect with diverse groups',
+    title: 'Listen for what is unsaid',
+    description: 'Notice hesitation, confusion, and small breakthroughs that do not announce themselves.',
   },
   {
-    title: 'Teamwork',
-    description: 'Work with passionate peers united by a common mission',
+    title: 'Work like a crew',
+    description: "Share roles, carry materials, document outcomes, and make the next volunteer's job easier.",
   },
   {
-    title: 'Personal Growth',
-    description: 'Develop empathy, resilience, and a deeper understanding of social issues',
+    title: 'Build useful confidence',
+    description: 'Grow through responsibility: planning, showing up, adapting, and returning.',
   },
   {
-    title: 'Community Connection',
-    description: 'Build meaningful relationships with communities and fellow volunteers',
+    title: 'Stay accountable',
+    description: 'Volunteer hours become notes, records, and improvements, not just certificates.',
   },
 ];
 
 const interests = [
-  'Education Support',
-  'Personality Development',
-  'Creative Expression',
-  'Women Empowerment',
-  'Community Care',
+  { label: 'Education Support', value: 'education' },
+  { label: 'Personality Development', value: 'mentorship' },
+  { label: 'Creative Expression', value: 'creative' },
+  { label: 'Women Empowerment', value: 'women_empowerment' },
+  { label: 'Community Care', value: 'community' },
 ];
 
 export default function VolunteerPage() {
@@ -110,14 +109,23 @@ export default function VolunteerPage() {
       {/* Hero Section */}
       <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
         <Container>
-          <div className="max-w-3xl">
-            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Get Involved</p>
-            <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
-              Join Our Volunteer Community
-            </h1>
-            <p className="text-xl text-neutral-600">
-              Become part of a student-led movement creating real change. Gain experience, develop skills, and make a direct impact on children's lives.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Volunteer</p>
+              <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+                Come ready to do the small work well.
+              </h1>
+              <p className="text-xl text-neutral-600">
+                Bloom volunteers teach, sort, listen, carry, write, explain, and return. If that sounds ordinary, good. Ordinary work done consistently is where trust begins.
+              </p>
+            </div>
+            <div className="h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80"
+                alt="Students planning together"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </Container>
       </section>
@@ -126,7 +134,7 @@ export default function VolunteerPage() {
       <section className="section-padding bg-neutral-50">
         <Container>
           <SectionHeader
-            title="Why Volunteer With Bloom?"
+            title="What volunteers actually practice"
             align="center"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -144,8 +152,8 @@ export default function VolunteerPage() {
       <section className="section-padding">
         <Container size="md">
           <SectionHeader
-            title="Volunteer Application Form"
-            description="Tell us about yourself and what interests you. We'll connect you with opportunities that match your skills and passions."
+            title="Tell us where you can show up"
+            description="We use this form to match you with prep work, sessions, donation logistics, or creative labs."
             align="center"
           />
 
@@ -181,7 +189,7 @@ export default function VolunteerPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                placeholder="+1 (555) 000-0000"
+                placeholder="+91 98765 43210"
               />
 
               {/* Interests */}
@@ -191,14 +199,14 @@ export default function VolunteerPage() {
                 </label>
                 <div className="space-y-2">
                   {interests.map((interest) => (
-                    <label key={interest} className="flex items-center gap-3 cursor-pointer">
+                    <label key={interest.value} className="flex items-center gap-3 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={formData.interests.includes(interest)}
-                        onChange={() => handleInterestChange(interest)}
+                        checked={formData.interests.includes(interest.value)}
+                        onChange={() => handleInterestChange(interest.value)}
                         className="w-4 h-4 text-primary-600 rounded"
                       />
-                      <span className="text-neutral-700">{interest}</span>
+                      <span className="text-neutral-700">{interest.label}</span>
                     </label>
                   ))}
                 </div>
@@ -214,7 +222,7 @@ export default function VolunteerPage() {
                   name="skills"
                   value={formData.skills}
                   onChange={handleChange}
-                  placeholder="e.g., Teaching, graphic design, coding, public speaking, etc."
+                  placeholder="e.g., explaining math, poster design, sorting supplies, public speaking"
                   className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                   rows={3}
                 />
@@ -241,14 +249,14 @@ export default function VolunteerPage() {
               {/* Message */}
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-2">
-                  Tell us why you want to volunteer (optional)
+                  Tell us how you want to help (optional)
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Share your motivation and what you hope to achieve..."
+                  placeholder="Tell us what kind of work you can do consistently..."
                   className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                   rows={4}
                 />
@@ -289,7 +297,7 @@ export default function VolunteerPage() {
       <section className="section-padding bg-neutral-50">
         <Container>
           <SectionHeader
-            title="What We Expect From Volunteers"
+            title="What we ask from volunteers"
             align="center"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">

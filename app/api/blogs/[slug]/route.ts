@@ -2,12 +2,13 @@ import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { successResponse, errorResponse, notFoundError } from '@/utils/api-response';
 
-export async function GET(request: Request, { params }: { params: { slug: string } }) {
+export async function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
     await connectDB();
+    const { slug } = await params;
 
     const blog = await Blog.findOne({
-      slug: params.slug,
+      slug,
       status: 'published',
     });
 

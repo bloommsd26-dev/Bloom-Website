@@ -8,18 +8,18 @@ export function Footer() {
 
   const footerLinks = {
     About: [
-      { label: 'Our Mission', href: '/about' },
-      { label: 'Our Vision', href: '/about#vision' },
-      { label: 'Our Values', href: '/about#values' },
+      { label: 'How We Work', href: '/about' },
+      { label: 'Our Standard', href: '/about' },
+      { label: 'Student Leadership', href: '/about' },
       { label: 'Our Story', href: '/about#story' },
     ],
     Programs: [
-      { label: 'Education', href: '/programs?focus=education' },
-      { label: 'Personality Development', href: '/programs?focus=personality' },
-      { label: 'Creative Expression', href: '/programs?focus=creative' },
-      { label: 'Women Empowerment', href: '/programs?focus=women' },
+      { label: 'Homework Tables', href: '/programs?focus=education' },
+      { label: 'Voice Rooms', href: '/programs?focus=personality' },
+      { label: 'Blank Page Labs', href: '/programs?focus=creative' },
+      { label: 'Girls Who Lead', href: '/programs?focus=women' },
     ],
-    Get Involved: [
+    'Get Involved': [
       { label: 'Volunteer', href: '/volunteer' },
       { label: 'Donate', href: '/donate' },
       { label: 'Partner With Us', href: '/contact' },
@@ -42,34 +42,27 @@ export function Footer() {
               <div className="text-2xl font-bold text-primary-400">Bloom</div>
             </Link>
             <p className="text-neutral-400 text-sm leading-relaxed">
-              Students creating meaningful change by empowering children through education, mentorship, and opportunity.
+              Maxfort students showing up weekly with notebooks, prompts, sorted supplies, and a promise to return.
             </p>
             {/* Social Links */}
             <div className="flex gap-4 mt-6">
-              <a href="#" className="text-neutral-400 hover:text-primary-400 transition-colors">
-                <span className="sr-only">Twitter</span>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                </svg>
-              </a>
-              <a href="#" className="text-neutral-400 hover:text-primary-400 transition-colors">
+              <a href="https://instagram.com/bloominitiative" className="text-neutral-400 hover:text-primary-400 transition-colors">
                 <span className="sr-only">Instagram</span>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M5.338 5.338a8 8 0 1013.324 13.324A8 8 0 015.338 5.338zM8 9a1 1 0 100-2 1 1 0 000 2zm1.5 1.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"
-                    clipRule="evenodd"
-                  />
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" suppressHydrationWarning>
+                  <path d="M7.8 2h8.4A5.8 5.8 0 0122 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8A5.8 5.8 0 012 16.2V7.8A5.8 5.8 0 017.8 2zm0 2A3.8 3.8 0 004 7.8v8.4A3.8 3.8 0 007.8 20h8.4a3.8 3.8 0 003.8-3.8V7.8A3.8 3.8 0 0016.2 4H7.8z" />
+                  <path d="M12 7a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6zm5.25-2.5a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z" />
                 </svg>
               </a>
-              <a href="#" className="text-neutral-400 hover:text-primary-400 transition-colors">
-                <span className="sr-only">Facebook</span>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clipRule="evenodd"
-                  />
+              <a href="https://linkedin.com" className="text-neutral-400 hover:text-primary-400 transition-colors">
+                <span className="sr-only">LinkedIn</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" suppressHydrationWarning>
+                  <path d="M4.98 3.5a2.5 2.5 0 11-.01 5.01 2.5 2.5 0 01.01-5.01zM3 9h4v12H3V9zm7 0h3.8v1.64h.05c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.12V21h-4v-5.58c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95V21h-4V9z" />
+                </svg>
+              </a>
+              <a href="mailto:hello@bloom.org" className="text-neutral-400 hover:text-primary-400 transition-colors">
+                <span className="sr-only">Email</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" suppressHydrationWarning>
+                  <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm0 3.24V18h16V7.24l-8 5.33-8-5.33zM5.2 6l6.8 4.53L18.8 6H5.2z" />
                 </svg>
               </a>
             </div>
@@ -81,7 +74,7 @@ export function Footer() {
               <h3 className="font-semibold text-white mb-4">{category}</h3>
               <ul className="space-y-2">
                 {links.map((link) => (
-                  <li key={link.href}>
+                  <li key={`${link.href}-${link.label}`}>
                     <Link
                       href={link.href}
                       className="text-neutral-400 hover:text-primary-400 transition-colors text-sm"

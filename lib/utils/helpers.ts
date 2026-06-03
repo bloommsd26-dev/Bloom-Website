@@ -1,5 +1,8 @@
 import slugify from 'slugify';
 
+export const DEFAULT_PAGE_SIZE = 10;
+export const MAX_PAGE_SIZE = 50;
+
 export function generateSlug(text: string): string {
   return slugify(text, {
     lower: true,
@@ -42,6 +45,20 @@ export function validateEmail(email: string): boolean {
 export function validatePhone(phone: string): boolean {
   const phoneRegex = /^[0-9]{10,}$/;
   return phoneRegex.test(phone.replace(/\D/g, ''));
+}
+
+export function parsePaginationParams(searchParams: URLSearchParams) {
+  const page = Math.max(1, Number.parseInt(searchParams.get('page') || '1', 10) || 1);
+  const requestedLimit =
+    Number.parseInt(searchParams.get('limit') || String(DEFAULT_PAGE_SIZE), 10) ||
+    DEFAULT_PAGE_SIZE;
+  const limit = Math.min(Math.max(1, requestedLimit), MAX_PAGE_SIZE);
+
+  return {
+    page,
+    limit,
+    skip: (page - 1) * limit,
+  };
 }
 
 export function sanitizeInput(input: string): string {

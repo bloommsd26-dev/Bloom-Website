@@ -41,7 +41,7 @@ export function generateMetadata(
       images: [image || siteConfig.image],
       creator: siteConfig.twitterHandle,
     },
-    canonical,
+    alternates: canonical ? { canonical } : undefined,
   };
 }
 
@@ -82,7 +82,7 @@ export function generateBlogMetadata(
       description,
       images: [image || siteConfig.image],
     },
-    canonical: url,
+    alternates: { canonical: url },
   };
 }
 

@@ -1,6 +1,7 @@
 import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { successResponse, errorResponse } from '@/utils/api-response';
+import { parsePaginationParams } from '@/utils/helpers';
 
 export async function GET(request: Request) {
   try {
@@ -9,9 +10,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const search = searchParams.get('search');
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const skip = (page - 1) * limit;
+    const { page, limit, skip } = parsePaginationParams(searchParams);
 
     const query: any = { status: 'published' };
 

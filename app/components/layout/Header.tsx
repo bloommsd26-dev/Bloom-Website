@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Container } from './Container';
 import { Button } from '@/components/ui/Button';
-import clsx from 'clsx';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,6 +59,7 @@ export function Header() {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              suppressHydrationWarning
             >
               <path
                 strokeLinecap="round"

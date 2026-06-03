@@ -51,14 +51,23 @@ export default function ContactPage() {
     <>
       <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
         <Container>
-          <div className="max-w-3xl">
-            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Get In Touch</p>
-            <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
-              Let's Connect
-            </h1>
-            <p className="text-xl text-neutral-600">
-              Have questions? Want to partner with us? Reach out. We'd love to hear from you.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Contact</p>
+              <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+                Start with a real note.
+              </h1>
+              <p className="text-xl text-neutral-600">
+                Write to us about a session, donation, partnership, report, or idea. The more specific you are, the faster we can route it to the right student team.
+              </p>
+            </div>
+            <div className="h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80"
+                alt="Students writing and planning together"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </Container>
       </section>
@@ -66,7 +75,6 @@ export default function ContactPage() {
       <section className="section-padding">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Contact Info */}
             <div className="space-y-8">
               <div>
                 <h3 className="text-lg font-bold text-neutral-900 mb-2">Email</h3>
@@ -87,31 +95,19 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-bold text-neutral-900 mb-2">Follow Us</h3>
                 <div className="flex gap-4">
-                  <a href="#" className="text-neutral-600 hover:text-primary-600">
-                    Twitter
-                  </a>
-                  <a href="#" className="text-neutral-600 hover:text-primary-600">
+                  <a href="https://instagram.com/bloominitiative" className="text-neutral-600 hover:text-primary-600">
                     Instagram
                   </a>
-                  <a href="#" className="text-neutral-600 hover:text-primary-600">
-                    Facebook
+                  <a href="https://linkedin.com" className="text-neutral-600 hover:text-primary-600">
+                    LinkedIn
+                  </a>
+                  <a href="mailto:hello@bloom.org" className="text-neutral-600 hover:text-primary-600">
+                    Email
                   </a>
                 </div>
               </div>
-
-              <div className="bg-primary-50 rounded-lg p-6 border border-primary-200">
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">Office Hours</h3>
-                <p className="text-neutral-600 text-sm">
-                  Monday - Friday: 4 PM - 6 PM
-                  <br />
-                  Saturday: 10 AM - 2 PM
-                  <br />
-                  Sunday: Closed
-                </p>
-              </div>
             </div>
 
-            {/* Contact Form */}
             <div className="lg:col-span-2">
               <form onSubmit={handleSubmit} className="bg-neutral-50 rounded-lg p-8 border border-neutral-200">
                 <div className="space-y-6">
@@ -140,7 +136,7 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    placeholder="How can we help?"
+                    placeholder="Session, donation, partnership, report..."
                   />
 
                   <div>
@@ -153,7 +149,7 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      placeholder="Your message..."
+                      placeholder="Tell us what you need, where you are writing from, and what timeline matters..."
                       className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                       rows={5}
                     />
@@ -162,7 +158,7 @@ export default function ContactPage() {
                   {submitStatus === 'success' && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                       <p className="text-green-800 font-medium">
-                        Thank you for your message! We'll be in touch soon.
+                        Thank you for your message. We will route it to the right Bloom team.
                       </p>
                     </div>
                   )}
@@ -190,33 +186,33 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      {/* FAQs Section */}
       <section className="section-padding bg-neutral-50">
         <Container>
           <SectionHeader
-            title="Frequently Asked Questions"
+            title="Before you write"
+            description="A little context helps us respond with something useful."
             align="center"
           />
           <div className="max-w-3xl mx-auto space-y-6">
             {[
               {
-                q: 'How can I volunteer with Bloom?',
-                a: 'Visit our Volunteer page and fill out the application form. We\'ll review your information and get in touch to discuss opportunities that match your interests and skills.',
+                q: 'How do I volunteer with Bloom?',
+                a: 'Use the Volunteer page and tell us what work you can do consistently. We match people with session prep, teaching support, creative labs, or donation logistics.',
               },
               {
-                q: 'How are donations used?',
-                a: 'We are committed to transparency. All donations go directly to our programs — tutoring, workshops, materials, and operational costs. We maintain detailed financial records.',
+                q: 'What should I donate?',
+                a: 'Clean, usable items only: books, stationery, uniforms, bags, working devices, and essentials. If it needs repair before use, please repair it first.',
               },
               {
-                q: 'Can organizations partner with Bloom?',
-                a: 'Yes! We welcome partnerships. Contact us to discuss collaboration opportunities that align with our mission.',
+                q: 'Can an organization partner with Bloom?',
+                a: 'Yes. Write with the location, age group, available dates, and the kind of support needed so our student team can assess fit.',
               },
               {
-                q: 'How often are programs conducted?',
-                a: 'Program frequency varies. Most programs run weekly or bi-weekly. Specific schedules are shared with volunteers and participants.',
+                q: 'Can I request impact records?',
+                a: 'Yes. We can share session summaries, volunteer-hour records, donation logs, and program notes with partners and supporters.',
               },
-            ].map((faq, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg border border-neutral-200">
+            ].map((faq) => (
+              <div key={faq.q} className="bg-white p-6 rounded-lg border border-neutral-200">
                 <h3 className="text-lg font-bold text-neutral-900 mb-2">{faq.q}</h3>
                 <p className="text-neutral-600">{faq.a}</p>
               </div>

@@ -1,16 +1,29 @@
 import { connectDB } from '@/db/connect';
 import { Volunteer } from '@/models/Volunteer';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
-import { validateEmail, validatePhone } from '@/utils/helpers';
+import { parsePaginationParams, validateEmail, validatePhone } from '@/utils/helpers';
+import { verifyToken } from '@/utils/auth';
+
+function canManageVolunteers(request: Request) {
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return false;
+  }
+
+  const decoded = verifyToken(authHeader.substring(7));
+  return decoded?.role === 'admin' || decoded?.role === 'editor';
+}
 
 export async function GET(request: Request) {
   try {
+    if (!canManageVolunteers(request)) {
+      return errorResponse('Unauthorized', 401);
+    }
+
     await connectDB();
 
     const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const skip = (page - 1) * limit;
+    const { page, limit, skip } = parsePaginationParams(searchParams);
 
     const volunteers = await Volunteer.find()
       .skip(skip)
@@ -54,7 +67,7 @@ export async function POST(request: Request) {
       return validationError('Please provide a valid phone number');
     }
 
-    if (interests && interests.length === 0) {
+    if (!Array.isArray(interests) || interests.length === 0) {
       return validationError('Please select at least one area of interest');
     }
 
@@ -69,8 +82,8 @@ export async function POST(request: Request) {
       name,
       email,
       phone,
-      interests: interests || [],
-      skills: skills || '',
+      interests,
+      skills: typeof skills === 'string' ? skills.split(',').map((skill) => skill.trim()).filter(Boolean) : [],
       availability: availability || 'flexible',
       message: message || '',
     });

@@ -1,6 +1,6 @@
 import { connectDB } from '@/db/connect';
 import { Admin } from '@/models/Admin';
-import { hashPassword, comparePasswords, generateToken } from '@/utils/auth';
+import { comparePasswords, generateToken } from '@/utils/auth';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
 import { validateEmail } from '@/utils/helpers';
 
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     const token = generateToken(
       {
-        id: admin._id,
+        id: String(admin._id),
         email: admin.email,
         role: admin.role,
       },

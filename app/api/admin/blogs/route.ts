@@ -1,21 +1,41 @@
 import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
-import { generateSlug, calculateReadingTime } from '@/utils/helpers';
+import { generateSlug, calculateReadingTime, parsePaginationParams } from '@/utils/helpers';
 import { verifyToken } from '@/utils/auth';
+
+function authenticateAdminRequest(request: Request) {
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return null;
+  }
+
+  const decoded = verifyToken(authHeader.substring(7));
+  if (!decoded || !['admin', 'editor'].includes(decoded.role)) {
+    return null;
+  }
+
+  return decoded;
+}
 
 export async function GET(request: Request) {
   try {
+    if (!authenticateAdminRequest(request)) {
+      return errorResponse('Unauthorized', 401);
+    }
+
     await connectDB();
 
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'published';
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const skip = (page - 1) * limit;
+    const { page, limit, skip } = parsePaginationParams(searchParams);
+
+    if (!['draft', 'published', 'all'].includes(status)) {
+      return validationError('Invalid blog status');
+    }
 
     const query: any = {};
-    if (status) query.status = status;
+    if (status !== 'all') query.status = status;
 
     const blogs = await Blog.find(query)
       .skip(skip)
@@ -41,16 +61,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    // Verify authentication
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authenticateAdminRequest(request)) {
       return errorResponse('Unauthorized', 401);
-    }
-
-    const token = authHeader.substring(7);
-    const decoded = verifyToken(token);
-    if (!decoded) {
-      return errorResponse('Invalid token', 401);
     }
 
     await connectDB();

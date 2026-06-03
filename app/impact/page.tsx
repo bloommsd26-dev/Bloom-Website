@@ -1,28 +1,69 @@
 import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/sections/SectionHeader';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 
 export const metadata: Metadata = generateMetadata(
   'Impact',
-  'See the real numbers behind Bloom\'s work — children reached, sessions conducted, volunteer hours contributed, and lives transformed.'
+  'See how Bloom records children reached, sessions conducted, volunteer hours, and field notes from its student-led work.'
 );
+
+const proofPoints = [
+  ['2500+', 'Children Reached', 'Across study circles, creative labs, voice rooms, and care drives.'],
+  ['150+', 'Active Volunteers', 'Students who prepare, visit, record, and return.'],
+  ['500+', 'Sessions Conducted', 'A growing archive of repeated, practical work.'],
+  ['1200+', 'Volunteer Hours', 'Time spent planning, teaching, sorting, listening, and documenting.'],
+  ['25+', 'Communities Served', 'Different neighborhoods, schools, and partner spaces.'],
+  ['100%', 'Logged', 'Every useful number is treated as a planning tool, not a trophy.'],
+];
+
+const stories = [
+  {
+    title: 'The notebook that finally opened',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
+    text: 'A child who avoided math began bringing the same notebook back each week because one volunteer slowed the problem down enough.',
+  },
+  {
+    title: 'The first debate line',
+    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
+    text: 'In a Voice Room, one sentence became a full argument. The win was not the speech. It was choosing to stand up.',
+  },
+  {
+    title: 'A drawing with a name on it',
+    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
+    text: 'Creative sessions help children put their names on work they are proud to show, not just submit.',
+  },
+  {
+    title: 'Sorted before shared',
+    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80',
+    text: 'Care drives now include sorting logs, condition checks, and distribution notes so usefulness comes before volume.',
+  },
+];
 
 export default function ImpactPage() {
   return (
     <>
       <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
         <Container>
-          <div className="max-w-3xl">
-            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Our Work</p>
-            <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
-              Measurable Impact, Real Change
-            </h1>
-            <p className="text-xl text-neutral-600">
-              We believe in transparency. Here are the numbers behind our mission.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Impact</p>
+              <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+                We count so we can return better.
+              </h1>
+              <p className="text-xl text-neutral-600">
+                Bloom tracks the practical things: who came, what happened, what was missing, and what should change next time.
+              </p>
+            </div>
+            <div className="h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1200&q=80"
+                alt="People working together around a table"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </Container>
       </section>
@@ -30,36 +71,13 @@ export default function ImpactPage() {
       <section className="section-padding bg-neutral-50">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-              <div className="text-5xl font-bold text-primary-600 mb-2">2500+</div>
-              <div className="text-neutral-700 font-medium">Children Reached</div>
-              <p className="text-neutral-600 text-sm mt-3">Across five focus areas and our community programs.</p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-              <div className="text-5xl font-bold text-primary-600 mb-2">150+</div>
-              <div className="text-neutral-700 font-medium">Active Volunteers</div>
-              <p className="text-neutral-600 text-sm mt-3">Student leaders dedicated to creating change.</p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-              <div className="text-5xl font-bold text-primary-600 mb-2">500+</div>
-              <div className="text-neutral-700 font-medium">Sessions Conducted</div>
-              <p className="text-neutral-600 text-sm mt-3">Educational, creative, and developmental programs.</p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-              <div className="text-5xl font-bold text-secondary-600 mb-2">1200+</div>
-              <div className="text-neutral-700 font-medium">Volunteer Hours</div>
-              <p className="text-neutral-600 text-sm mt-3">Contributed by our passionate student leaders.</p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-              <div className="text-5xl font-bold text-secondary-600 mb-2">25+</div>
-              <div className="text-neutral-700 font-medium">Communities Served</div>
-              <p className="text-neutral-600 text-sm mt-3">Across different neighborhoods and schools.</p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-              <div className="text-5xl font-bold text-primary-600 mb-2">100%</div>
-              <div className="text-neutral-700 font-medium">Transparent</div>
-              <p className="text-neutral-600 text-sm mt-3">All impact data shared openly with stakeholders.</p>
-            </div>
+            {proofPoints.map(([number, label, description]) => (
+              <div key={label} className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
+                <div className="text-5xl font-bold text-primary-600 mb-2">{number}</div>
+                <div className="text-neutral-700 font-medium">{label}</div>
+                <p className="text-neutral-600 text-sm mt-3">{description}</p>
+              </div>
+            ))}
           </div>
         </Container>
       </section>
@@ -67,66 +85,36 @@ export default function ImpactPage() {
       <section className="section-padding">
         <Container>
           <SectionHeader
-            title="Impact Stories"
-            description="Behind every number is a story of transformation and hope."
+            title="Impact stories without polish"
+            description="The moments we remember are usually small enough to fit in a notebook margin."
             align="center"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <div className="bg-primary-100 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <span className="text-2xl">📚</span>
+            {stories.map((story) => (
+              <div key={story.title} className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+                <img src={story.image} alt={story.title} className="w-full h-56 object-cover" />
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-neutral-900 mb-3">{story.title}</h3>
+                  <p className="text-neutral-600 leading-relaxed">{story.text}</p>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-neutral-900 mb-3">Academic Excellence</h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Through our tutoring programs, 200+ children have improved their academic performance, with many moving from failing grades to passing marks.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <div className="bg-primary-100 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <span className="text-2xl">🎤</span>
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900 mb-3">Confidence Building</h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Our personality development programs have helped 150+ children overcome shyness and develop public speaking skills.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <div className="bg-secondary-100 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <span className="text-2xl">🎨</span>
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900 mb-3">Creative Expression</h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Our creative programs have provided platforms for 300+ children to express themselves through art, writing, and performance.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <div className="bg-secondary-100 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <span className="text-2xl">👧</span>
-              </div>
-              <h3 className="text-xl font-bold text-neutral-900 mb-3">Women Empowerment</h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Our women empowerment initiatives have reached 400+ girls, building their confidence and awareness about their rights.
-              </p>
-            </div>
+            ))}
           </div>
         </Container>
       </section>
 
       <section className="section-padding bg-neutral-50">
         <Container>
-          <SectionHeader
-            title="Our Commitment"
-            description="We are committed to transparency and accountability in everything we do."
-            align="center"
-          />
           <div className="max-w-3xl mx-auto">
-            <p className="text-lg text-neutral-600 mb-6 leading-relaxed">
-              Bloom maintains detailed records of all our programs and their outcomes. We believe in transparent reporting and welcome questions about our impact. All donations are used efficiently and ethically, with a focus on creating sustainable, long-term change.
-            </p>
+            <SectionHeader
+              title="The report is a working document"
+              description="We use reporting to improve the next session, not just summarize the last one."
+              align="center"
+            />
             <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h3 className="text-lg font-bold text-neutral-900 mb-4">Access Our Reports</h3>
+              <h3 className="text-lg font-bold text-neutral-900 mb-4">Ask for the ledger</h3>
               <p className="text-neutral-600 mb-6">
-                Detailed impact reports, financial statements, and program outcomes are available upon request. Contact us to learn more.
+                We can share session summaries, donation logs, volunteer hour records, and program notes with partners and supporters.
               </p>
               <Button>
                 <Link href="/contact">Request a Report</Link>

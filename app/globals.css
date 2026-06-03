@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    color-scheme: light;
+    --color-espresso: #432713;
+    --color-horchata: #ddc6b3;
+    --color-ice-cube: #d2e3fd;
+    --color-cinnamon: #965420;
+    --color-oat-milk: #f4edea;
+}
+
 * {
     @apply antialiased;
 }
@@ -12,6 +21,146 @@ html {
 
 body {
     @apply bg-white text-neutral-900;
+}
+
+/* Palette lock: keeps the site on the supplied espresso/oat/cinnamon palette,
+   even if a stale Tailwind dev cache is still serving older green utilities. */
+.bg-white {
+    background-color: var(--color-oat-milk) !important;
+}
+
+.text-white {
+    color: var(--color-oat-milk) !important;
+}
+
+.border-white {
+    border-color: var(--color-oat-milk) !important;
+}
+
+.from-primary-50 {
+    --tw-gradient-from: #f4edea var(--tw-gradient-from-position) !important;
+    --tw-gradient-to: rgb(244 237 234 / 0) var(--tw-gradient-to-position) !important;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+.via-white {
+    --tw-gradient-to: rgb(244 237 234 / 0) var(--tw-gradient-to-position) !important;
+    --tw-gradient-stops: var(--tw-gradient-from), #f4edea var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
+}
+
+.to-white {
+    --tw-gradient-to: #f4edea var(--tw-gradient-to-position) !important;
+}
+
+.from-primary-100 {
+    --tw-gradient-from: #ead8ce var(--tw-gradient-from-position) !important;
+    --tw-gradient-to: rgb(234 216 206 / 0) var(--tw-gradient-to-position) !important;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+.to-secondary-100 {
+    --tw-gradient-to: #d2e3fd var(--tw-gradient-to-position) !important;
+}
+
+.from-primary-600 {
+    --tw-gradient-from: #7f471b var(--tw-gradient-from-position) !important;
+    --tw-gradient-to: rgb(127 71 27 / 0) var(--tw-gradient-to-position) !important;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+.to-secondary-600 {
+    --tw-gradient-to: #2559bd var(--tw-gradient-to-position) !important;
+}
+
+.bg-primary-50 {
+    background-color: #f4edea !important;
+}
+
+.bg-primary-100 {
+    background-color: #ead8ce !important;
+}
+
+.bg-primary-600 {
+    background-color: #965420 !important;
+}
+
+.hover\:bg-primary-700:hover {
+    background-color: #7f471b !important;
+}
+
+.active\:bg-primary-800:active {
+    background-color: #4f2d16 !important;
+}
+
+.bg-secondary-50 {
+    background-color: #d2e3fd !important;
+}
+
+.bg-secondary-100 {
+    background-color: #d2e3fd !important;
+}
+
+.bg-secondary-600 {
+    background-color: #2559bd !important;
+}
+
+.hover\:bg-secondary-700:hover {
+    background-color: #204797 !important;
+}
+
+.active\:bg-secondary-800:active {
+    background-color: #203f7d !important;
+}
+
+.text-primary-400 {
+    color: #cfa987 !important;
+}
+
+.text-primary-600 {
+    color: #965420 !important;
+}
+
+.hover\:text-primary-400:hover {
+    color: #cfa987 !important;
+}
+
+.hover\:text-primary-600:hover,
+.group:hover .group-hover\:text-primary-600 {
+    color: #965420 !important;
+}
+
+.hover\:text-primary-700:hover {
+    color: #7f471b !important;
+}
+
+.text-primary-700,
+.text-primary-900 {
+    color: #432713 !important;
+}
+
+.text-secondary-600 {
+    color: #2559bd !important;
+}
+
+.border-primary-200,
+.hover\:border-primary-200:hover {
+    border-color: #ddc6b3 !important;
+}
+
+.border-primary-600 {
+    border-color: #965420 !important;
+}
+
+.focus\:ring-primary-500:focus {
+    --tw-ring-color: #965420 !important;
+}
+
+.focus\:border-primary-500:focus {
+    border-color: #965420 !important;
+}
+
+.outline-primary-500 {
+    outline-color: #965420 !important;
 }
 
 /* Scrollbar Styling */
@@ -174,6 +323,21 @@ textarea::placeholder {
 /* Link Styles */
 a:not([class]) {
     @apply text-primary-600 hover:text-primary-700 underline;
+}
+
+button a:not([class]) {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+button.bg-white {
+    background-color: var(--color-oat-milk) !important;
+    color: var(--color-cinnamon) !important;
+}
+
+button.bg-white:hover {
+    background-color: #eadfd8 !important;
+    color: var(--color-espresso) !important;
 }
 
 /* Image Optimization */

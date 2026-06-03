@@ -1,8 +1,22 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { type JwtPayload, type SignOptions } from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const SALT_ROUNDS = 10;
+
+function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('Please define the JWT_SECRET environment variable');
+  }
+
+  return secret;
+}
+
+export type AuthPayload = JwtPayload & {
+  id: string;
+  email: string;
+  role: 'admin' | 'editor' | 'viewer';
+};
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, SALT_ROUNDS);
@@ -12,21 +26,25 @@ export async function comparePasswords(password: string, hash: string): Promise<
   return bcrypt.compare(password, hash);
 }
 
-export function generateToken(payload: any, expiresIn: string = '7d'): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn });
+export function generateToken(payload: AuthPayload, expiresIn: SignOptions['expiresIn'] = '7d'): string {
+  return jwt.sign(payload, getJwtSecret(), { expiresIn });
 }
 
-export function verifyToken(token: string): any {
+export function verifyToken(token: string): AuthPayload | null {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, getJwtSecret());
+    if (typeof decoded === 'string') return null;
+    return decoded as AuthPayload;
   } catch (error) {
     return null;
   }
 }
 
-export function decodeToken(token: string): any {
+export function decodeToken(token: string): JwtPayload | null {
   try {
-    return jwt.decode(token);
+    const decoded = jwt.decode(token);
+    if (!decoded || typeof decoded === 'string') return null;
+    return decoded;
   } catch (error) {
     return null;
   }
