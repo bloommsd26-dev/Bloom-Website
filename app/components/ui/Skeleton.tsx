@@ -13,13 +13,7 @@ export function Skeleton({ className, variant = 'rect' }: SkeletonProps) {
   };
 
   return (
-    <div
-      className={clsx(
-        'animate-pulse bg-neutral-200',
-        variantClasses[variant],
-        className
-      )}
-    />
+    <div className={clsx('animate-pulse bg-neutral-200', variantClasses[variant], className)} />
   );
 }
 

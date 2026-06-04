@@ -49,7 +49,8 @@ export default function DonatePage() {
                 Give things a second classroom.
               </h1>
               <p className="story-copy text-xl">
-                Bloom donation camps turn clean, usable material into school support, care kits, and practical relief. The work is sorting before sharing.
+                Bloom donation camps turn clean, usable material into school support, care kits, and
+                practical relief. The work is sorting before sharing.
               </p>
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
@@ -79,7 +80,9 @@ export default function DonatePage() {
                 <div className="font-heading w-16 h-16 bg-primary-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                   {index + 1}
                 </div>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">{title}</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
+                  {title}
+                </h3>
                 <p className="text-neutral-600 text-sm">{description}</p>
               </div>
             ))}
@@ -92,8 +95,13 @@ export default function DonatePage() {
           <SectionHeader title="What we can actually use" align="center" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {donationItems.map((group) => (
-              <div key={group.category} className="bg-white p-6 rounded-lg border border-neutral-200">
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-4">{group.category}</h3>
+              <div
+                key={group.category}
+                className="bg-white p-6 rounded-lg border border-neutral-200"
+              >
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-4">
+                  {group.category}
+                </h3>
                 <ul className="space-y-2">
                   {group.items.map((item) => (
                     <li key={item} className="flex items-center gap-2 text-neutral-600">
@@ -107,7 +115,8 @@ export default function DonatePage() {
           </div>
           <div className="mt-8 bg-primary-50 border border-primary-200 rounded-lg p-6 text-center">
             <p className="text-neutral-700 font-medium">
-              Please skip broken electronics, stained clothing, damaged books, expired products, and anything you would not give with dignity.
+              Please skip broken electronics, stained clothing, damaged books, expired products, and
+              anything you would not give with dignity.
             </p>
           </div>
         </Container>
@@ -127,9 +136,13 @@ export default function DonatePage() {
             </div>
             <div>
               <p className="eyebrow mb-4">Why it matters</p>
-              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">The sorting table is part of the service.</h2>
+              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">
+                The sorting table is part of the service.
+              </h2>
               <p className="font-accent text-lg text-neutral-700 mb-6 leading-relaxed">
-                Donation work can become messy fast. Bloom treats logistics as care: volunteers check condition, group items, record counts, and learn that respect lives in the details.
+                Donation work can become messy fast. Bloom treats logistics as care: volunteers
+                check condition, group items, record counts, and learn that respect lives in the
+                details.
               </p>
               <Button>
                 <Link href="/contact">Plan a Donation</Link>
@@ -146,7 +159,11 @@ export default function DonatePage() {
             <p className="text-lg mb-8 opacity-90">
               The best donation is clean, usable, and easy to place in a child's day.
             </p>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary-600">
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-primary-600"
+            >
               <Link href="/contact">Get in Touch</Link>
             </Button>
           </div>

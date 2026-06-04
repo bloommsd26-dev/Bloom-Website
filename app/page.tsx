@@ -19,17 +19,20 @@ const programs = [
   },
   {
     title: 'Blank Page Labs',
-    description: 'Art, theatre, writing, and storytelling sessions built around what children already carry inside them.',
+    description:
+      'Art, theatre, writing, and storytelling sessions built around what children already carry inside them.',
     activities: ['Art', 'Theatre', 'Writing', 'Showcases'],
   },
   {
     title: 'Girls Who Lead',
-    description: 'Workshops where girls learn rights, health, confidence, and how to take up space.',
+    description:
+      'Workshops where girls learn rights, health, confidence, and how to take up space.',
     activities: ['Leadership', 'Awareness', 'Health education', 'Mentorship'],
   },
   {
     title: 'Care Drives',
-    description: 'Useful donation drives and neighborhood outreach planned like real operations, not photo-ops.',
+    description:
+      'Useful donation drives and neighborhood outreach planned like real operations, not photo-ops.',
     activities: ['Collection drives', 'Outreach', 'Awareness', 'Distribution'],
   },
 ];
@@ -75,9 +78,7 @@ export default function Home() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-14 items-center animate-fadeInUp">
             <div>
-              <p className="eyebrow mb-6">
-                Maxfort students, Delhi communities
-              </p>
+              <p className="eyebrow mb-6">Maxfort students, Delhi communities</p>
               <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
                 Not charity.
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
@@ -85,7 +86,9 @@ export default function Home() {
                 </span>
               </h1>
               <p className="story-copy text-xl mb-8">
-                Bloom is a student-run initiative from Maxfort School that shows up for children through study circles, confidence rooms, creative labs, and care drives. We do the small work repeatedly until it becomes trust.
+                Bloom is a student-run initiative from Maxfort School that shows up for children
+                through study circles, confidence rooms, creative labs, and care drives. We do the
+                small work repeatedly until it becomes trust.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg">
@@ -99,9 +102,7 @@ export default function Home() {
 
             <div className="relative">
               <div className="rounded-lg border border-primary-200 bg-white p-6 shadow-lg rotate-1">
-                  <p className="eyebrow mb-4">
-                  This week's board
-                </p>
+                <p className="eyebrow mb-4">This week's board</p>
                 <div className="space-y-4">
                   {[
                     ['Monday', 'Reading circle: 18 children, 6 volunteers'],
@@ -117,7 +118,8 @@ export default function Home() {
                 <div className="mt-6 bg-secondary-50 border border-secondary-100 rounded-lg p-4">
                   <p className="text-sm font-semibold text-neutral-900">Field note</p>
                   <p className="font-accent italic text-neutral-700 text-sm leading-relaxed">
-                    The best moment is usually quiet: a child asking for one more page, one more sum, one more chance.
+                    The best moment is usually quiet: a child asking for one more page, one more
+                    sum, one more chance.
                   </p>
                 </div>
               </div>
@@ -140,11 +142,15 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <ImpactCounter number={100} label="Active Members" suffix="+" />
             <div className="text-center">
-              <div className="font-heading text-4xl sm:text-5xl font-bold text-primary-600 mb-2">Weekly</div>
+              <div className="font-heading text-4xl sm:text-5xl font-bold text-primary-600 mb-2">
+                Weekly
+              </div>
               <p className="text-neutral-600 font-medium">Student-Led Work</p>
             </div>
             <div className="text-center">
-              <div className="font-heading text-4xl sm:text-5xl font-bold text-primary-600 mb-2">Logged</div>
+              <div className="font-heading text-4xl sm:text-5xl font-bold text-primary-600 mb-2">
+                Logged
+              </div>
               <p className="text-neutral-600 font-medium">Session Notes</p>
             </div>
           </div>
@@ -188,21 +194,17 @@ export default function Home() {
 
       <section className="section-padding bg-neutral-50">
         <Container>
-          <SectionHeader
-            subtitle="The Bloom method"
-            title="How we keep it human"
-            align="center"
-          />
+          <SectionHeader subtitle="The Bloom method" title="How we keep it human" align="center" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {fieldNotes.map((note, index) => (
               <div
                 key={note.label}
                 className="p-6 bg-white rounded-lg border border-neutral-200 hover:shadow-lg transition-shadow"
               >
-                <p className="eyebrow mb-3">
-                  Note {index + 1}
-                </p>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">{note.label}</h3>
+                <p className="eyebrow mb-3">Note {index + 1}</p>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
+                  {note.label}
+                </h3>
                 <p className="text-neutral-600">{note.text}</p>
               </div>
             ))}
@@ -214,12 +216,18 @@ export default function Home() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">Why Bloom feels different</h2>
+              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">
+                Why Bloom feels different
+              </h2>
               <p className="story-copy mb-4">
-                We are close enough to notice the small things: who stopped raising their hand, who needs a quieter explanation, who secretly wants to perform but needs a friend beside them first.
+                We are close enough to notice the small things: who stopped raising their hand, who
+                needs a quieter explanation, who secretly wants to perform but needs a friend beside
+                them first.
               </p>
               <p className="font-accent text-lg text-neutral-700 mb-6 leading-relaxed">
-                That is why Bloom is not built around one grand campaign. It is built around repeat visits, prepared volunteers, honest records, and children who know we will come back.
+                That is why Bloom is not built around one grand campaign. It is built around repeat
+                visits, prepared volunteers, honest records, and children who know we will come
+                back.
               </p>
               <Button>
                 <Link href="/about">Learn About Us</Link>
@@ -228,7 +236,10 @@ export default function Home() {
             <div className="bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg p-8 border border-primary-200">
               <div className="grid grid-cols-2 gap-4">
                 {workImages.map((item) => (
-                  <div key={item.label} className="relative aspect-square overflow-hidden rounded-lg border border-neutral-200 bg-white">
+                  <div
+                    key={item.label}
+                    className="relative aspect-square overflow-hidden rounded-lg border border-neutral-200 bg-white"
+                  >
                     <Image
                       src={item.src}
                       alt={item.label}
@@ -252,10 +263,15 @@ export default function Home() {
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="font-heading text-4xl font-bold mb-4">Come with prepared hands.</h2>
             <p className="text-lg mb-8 opacity-90">
-              Volunteer for the work behind the photo: planning, listening, teaching, sorting, recording, and returning.
+              Volunteer for the work behind the photo: planning, listening, teaching, sorting,
+              recording, and returning.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary-600">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-primary-600"
+              >
                 <Link href="/volunteer">Volunteer Now</Link>
               </Button>
               <Button size="lg" className="bg-white text-primary-600 hover:bg-neutral-100">

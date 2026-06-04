@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/Input';
 const volunteerBenefits = [
   {
     title: 'Prepare before you serve',
-    description: 'Help build prompts, worksheets, activity kits, and backup plans before a session begins.',
+    description:
+      'Help build prompts, worksheets, activity kits, and backup plans before a session begins.',
   },
   {
     title: 'Lead at child-height',
@@ -18,11 +19,13 @@ const volunteerBenefits = [
   },
   {
     title: 'Listen for what is unsaid',
-    description: 'Notice hesitation, confusion, and small breakthroughs that do not announce themselves.',
+    description:
+      'Notice hesitation, confusion, and small breakthroughs that do not announce themselves.',
   },
   {
     title: 'Work like a crew',
-    description: "Share roles, carry materials, document outcomes, and make the next volunteer's job easier.",
+    description:
+      "Share roles, carry materials, document outcomes, and make the next volunteer's job easier.",
   },
   {
     title: 'Build useful confidence',
@@ -53,9 +56,13 @@ export default function VolunteerPage() {
     message: '',
   });
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
+    'idle'
+  );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -117,7 +124,8 @@ export default function VolunteerPage() {
                 Come ready to do the small work well.
               </h1>
               <p className="story-copy text-xl">
-                Bloom volunteers teach, sort, listen, carry, write, explain, and return. If that sounds ordinary, good. Ordinary work done consistently is where trust begins.
+                Bloom volunteers teach, sort, listen, carry, write, explain, and return. If that
+                sounds ordinary, good. Ordinary work done consistently is where trust begins.
               </p>
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
@@ -137,14 +145,13 @@ export default function VolunteerPage() {
       {/* Benefits Section */}
       <section className="section-padding bg-neutral-50">
         <Container>
-          <SectionHeader
-            title="What volunteers actually practice"
-            align="center"
-          />
+          <SectionHeader title="What volunteers actually practice" align="center" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {volunteerBenefits.map((benefit, index) => (
               <div key={index} className="p-6 bg-white rounded-lg border border-neutral-200">
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">{benefit.title}</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
+                  {benefit.title}
+                </h3>
                 <p className="text-neutral-600">{benefit.description}</p>
               </div>
             ))}
@@ -161,7 +168,10 @@ export default function VolunteerPage() {
             align="center"
           />
 
-          <form onSubmit={handleSubmit} className="bg-neutral-50 rounded-lg p-8 border border-neutral-200">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-neutral-50 rounded-lg p-8 border border-neutral-200"
+          >
             <div className="space-y-6">
               {/* Name */}
               <Input
@@ -234,7 +244,10 @@ export default function VolunteerPage() {
 
               {/* Availability */}
               <div>
-                <label htmlFor="availability" className="block text-sm font-medium text-neutral-700 mb-2">
+                <label
+                  htmlFor="availability"
+                  className="block text-sm font-medium text-neutral-700 mb-2"
+                >
                   Availability
                 </label>
                 <select
@@ -252,7 +265,10 @@ export default function VolunteerPage() {
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-neutral-700 mb-2"
+                >
                   Tell us how you want to help (optional)
                 </label>
                 <textarea
@@ -300,31 +316,36 @@ export default function VolunteerPage() {
       {/* Expectations Section */}
       <section className="section-padding bg-neutral-50">
         <Container>
-          <SectionHeader
-            title="What we ask from volunteers"
-            align="center"
-          />
+          <SectionHeader title="What we ask from volunteers" align="center" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Commitment</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">
+                Commitment
+              </h3>
               <p className="text-neutral-600">
-                We ask for regular participation and reliability. Your consistency makes a real difference in children's lives.
+                We ask for regular participation and reliability. Your consistency makes a real
+                difference in children's lives.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
               <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Respect</h3>
               <p className="text-neutral-600">
-                Treat children, families, and fellow volunteers with dignity and cultural sensitivity.
+                Treat children, families, and fellow volunteers with dignity and cultural
+                sensitivity.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Responsibility</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">
+                Responsibility
+              </h3>
               <p className="text-neutral-600">
                 Take your role seriously and be accountable for your commitments and actions.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Growth Mindset</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">
+                Growth Mindset
+              </h3>
               <p className="text-neutral-600">
                 Be open to learning, feedback, and continuously improving your skills.
               </p>

@@ -45,12 +45,7 @@ async function seedDatabase() {
       email: 'lead@bloom.org',
       passwordHash: regularAdminPassword,
       role: 'admin',
-      permissions: [
-        'manage_blogs',
-        'manage_programs',
-        'manage_volunteers',
-        'manage_impact',
-      ],
+      permissions: ['manage_blogs', 'manage_programs', 'manage_volunteers', 'manage_impact'],
     });
     console.log('Created regular admin user:', regularAdmin.email);
 
@@ -84,7 +79,8 @@ async function seedDatabase() {
           volunteerHours: 450,
         },
         seoTitle: 'Educational Support Programs | Bloom',
-        seoDescription: 'Tutoring, study support, and digital literacy for underprivileged children',
+        seoDescription:
+          'Tutoring, study support, and digital literacy for underprivileged children',
       },
       {
         title: 'Personality Development & Confidence Building',
@@ -107,14 +103,16 @@ async function seedDatabase() {
           'Improve communication abilities',
           'Create support networks',
         ],
-        impact: 'Confident, articulate young people ready to express themselves and take on leadership roles.',
+        impact:
+          'Confident, articulate young people ready to express themselves and take on leadership roles.',
         impactMetrics: {
           childrenReached: 200,
           sessionsConducetd: 100,
           volunteerHours: 300,
         },
         seoTitle: 'Personality Development Programs | Bloom',
-        seoDescription: 'Public speaking, debate, and leadership training for confident young leaders',
+        seoDescription:
+          'Public speaking, debate, and leadership training for confident young leaders',
       },
       {
         title: 'Creative Expression & Talent Development',
@@ -137,7 +135,8 @@ async function seedDatabase() {
           'Nurture creative confidence',
           'Preserve cultural heritage',
         ],
-        impact: 'Creative, expressive young people who can communicate their ideas and emotions through art.',
+        impact:
+          'Creative, expressive young people who can communicate their ideas and emotions through art.',
         impactMetrics: {
           childrenReached: 300,
           sessionsConducetd: 120,
@@ -167,7 +166,8 @@ async function seedDatabase() {
           'Ensure access to quality education',
           'Build support networks for girls',
         ],
-        impact: 'Empowered girls who understand their rights and have the confidence to pursue their dreams.',
+        impact:
+          'Empowered girls who understand their rights and have the confidence to pursue their dreams.',
         impactMetrics: {
           childrenReached: 400,
           sessionsConducetd: 110,
@@ -197,7 +197,8 @@ async function seedDatabase() {
           'Create culture of giving and sharing',
           'Build community connections',
         ],
-        impact: 'Strong communities supported through sustainable giving and awareness about social issues.',
+        impact:
+          'Strong communities supported through sustainable giving and awareness about social issues.',
         impactMetrics: {
           childrenReached: 600,
           sessionsConducetd: 80,
@@ -222,13 +223,14 @@ async function seedDatabase() {
       communitiesReached: 25,
       stories: [
         {
-          title: 'Ravi\'s Journey: From Failing to Thriving',
+          title: "Ravi's Journey: From Failing to Thriving",
           content: 'A 7th grader who struggled with math found confidence through tutoring.',
           image: '/impact/ravi.jpg',
         },
         {
-          title: 'Priya\'s Second Chance',
-          content: 'An inconsistent student became a perfect attendee after joining our support program.',
+          title: "Priya's Second Chance",
+          content:
+            'An inconsistent student became a perfect attendee after joining our support program.',
           image: '/impact/priya.jpg',
         },
       ],
@@ -247,21 +249,24 @@ async function seedDatabase() {
       {
         name: 'Ravi Kumar',
         role: 'Student',
-        quote: 'Bloom tutoring helped me believe in myself. Now I am among the top students in my class.',
+        quote:
+          'Bloom tutoring helped me believe in myself. Now I am among the top students in my class.',
         category: 'student',
         image: '/testimonials/ravi.jpg',
       },
       {
         name: 'Mrs. Sharma',
         role: 'Parent',
-        quote: 'I see a change in my daughter. She is more confident, more engaged, and happier at school.',
+        quote:
+          'I see a change in my daughter. She is more confident, more engaged, and happier at school.',
         category: 'parent',
         image: '/testimonials/mother.jpg',
       },
       {
         name: 'Priya Singh',
         role: 'Volunteer',
-        quote: 'Volunteering with Bloom has been the most rewarding experience. Watching children grow is incredible.',
+        quote:
+          'Volunteering with Bloom has been the most rewarding experience. Watching children grow is incredible.',
         category: 'volunteer',
         image: '/testimonials/priya.jpg',
       },

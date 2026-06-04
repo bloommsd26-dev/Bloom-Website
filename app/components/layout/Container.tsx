@@ -14,11 +14,7 @@ const sizeClasses = {
   full: 'w-full',
 };
 
-export function Container({
-  children,
-  className,
-  size = 'lg',
-}: ContainerProps) {
+export function Container({ children, className, size = 'lg' }: ContainerProps) {
   return (
     <div className={clsx('mx-auto w-full px-4 sm:px-6 lg:px-8', sizeClasses[size], className)}>
       {children}

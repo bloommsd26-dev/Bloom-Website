@@ -55,14 +55,7 @@ const BlogSchema = new Schema<IBlog>(
     ],
     category: {
       type: String,
-      enum: [
-        'education',
-        'mentorship',
-        'inspiration',
-        'updates',
-        'impact',
-        'volunteering',
-      ],
+      enum: ['education', 'mentorship', 'inspiration', 'updates', 'impact', 'volunteering'],
       default: 'updates',
     },
     seoTitle: {

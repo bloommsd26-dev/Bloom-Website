@@ -25,10 +25,7 @@ export async function GET(request: Request) {
       query.$text = { $search: search };
     }
 
-    const blogs = await Blog.find(query)
-      .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+    const blogs = await Blog.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
 
     const total = await Blog.countDocuments(query);
 

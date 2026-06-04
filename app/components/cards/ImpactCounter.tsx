@@ -9,12 +9,7 @@ interface ImpactCounterProps {
   icon?: React.ReactNode;
 }
 
-export function ImpactCounter({
-  number,
-  label,
-  suffix = '',
-  icon,
-}: ImpactCounterProps) {
+export function ImpactCounter({ number, label, suffix = '', icon }: ImpactCounterProps) {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);

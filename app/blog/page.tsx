@@ -61,7 +61,8 @@ export default async function BlogPage() {
               What the sessions teach us
             </h1>
             <p className="story-copy text-xl">
-              Short reflections from the rooms, notebooks, sorting tables, and conversations that shape Bloom.
+              Short reflections from the rooms, notebooks, sorting tables, and conversations that
+              shape Bloom.
             </p>
           </div>
         </Container>

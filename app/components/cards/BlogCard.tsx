@@ -61,14 +61,14 @@ export function BlogCard({
                 {category}
               </span>
             )}
-            {readingTime && <span className="text-xs text-neutral-500">{readingTime} min read</span>}
+            {readingTime && (
+              <span className="text-xs text-neutral-500">{readingTime} min read</span>
+            )}
           </div>
           <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
             {title}
           </h3>
-          <p className="text-neutral-600 text-sm mb-4 line-clamp-3 flex-grow">
-            {excerpt}
-          </p>
+          <p className="text-neutral-600 text-sm mb-4 line-clamp-3 flex-grow">{excerpt}</p>
           {(author || formattedDate) && (
             <div className="flex items-center justify-between text-xs text-neutral-500 border-t border-neutral-100 pt-4">
               {author && <span>{author}</span>}

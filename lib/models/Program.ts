@@ -5,12 +5,7 @@ export interface IProgram extends Document {
   slug: string;
   description: string;
   longDescription: string;
-  focusArea:
-    | 'education'
-    | 'personality'
-    | 'creative'
-    | 'women'
-    | 'community';
+  focusArea: 'education' | 'personality' | 'creative' | 'women' | 'community';
   activities: string[];
   goals: string[];
   impact: string;

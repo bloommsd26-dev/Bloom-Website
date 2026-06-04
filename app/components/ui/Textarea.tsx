@@ -9,13 +9,7 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
   helperText?: string;
 }
 
-export function Textarea({
-  label,
-  error,
-  helperText,
-  className,
-  ...props
-}: TextareaProps) {
+export function Textarea({ label, error, helperText, className, ...props }: TextareaProps) {
   return (
     <div className="w-full">
       {label && (

@@ -15,7 +15,9 @@ export default function ContactPage() {
     message: '',
   });
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
+    'idle'
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -59,7 +61,8 @@ export default function ContactPage() {
                 Start with a real note.
               </h1>
               <p className="story-copy text-xl">
-                Write to us about a session, donation, partnership, report, or idea. The more specific you are, the faster we can route it to the right student team.
+                Write to us about a session, donation, partnership, report, or idea. The more
+                specific you are, the faster we can route it to the right student team.
               </p>
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
@@ -82,13 +85,18 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">Email</h3>
-                <a href="mailto:hello@bloom.org" className="text-primary-600 hover:text-primary-700">
+                <a
+                  href="mailto:hello@bloom.org"
+                  className="text-primary-600 hover:text-primary-700"
+                >
                   hello@bloom.org
                 </a>
               </div>
 
               <div>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">Location</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
+                  Location
+                </h3>
                 <p className="text-neutral-600">
                   Maxfort School
                   <br />
@@ -97,15 +105,26 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">Follow Us</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
+                  Follow Us
+                </h3>
                 <div className="flex gap-4">
-                  <a href="https://instagram.com/bloominitiative" className="text-neutral-600 hover:text-primary-600">
+                  <a
+                    href="https://instagram.com/bloominitiative"
+                    className="text-neutral-600 hover:text-primary-600"
+                  >
                     Instagram
                   </a>
-                  <a href="https://linkedin.com" className="text-neutral-600 hover:text-primary-600">
+                  <a
+                    href="https://linkedin.com"
+                    className="text-neutral-600 hover:text-primary-600"
+                  >
                     LinkedIn
                   </a>
-                  <a href="mailto:hello@bloom.org" className="text-neutral-600 hover:text-primary-600">
+                  <a
+                    href="mailto:hello@bloom.org"
+                    className="text-neutral-600 hover:text-primary-600"
+                  >
                     Email
                   </a>
                 </div>
@@ -113,7 +132,10 @@ export default function ContactPage() {
             </div>
 
             <div className="lg:col-span-2">
-              <form onSubmit={handleSubmit} className="bg-neutral-50 rounded-lg p-8 border border-neutral-200">
+              <form
+                onSubmit={handleSubmit}
+                className="bg-neutral-50 rounded-lg p-8 border border-neutral-200"
+              >
                 <div className="space-y-6">
                   <Input
                     label="Your Name"
@@ -144,7 +166,10 @@ export default function ContactPage() {
                   />
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-neutral-700 mb-2"
+                    >
                       Message
                     </label>
                     <textarea
@@ -217,7 +242,9 @@ export default function ContactPage() {
               },
             ].map((faq) => (
               <div key={faq.q} className="bg-white p-6 rounded-lg border border-neutral-200">
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">{faq.q}</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
+                  {faq.q}
+                </h3>
                 <p className="text-neutral-600">{faq.a}</p>
               </div>
             ))}

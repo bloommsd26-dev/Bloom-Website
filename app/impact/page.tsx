@@ -20,22 +20,26 @@ const proofPoints = [
 const stories = [
   {
     title: 'The notebook that finally opened',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
+    image:
+      'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
     text: 'A child who avoided math began bringing the same notebook back each week because one volunteer slowed the problem down enough.',
   },
   {
     title: 'The first debate line',
-    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
+    image:
+      'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
     text: 'In a Voice Room, one sentence became a full argument. The win was not the speech. It was choosing to stand up.',
   },
   {
     title: 'A drawing with a name on it',
-    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
+    image:
+      'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
     text: 'Creative sessions help children put their names on work they are proud to show, not just submit.',
   },
   {
     title: 'Sorted before shared',
-    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80',
+    image:
+      'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80',
     text: 'Care drives now include sorting logs, condition checks, and distribution notes so usefulness comes before volume.',
   },
 ];
@@ -52,7 +56,8 @@ export default function ImpactPage() {
                 We count so we can return better.
               </h1>
               <p className="story-copy text-xl">
-                Bloom tracks the practical things: who came, what happened, what was missing, and what should change next time.
+                Bloom tracks the practical things: who came, what happened, what was missing, and
+                what should change next time.
               </p>
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
@@ -73,8 +78,13 @@ export default function ImpactPage() {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {proofPoints.map(([number, label, description]) => (
-              <div key={label} className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-                <div className="font-heading text-5xl font-bold text-primary-600 mb-2">{number}</div>
+              <div
+                key={label}
+                className="bg-white p-8 rounded-lg border border-neutral-200 text-center"
+              >
+                <div className="font-heading text-5xl font-bold text-primary-600 mb-2">
+                  {number}
+                </div>
                 <div className="text-neutral-700 font-medium">{label}</div>
                 <p className="text-neutral-600 text-sm mt-3">{description}</p>
               </div>
@@ -92,7 +102,10 @@ export default function ImpactPage() {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {stories.map((story) => (
-              <div key={story.title} className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+              <div
+                key={story.title}
+                className="bg-white rounded-lg border border-neutral-200 overflow-hidden"
+              >
                 <div className="relative h-56">
                   <Image
                     src={story.image}
@@ -103,7 +116,9 @@ export default function ImpactPage() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-3">{story.title}</h3>
+                  <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-3">
+                    {story.title}
+                  </h3>
                   <p className="story-copy text-base">{story.text}</p>
                 </div>
               </div>
@@ -121,9 +136,12 @@ export default function ImpactPage() {
               align="center"
             />
             <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-4">Ask for the ledger</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-4">
+                Ask for the ledger
+              </h3>
               <p className="text-neutral-600 mb-6">
-                We can share session summaries, donation logs, volunteer hour records, and program notes with partners and supporters.
+                We can share session summaries, donation logs, volunteer hour records, and program
+                notes with partners and supporters.
               </p>
               <Button>
                 <Link href="/contact">Request a Report</Link>

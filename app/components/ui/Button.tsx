@@ -15,10 +15,8 @@ const variantStyles = {
     'bg-secondary-600 text-white hover:bg-secondary-700 active:bg-secondary-800 disabled:bg-neutral-300',
   outline:
     'border-2 border-neutral-300 text-neutral-900 hover:bg-neutral-50 active:bg-neutral-100 disabled:border-neutral-200',
-  ghost:
-    'text-neutral-700 hover:bg-neutral-100 active:bg-neutral-200 disabled:text-neutral-400',
-  danger:
-    'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 disabled:bg-neutral-300',
+  ghost: 'text-neutral-700 hover:bg-neutral-100 active:bg-neutral-200 disabled:text-neutral-400',
+  danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 disabled:bg-neutral-300',
 };
 
 const sizeStyles = {

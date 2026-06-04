@@ -23,10 +23,7 @@ async function getBlogs(request: Request) {
     };
     if (status !== 'all') query.status = status;
 
-    const blogs = await Blog.find(query)
-      .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+    const blogs = await Blog.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
 
     const total = await Blog.countDocuments(query);
 

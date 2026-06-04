@@ -46,7 +46,9 @@ async function getBlog(slug: string): Promise<BlogDetail | null> {
     await connectDB();
 
     const blog = await Blog.findOne({ slug, status: 'published' })
-      .select('title slug excerpt content coverImage author category readingTime seoTitle seoDescription createdAt')
+      .select(
+        'title slug excerpt content coverImage author category readingTime seoTitle seoDescription createdAt'
+      )
       .lean<BlogDetail | null>();
 
     return blog;

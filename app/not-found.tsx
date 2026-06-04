@@ -10,7 +10,8 @@ export default function NotFound() {
           <div className="text-9xl font-bold text-primary-600 mb-4">404</div>
           <h1 className="text-4xl font-bold text-neutral-900 mb-4">Page Not Found</h1>
           <p className="text-xl text-neutral-600 mb-8">
-            Looks like the page you're looking for doesn't exist or has moved. But don't worry, you can always find what you need below.
+            Looks like the page you're looking for doesn't exist or has moved. But don't worry, you
+            can always find what you need below.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg">

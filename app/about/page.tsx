@@ -14,7 +14,8 @@ export const metadata: Metadata = generateMetadata(
 const principles = [
   {
     title: 'Show up prepared',
-    description: 'Every session starts before the visit: prompts, worksheets, roles, and backup activities.',
+    description:
+      'Every session starts before the visit: prompts, worksheets, roles, and backup activities.',
   },
   {
     title: 'Notice the quiet child',
@@ -42,7 +43,8 @@ export default function AboutPage() {
                 A school-born initiative with field notes.
               </h1>
               <p className="story-copy text-xl">
-                Bloom began at Maxfort School with students who wanted service to feel less like an annual event and more like a dependable habit.
+                Bloom began at Maxfort School with students who wanted service to feel less like an
+                annual event and more like a dependable habit.
               </p>
             </div>
             <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
@@ -69,13 +71,18 @@ export default function AboutPage() {
             />
             <div className="max-w-none text-neutral-600 space-y-6">
               <p>
-                We kept seeing the same distance: between children and books, between talent and a stage, between need and someone organized enough to respond. Bloom became our answer to that distance.
+                We kept seeing the same distance: between children and books, between talent and a
+                stage, between need and someone organized enough to respond. Bloom became our answer
+                to that distance.
               </p>
               <p className="font-accent italic text-xl leading-relaxed text-neutral-800">
-                The first version was simple: gather students, prepare a session, visit, listen, return. That structure still guides us. Bloom is student-led, but it is not casual. We plan like the work matters because it does.
+                The first version was simple: gather students, prepare a session, visit, listen,
+                return. That structure still guides us. Bloom is student-led, but it is not casual.
+                We plan like the work matters because it does.
               </p>
               <p>
-                Our volunteers learn to teach, sort, explain, document, and lead without turning children into statistics. The work is practical. The feeling is personal.
+                Our volunteers learn to teach, sort, explain, document, and lead without turning
+                children into statistics. The work is practical. The feeling is personal.
               </p>
             </div>
           </div>
@@ -88,13 +95,17 @@ export default function AboutPage() {
             <div className="bg-white p-8 rounded-lg border border-neutral-200">
               <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">Our Mission</h2>
               <p className="accent-statement">
-                To create recurring spaces where children can learn, speak, make, ask, and receive practical support from students who prepare carefully and return consistently.
+                To create recurring spaces where children can learn, speak, make, ask, and receive
+                practical support from students who prepare carefully and return consistently.
               </p>
             </div>
             <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">Our Standard</h2>
+              <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">
+                Our Standard
+              </h2>
               <p className="story-copy">
-                If a program cannot be repeated, recorded, and improved, it is not finished. Bloom is built for continuity, not just good photographs.
+                If a program cannot be repeated, recorded, and improved, it is not finished. Bloom
+                is built for continuity, not just good photographs.
               </p>
             </div>
           </div>
@@ -110,8 +121,13 @@ export default function AboutPage() {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {principles.map((principle) => (
-              <div key={principle.title} className="p-8 bg-white rounded-lg border border-neutral-200 hover:shadow-lg hover:border-primary-200 transition-all duration-300">
-                <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-3">{principle.title}</h3>
+              <div
+                key={principle.title}
+                className="p-8 bg-white rounded-lg border border-neutral-200 hover:shadow-lg hover:border-primary-200 transition-all duration-300"
+              >
+                <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-3">
+                  {principle.title}
+                </h3>
                 <p className="text-neutral-600 leading-relaxed">{principle.description}</p>
               </div>
             ))}
@@ -133,9 +149,13 @@ export default function AboutPage() {
             </div>
             <div>
               <p className="eyebrow mb-4">Leadership</p>
-              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">Led by students, held to standards.</h2>
+              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">
+                Led by students, held to standards.
+              </h2>
               <p className="story-copy mb-6">
-                We are still learning. That is part of the point. Bloom trains students to be useful before they are impressive: to listen first, plan properly, and stay accountable after the session ends.
+                We are still learning. That is part of the point. Bloom trains students to be useful
+                before they are impressive: to listen first, plan properly, and stay accountable
+                after the session ends.
               </p>
               <Button size="lg">
                 <Link href="/contact">Talk to the Team</Link>
@@ -150,10 +170,15 @@ export default function AboutPage() {
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="font-heading text-4xl font-bold mb-4">Come see the work up close.</h2>
             <p className="text-lg mb-8 opacity-90">
-              The best way to understand Bloom is to join a session, help prepare one, or ask us what we learned from the last visit.
+              The best way to understand Bloom is to join a session, help prepare one, or ask us
+              what we learned from the last visit.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary-600">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-primary-600"
+              >
                 <Link href="/volunteer">Volunteer</Link>
               </Button>
               <Button size="lg" className="bg-white text-primary-600 hover:bg-neutral-100">

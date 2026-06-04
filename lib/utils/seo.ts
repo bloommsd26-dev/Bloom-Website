@@ -2,7 +2,8 @@ import { Metadata } from 'next';
 
 const siteConfig = {
   name: 'Bloom',
-  description: 'A student-led social impact initiative empowering children through education and mentorship',
+  description:
+    'A student-led social impact initiative empowering children through education and mentorship',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   image: '/og-image.jpg',
   twitterHandle: '@bloominitiative',
@@ -108,10 +109,7 @@ export function generateOrganizationSchema() {
     description: siteConfig.description,
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.png`,
-    sameAs: [
-      'https://twitter.com/bloominitiative',
-      'https://instagram.com/bloominitiative',
-    ],
+    sameAs: ['https://twitter.com/bloominitiative', 'https://instagram.com/bloominitiative'],
   });
 }
 

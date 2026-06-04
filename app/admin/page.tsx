@@ -24,7 +24,7 @@ type AdminForm = {
 };
 
 type BlogPost = {
-// ... rest of types ...
+  // ... rest of types ...
   _id: string;
   title: string;
   slug: string;
@@ -74,14 +74,7 @@ const emptyForm: BlogForm = {
   status: 'draft',
 };
 
-const categories = [
-  'updates',
-  'education',
-  'mentorship',
-  'inspiration',
-  'impact',
-  'volunteering',
-];
+const categories = ['updates', 'education', 'mentorship', 'inspiration', 'impact', 'volunteering'];
 
 const emptyAccountForm: AdminForm = {
   name: '',
@@ -158,57 +151,63 @@ export default function AdminPage() {
     }
   }, []);
 
-  const loadBlogs = useCallback(async (authToken = token) => {
-    setIsLoadingBlogs(true);
-    setError('');
+  const loadBlogs = useCallback(
+    async (authToken = token) => {
+      setIsLoadingBlogs(true);
+      setError('');
 
-    try {
-      const response = await fetch('/api/admin/blogs?status=all&limit=100', {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      const payload = (await response.json()) as ApiResponse<{
-        blogs: BlogPost[];
-      }>;
+      try {
+        const response = await fetch('/api/admin/blogs?status=all&limit=100', {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        const payload = (await response.json()) as ApiResponse<{
+          blogs: BlogPost[];
+        }>;
 
-      if (!response.ok || !payload.success || !payload.data) {
-        throw new Error(payload.error || 'Unable to load CMS posts');
+        if (!response.ok || !payload.success || !payload.data) {
+          throw new Error(payload.error || 'Unable to load CMS posts');
+        }
+
+        setBlogs(payload.data.blogs);
+      } catch (loadError) {
+        setError(loadError instanceof Error ? loadError.message : 'Unable to load CMS posts');
+      } finally {
+        setIsLoadingBlogs(false);
       }
+    },
+    [token]
+  );
 
-      setBlogs(payload.data.blogs);
-    } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : 'Unable to load CMS posts');
-    } finally {
-      setIsLoadingBlogs(false);
-    }
-  }, [token]);
+  const loadAccounts = useCallback(
+    async (authToken = token) => {
+      if (adminRole !== 'super_admin') return;
 
-  const loadAccounts = useCallback(async (authToken = token) => {
-    if (adminRole !== 'super_admin') return;
+      setIsLoadingAccounts(true);
+      setError('');
 
-    setIsLoadingAccounts(true);
-    setError('');
+      try {
+        const response = await fetch('/api/admin/accounts', {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        const payload = (await response.json()) as ApiResponse<AdminAccount[]>;
 
-    try {
-      const response = await fetch('/api/admin/accounts', {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      const payload = (await response.json()) as ApiResponse<AdminAccount[]>;
+        if (!response.ok || !payload.success || !payload.data) {
+          throw new Error(payload.error || 'Unable to load admin accounts');
+        }
 
-      if (!response.ok || !payload.success || !payload.data) {
-        throw new Error(payload.error || 'Unable to load admin accounts');
+        setAccounts(payload.data);
+      } catch (loadError) {
+        setError(loadError instanceof Error ? loadError.message : 'Unable to load admin accounts');
+      } finally {
+        setIsLoadingAccounts(false);
       }
-
-      setAccounts(payload.data);
-    } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : 'Unable to load admin accounts');
-    } finally {
-      setIsLoadingAccounts(false);
-    }
-  }, [token, adminRole]);
+    },
+    [token, adminRole]
+  );
 
   useEffect(() => {
     if (token) {
@@ -250,7 +249,9 @@ export default function AdminPage() {
       setAdminRole(payload.data.admin.role);
       setLogin({ username: '', password: '' });
     } catch (authError) {
-      setLoginError(authError instanceof Error ? authError.message : 'Invalid username or password');
+      setLoginError(
+        authError instanceof Error ? authError.message : 'Invalid username or password'
+      );
     } finally {
       setIsLoggingIn(false);
     }
@@ -478,7 +479,9 @@ export default function AdminPage() {
                 id="username"
                 name="username"
                 value={login.username}
-                onChange={(event) => setLogin((current) => ({ ...current, username: event.target.value }))}
+                onChange={(event) =>
+                  setLogin((current) => ({ ...current, username: event.target.value }))
+                }
                 className={inputClassName()}
                 autoComplete="username"
                 required
@@ -494,7 +497,9 @@ export default function AdminPage() {
                 name="password"
                 type="password"
                 value={login.password}
-                onChange={(event) => setLogin((current) => ({ ...current, password: event.target.value }))}
+                onChange={(event) =>
+                  setLogin((current) => ({ ...current, password: event.target.value }))
+                }
                 className={inputClassName()}
                 autoComplete="current-password"
                 required
@@ -741,7 +746,9 @@ export default function AdminPage() {
                 <input
                   id="title"
                   value={form.title}
-                  onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, title: event.target.value }))
+                  }
                   className={inputClassName('text-base font-semibold')}
                   required
                 />
@@ -754,7 +761,9 @@ export default function AdminPage() {
                 <input
                   id="author"
                   value={form.author}
-                  onChange={(event) => setForm((current) => ({ ...current, author: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, author: event.target.value }))
+                  }
                   className={inputClassName()}
                   required
                 />
@@ -778,13 +787,18 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label htmlFor="category" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="category"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Category
                 </label>
                 <select
                   id="category"
                   value={form.category}
-                  onChange={(event) => setForm((current) => ({ ...current, category: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, category: event.target.value }))
+                  }
                   className={inputClassName()}
                 >
                   {categories.map((category) => (
@@ -802,20 +816,27 @@ export default function AdminPage() {
                 <input
                   id="tags"
                   value={form.tags}
-                  onChange={(event) => setForm((current) => ({ ...current, tags: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, tags: event.target.value }))
+                  }
                   className={inputClassName()}
                   placeholder="education, field notes"
                 />
               </div>
 
               <div className="lg:col-span-2">
-                <label htmlFor="excerpt" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="excerpt"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Excerpt
                 </label>
                 <textarea
                   id="excerpt"
                   value={form.excerpt}
-                  onChange={(event) => setForm((current) => ({ ...current, excerpt: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, excerpt: event.target.value }))
+                  }
                   className={inputClassName('min-h-24 resize-y')}
                   maxLength={300}
                   required
@@ -823,51 +844,71 @@ export default function AdminPage() {
               </div>
 
               <div className="lg:col-span-2">
-                <label htmlFor="content" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="content"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Content
                 </label>
                 <textarea
                   id="content"
                   value={form.content}
-                  onChange={(event) => setForm((current) => ({ ...current, content: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, content: event.target.value }))
+                  }
                   className={inputClassName('min-h-72 resize-y font-mono leading-relaxed')}
                   required
                 />
               </div>
 
               <div className="lg:col-span-2">
-                <label htmlFor="coverImage" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="coverImage"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Cover image URL
                 </label>
                 <input
                   id="coverImage"
                   value={form.coverImage}
-                  onChange={(event) => setForm((current) => ({ ...current, coverImage: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, coverImage: event.target.value }))
+                  }
                   className={inputClassName()}
                 />
               </div>
 
               <div>
-                <label htmlFor="seoTitle" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="seoTitle"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   SEO title
                 </label>
                 <input
                   id="seoTitle"
                   value={form.seoTitle}
-                  onChange={(event) => setForm((current) => ({ ...current, seoTitle: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, seoTitle: event.target.value }))
+                  }
                   className={inputClassName()}
                   maxLength={60}
                 />
               </div>
 
               <div>
-                <label htmlFor="seoDescription" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="seoDescription"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   SEO description
                 </label>
                 <input
                   id="seoDescription"
                   value={form.seoDescription}
-                  onChange={(event) => setForm((current) => ({ ...current, seoDescription: event.target.value }))}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, seoDescription: event.target.value }))
+                  }
                   className={inputClassName()}
                   maxLength={160}
                 />
@@ -892,7 +933,10 @@ export default function AdminPage() {
             </div>
           </form>
         ) : (
-          <form onSubmit={handleAccountSave} className="rounded-lg border border-neutral-200 bg-white p-6">
+          <form
+            onSubmit={handleAccountSave}
+            className="rounded-lg border border-neutral-200 bg-white p-6"
+          >
             <div className="flex flex-col gap-4 border-b border-neutral-200 pb-5 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="eyebrow mb-2">{selectedAccount ? 'Edit account' : 'New account'}</p>
@@ -928,34 +972,47 @@ export default function AdminPage() {
 
             <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
               <div>
-                <label htmlFor="acc-name" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="acc-name"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Full Name
                 </label>
                 <input
                   id="acc-name"
                   value={accountForm.name}
-                  onChange={(event) => setAccountForm((current) => ({ ...current, name: event.target.value }))}
+                  onChange={(event) =>
+                    setAccountForm((current) => ({ ...current, name: event.target.value }))
+                  }
                   className={inputClassName()}
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="acc-email" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="acc-email"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Email Address
                 </label>
                 <input
                   id="acc-email"
                   type="email"
                   value={accountForm.email}
-                  onChange={(event) => setAccountForm((current) => ({ ...current, email: event.target.value }))}
+                  onChange={(event) =>
+                    setAccountForm((current) => ({ ...current, email: event.target.value }))
+                  }
                   className={inputClassName()}
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="acc-password" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="acc-password"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Password {selectedAccount && '(Leave blank to keep current)'}
                 </label>
                 <input
@@ -972,14 +1029,20 @@ export default function AdminPage() {
               </div>
 
               <div>
-                <label htmlFor="acc-role" className="mb-2 block text-sm font-medium text-neutral-700">
+                <label
+                  htmlFor="acc-role"
+                  className="mb-2 block text-sm font-medium text-neutral-700"
+                >
                   Role
                 </label>
                 <select
                   id="acc-role"
                   value={accountForm.role}
                   onChange={(event) =>
-                    setAccountForm((current) => ({ ...current, role: event.target.value as AdminRole }))
+                    setAccountForm((current) => ({
+                      ...current,
+                      role: event.target.value as AdminRole,
+                    }))
                   }
                   className={inputClassName()}
                 >
@@ -992,7 +1055,9 @@ export default function AdminPage() {
               </div>
 
               <div className="lg:col-span-2">
-                <label className="mb-3 block text-sm font-medium text-neutral-700">Permissions</label>
+                <label className="mb-3 block text-sm font-medium text-neutral-700">
+                  Permissions
+                </label>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {permissionsList.map((permission) => (
                     <label
@@ -1012,7 +1077,9 @@ export default function AdminPage() {
                         }
                         className="h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-600"
                       />
-                      <span className="text-sm text-neutral-700">{permission.replace('manage_', '').replace('_', ' ')}</span>
+                      <span className="text-sm text-neutral-700">
+                        {permission.replace('manage_', '').replace('_', ' ')}
+                      </span>
                     </label>
                   ))}
                 </div>

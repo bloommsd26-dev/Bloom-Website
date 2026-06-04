@@ -42,12 +42,7 @@ export function serverError(message: string = 'Internal server error') {
   return errorResponse(message, 500);
 }
 
-export function paginatedResponse<T>(
-  data: T[],
-  total: number,
-  page: number,
-  limit: number
-) {
+export function paginatedResponse<T>(data: T[], total: number, page: number, limit: number) {
   const pages = Math.ceil(total / limit);
 
   return NextResponse.json(

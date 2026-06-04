@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "skipLibCheck": true,
@@ -25,33 +21,15 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@/components/*": [
-        "./app/components/*"
-      ],
-      "@/db/*": [ 
-        "./lib/db/*"
-      ],
-      "@/lib/*": [
-        "./lib/*"
-      ],
-      "@/models/*": [
-        "./lib/models/*"
-      ],
-      "@/utils/*": [
-        "./lib/utils/*"
-      ],
-      "@/api/*": [
-        "./app/api/*"
-      ],
-      "@/types": [
-        "./lib/types/index.ts"
-      ],
-      "@/types/*": [
-        "./lib/types/*"
-      ]
+      "@/*": ["./*"],
+      "@/components/*": ["./app/components/*"],
+      "@/db/*": ["./lib/db/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/models/*": ["./lib/models/*"],
+      "@/utils/*": ["./lib/utils/*"],
+      "@/api/*": ["./app/api/*"],
+      "@/types": ["./lib/types/index.ts"],
+      "@/types/*": ["./lib/types/*"]
     },
     "allowJs": true,
     "noEmit": true,
@@ -63,13 +41,6 @@
       }
     ]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

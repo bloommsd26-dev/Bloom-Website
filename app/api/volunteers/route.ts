@@ -11,10 +11,7 @@ async function getVolunteers(request: Request) {
     const { searchParams } = new URL(request.url);
     const { page, limit, skip } = parsePaginationParams(searchParams);
 
-    const volunteers = await Volunteer.find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+    const volunteers = await Volunteer.find().skip(skip).limit(limit).sort({ createdAt: -1 });
 
     const total = await Volunteer.countDocuments();
 
@@ -69,7 +66,13 @@ export async function POST(request: Request) {
       email,
       phone,
       interests,
-      skills: typeof skills === 'string' ? skills.split(',').map((skill) => skill.trim()).filter(Boolean) : [],
+      skills:
+        typeof skills === 'string'
+          ? skills
+              .split(',')
+              .map((skill) => skill.trim())
+              .filter(Boolean)
+          : [],
       availability: availability || 'flexible',
       message: message || '',
     });

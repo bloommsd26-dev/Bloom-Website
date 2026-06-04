@@ -14,12 +14,7 @@ const variantClasses = {
   outlined: 'border-2 border-neutral-300 rounded-lg',
 };
 
-export function Card({
-  children,
-  className,
-  variant = 'default',
-  interactive = false,
-}: CardProps) {
+export function Card({ children, className, variant = 'default', interactive = false }: CardProps) {
   return (
     <div
       className={clsx(
