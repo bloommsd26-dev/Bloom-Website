@@ -3,6 +3,7 @@ import { Libre_Baskerville } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { generateMetadata } from '@/utils/seo';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const libreBaskerville = Libre_Baskerville({
@@ -49,6 +50,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
