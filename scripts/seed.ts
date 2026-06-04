@@ -5,7 +5,6 @@ import { Blog } from '../lib/models/Blog';
 import { Impact } from '../lib/models/Impact';
 import { Testimonial } from '../lib/models/Testimonial';
 import { hashPassword } from '../lib/utils/auth';
-import { calculateReadingTime } from '../lib/utils/helpers';
 
 async function seedDatabase() {
   try {
@@ -20,13 +19,13 @@ async function seedDatabase() {
     await Testimonial.deleteMany({});
     console.log('Cleared existing data');
 
-    // Create admin user
+    // Create super admin user
     const adminPassword = await hashPassword(process.env.ADMIN_PASSWORD || 'ChangeMe123!');
-    const admin = await Admin.create({
-      name: 'Bloom Admin',
+    const superAdmin = await Admin.create({
+      name: 'Bloom Super Admin',
       email: process.env.ADMIN_EMAIL || 'admin@bloom.org',
       passwordHash: adminPassword,
-      role: 'admin',
+      role: 'super_admin',
       permissions: [
         'manage_blogs',
         'manage_programs',
@@ -37,7 +36,23 @@ async function seedDatabase() {
         'manage_settings',
       ],
     });
-    console.log('Created admin user:', admin.email);
+    console.log('Created super admin user:', superAdmin.email);
+
+    // Create a regular admin for demonstration
+    const regularAdminPassword = await hashPassword('RegularAdmin123!');
+    const regularAdmin = await Admin.create({
+      name: 'Bloom Team Lead',
+      email: 'lead@bloom.org',
+      passwordHash: regularAdminPassword,
+      role: 'admin',
+      permissions: [
+        'manage_blogs',
+        'manage_programs',
+        'manage_volunteers',
+        'manage_impact',
+      ],
+    });
+    console.log('Created regular admin user:', regularAdmin.email);
 
     // Create programs
     const programs = [
@@ -196,99 +211,7 @@ async function seedDatabase() {
     await Program.insertMany(programs);
     console.log('Created 5 programs');
 
-    // Create blog posts
-    const blogs = [
-      {
-        title: 'Introducing Bloom: A Movement of Young Leaders',
-        slug: 'introducing-bloom',
-        excerpt: 'Meet the student-led initiative transforming communities through education, mentorship, and creative opportunity.',
-        content: `Bloom started with a simple belief: young people have the power to create positive change in their communities. 
-
-Started by students from Maxfort School, Bloom is not just another NGO. It's a movement of young leaders who refuse to wait for graduation to make a difference. Every volunteer brings energy, commitment, and genuine passion to serve.
-
-Our five focus areas address different aspects of child development:
-
-1. Educational Support - Because every child deserves access to quality education
-2. Personality Development - Because confidence is fundamental
-3. Creative Expression - Because creativity unlocks potential
-4. Women Empowerment - Because gender equality matters
-5. Community Care - Because communities must care for their own
-
-What makes Bloom special is not just what we do, but how we do it. We approach service with empathy, maintain transparency in all our work, and measure impact through real stories and numbers.
-
-This year, we've already reached over 2500 children across our community. But we're just getting started. Join us in believing that every child deserves to bloom.`,
-        author: 'Bloom Team',
-        tags: ['introduction', 'mission', 'impact'],
-        category: 'updates',
-        seoTitle: 'Introducing Bloom - Student-Led Social Impact Initiative',
-        seoDescription: 'Meet Bloom, a student-led movement empowering children through education and mentorship',
-        status: 'published',
-        readingTime: 5,
-      },
-      {
-        title: 'From Classroom to Community: How Tutoring Changes Lives',
-        slug: 'tutoring-changes-lives',
-        excerpt: 'Beyond grades and test scores, our tutoring programs are building confidence and unlocking potential.',
-        content: `Education is the foundation of opportunity. But not every child has equal access to quality education. That's why Bloom's tutoring program exists.
-
-Last year, we conducted over 150 tutoring sessions, helping children improve in mathematics, English, science, and more. But the real impact goes beyond better grades.
-
-Meet Ravi, a 7th-grader who struggled with math. When he joined our tutoring program, he was failing. Today, he's among the top students in his class. More importantly, he's confident. He volunteers to solve problems in class. He helps other students.
-
-Or consider Priya, who missed school frequently due to household responsibilities. Our tutors helped her catch up, and now she's never missed a class in six months.
-
-These are the stories that drive us. Education isn't about perfect test scores. It's about opening doors. It's about giving children the tools and confidence to believe in themselves.
-
-Our tutoring approach:
-- One-on-one sessions tailored to each child
-- Focus on fundamentals and confidence-building
-- Regular progress tracking and feedback
-- Flexible scheduling to accommodate family needs
-- Free resources and study materials
-
-If you're interested in volunteering as a tutor, we'd love to have you. No teaching experience necessary - just genuine passion for helping children learn.`,
-        author: 'Sarah Patel',
-        tags: ['education', 'tutoring', 'impact'],
-        category: 'inspiration',
-        seoTitle: 'How Tutoring Changes Lives | Bloom Education',
-        seoDescription: 'Real stories of how our tutoring programs help children unlock their potential',
-        status: 'published',
-        readingTime: 8,
-      },
-      {
-        title: 'The Power of a Platform: Creative Expression in Action',
-        slug: 'power-of-platform',
-        excerpt: 'How giving children a stage changed everything - from shy students to confident performers.',
-        content: `Not every child who draws wants to be an artist. Not every child who writes wants to be an author. But many children have talents they're afraid to share because they've never been given a safe platform.
-
-Bloom's creative expression programs are about more than just developing artistic skills. They're about saying to each child: "Your voice matters. Your creativity matters. The world wants to see what you create."
-
-Our talent showcases have become a highlight of the year. Watching a shy child take the stage for the first time - even if just to read a poem or display their artwork - is transformative. It says something about how we see them. It changes how they see themselves.
-
-This year, we organized three talent showcases featuring over 80 children. We had dancers, singers, visual artists, writers, and performers. Parents came. Siblings came. The community saw these children shine.
-
-One parent told us: "I didn't know my daughter could dance like that. This changed how I see her. It changed how she sees herself."
-
-That's the power of a platform. It's not about being famous. It's about being seen. It's about knowing that your talents, however small, have value.
-
-If you're interested in mentoring young artists or organizing creative workshops, Bloom needs volunteers who can help bring out the creativity in our communities.`,
-        author: 'Arjun Kumar',
-        tags: ['creativity', 'arts', 'confidence'],
-        category: 'inspiration',
-        seoTitle: 'Creative Expression and Talent Development | Bloom',
-        seoDescription: 'How safe platforms help children express creativity and build confidence',
-        status: 'published',
-        readingTime: 6,
-      },
-    ];
-
-    const blogsWithReadingTime = blogs.map((blog) => ({
-      ...blog,
-      readingTime: calculateReadingTime(blog.content),
-    }));
-
-    await Blog.insertMany(blogsWithReadingTime);
-    console.log('Created 3 blog posts');
+    console.log('Skipped demo blog posts. Add real posts from /admin.');
 
     // Create impact record
     await Impact.create({
@@ -356,7 +279,7 @@ Password: ${process.env.ADMIN_PASSWORD || 'ChangeMe123!'}
 Data Created:
 - 1 Admin user
 - 5 Programs
-- 3 Blog posts
+- 0 Blog posts
 - 1 Impact record
 - 3 Testimonials
 

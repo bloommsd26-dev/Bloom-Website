@@ -58,7 +58,7 @@ export function ImpactCounter({
   return (
     <div ref={ref} className="text-center">
       {icon && <div className="mb-4 text-4xl flex justify-center">{icon}</div>}
-      <div className="text-4xl sm:text-5xl font-bold text-primary-600 mb-2">
+      <div className="font-heading text-4xl sm:text-5xl font-bold text-primary-600 mb-2">
         {count.toLocaleString()}
         {suffix}
       </div>

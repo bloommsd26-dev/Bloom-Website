@@ -6,20 +6,48 @@ import { validateEmail } from '@/utils/helpers';
 
 export async function POST(request: Request) {
   try {
+    const body = await request.json();
+    const { email, username, password } = body;
+    const login = String(username || email || '').trim();
+
+    if (!login || !password) {
+      return validationError('Username and password are required');
+    }
+
+    const envUsername = process.env.ADMIN_USERNAME;
+    const envEmail = process.env.ADMIN_EMAIL;
+    const envPassword = process.env.ADMIN_PASSWORD;
+    const matchesEnvLogin = login === envUsername || login === envEmail;
+
+    if (envPassword && matchesEnvLogin && password === envPassword) {
+      const adminEmail = envEmail || `${envUsername || 'admin'}@bloom.local`;
+      const token = generateToken(
+        {
+          id: 'env-admin',
+          email: adminEmail,
+          role: 'super_admin',
+        },
+        '7d'
+      );
+
+      return successResponse({
+        token,
+        admin: {
+          id: 'env-admin',
+          name: envUsername || 'Bloom Admin',
+          email: adminEmail,
+          role: 'super_admin',
+        },
+      });
+    }
+
+    if (!validateEmail(login)) {
+      return errorResponse('Invalid username or password', 401);
+    }
+
     await connectDB();
 
-    const body = await request.json();
-    const { email, password } = body;
-
-    if (!email || !password) {
-      return validationError('Email and password are required');
-    }
-
-    if (!validateEmail(email)) {
-      return validationError('Please provide a valid email address');
-    }
-
-    const admin = await Admin.findOne({ email }).select('+passwordHash');
+    const admin = await Admin.findOne({ email: login }).select('+passwordHash');
 
     if (!admin) {
       return errorResponse('Invalid email or password', 401);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/sections/SectionHeader';
 import { Button } from '@/components/ui/Button';
@@ -111,19 +112,22 @@ export default function VolunteerPage() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Volunteer</p>
-              <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+              <p className="eyebrow mb-4">Volunteer</p>
+              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
                 Come ready to do the small work well.
               </h1>
-              <p className="text-xl text-neutral-600">
+              <p className="story-copy text-xl">
                 Bloom volunteers teach, sort, listen, carry, write, explain, and return. If that sounds ordinary, good. Ordinary work done consistently is where trust begins.
               </p>
             </div>
-            <div className="h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <img
+            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+              <Image
                 src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80"
                 alt="Students planning together"
-                className="w-full h-full object-cover"
+                fill
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
               />
             </div>
           </div>
@@ -140,7 +144,7 @@ export default function VolunteerPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {volunteerBenefits.map((benefit, index) => (
               <div key={index} className="p-6 bg-white rounded-lg border border-neutral-200">
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">{benefit.title}</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">{benefit.title}</h3>
                 <p className="text-neutral-600">{benefit.description}</p>
               </div>
             ))}
@@ -302,25 +306,25 @@ export default function VolunteerPage() {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="text-lg font-bold text-neutral-900 mb-3">Commitment</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Commitment</h3>
               <p className="text-neutral-600">
                 We ask for regular participation and reliability. Your consistency makes a real difference in children's lives.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="text-lg font-bold text-neutral-900 mb-3">Respect</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Respect</h3>
               <p className="text-neutral-600">
                 Treat children, families, and fellow volunteers with dignity and cultural sensitivity.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="text-lg font-bold text-neutral-900 mb-3">Responsibility</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Responsibility</h3>
               <p className="text-neutral-600">
                 Take your role seriously and be accountable for your commitments and actions.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="text-lg font-bold text-neutral-900 mb-3">Growth Mindset</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Growth Mindset</h3>
               <p className="text-neutral-600">
                 Be open to learning, feedback, and continuously improving your skills.
               </p>

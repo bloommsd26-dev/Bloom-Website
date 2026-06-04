@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import clsx from 'clsx';
 
@@ -41,7 +39,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        'transition-colors duration-200 font-medium disabled:cursor-not-allowed',
+        'font-body transition-colors duration-200 font-medium disabled:cursor-not-allowed',
         variantStyles[variant],
         sizeStyles[size],
         className

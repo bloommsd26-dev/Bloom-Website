@@ -4,19 +4,17 @@ import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = generateMetadata(
   'Impact',
-  'See how Bloom records children reached, sessions conducted, volunteer hours, and field notes from its student-led work.'
+  'See how Bloom records active members, session notes, and field learning from its student-led work.'
 );
 
 const proofPoints = [
-  ['2500+', 'Children Reached', 'Across study circles, creative labs, voice rooms, and care drives.'],
-  ['150+', 'Active Volunteers', 'Students who prepare, visit, record, and return.'],
-  ['500+', 'Sessions Conducted', 'A growing archive of repeated, practical work.'],
-  ['1200+', 'Volunteer Hours', 'Time spent planning, teaching, sorting, listening, and documenting.'],
-  ['25+', 'Communities Served', 'Different neighborhoods, schools, and partner spaces.'],
-  ['100%', 'Logged', 'Every useful number is treated as a planning tool, not a trophy.'],
+  ['100+', 'Active Members', 'Students and supporters who prepare, visit, record, and return.'],
+  ['Weekly', 'Student-Led Work', 'Recurring study, voice, creative, and care-drive preparation.'],
+  ['Logged', 'Session Notes', 'Useful records are treated as planning tools, not trophies.'],
 ];
 
 const stories = [
@@ -49,19 +47,22 @@ export default function ImpactPage() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Impact</p>
-              <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+              <p className="eyebrow mb-4">Impact</p>
+              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
                 We count so we can return better.
               </h1>
-              <p className="text-xl text-neutral-600">
+              <p className="story-copy text-xl">
                 Bloom tracks the practical things: who came, what happened, what was missing, and what should change next time.
               </p>
             </div>
-            <div className="h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <img
+            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+              <Image
                 src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1200&q=80"
                 alt="People working together around a table"
-                className="w-full h-full object-cover"
+                fill
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
               />
             </div>
           </div>
@@ -73,7 +74,7 @@ export default function ImpactPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {proofPoints.map(([number, label, description]) => (
               <div key={label} className="bg-white p-8 rounded-lg border border-neutral-200 text-center">
-                <div className="text-5xl font-bold text-primary-600 mb-2">{number}</div>
+                <div className="font-heading text-5xl font-bold text-primary-600 mb-2">{number}</div>
                 <div className="text-neutral-700 font-medium">{label}</div>
                 <p className="text-neutral-600 text-sm mt-3">{description}</p>
               </div>
@@ -92,10 +93,18 @@ export default function ImpactPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {stories.map((story) => (
               <div key={story.title} className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
-                <img src={story.image} alt={story.title} className="w-full h-56 object-cover" />
+                <div className="relative h-56">
+                  <Image
+                    src={story.image}
+                    alt={story.title}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-neutral-900 mb-3">{story.title}</h3>
-                  <p className="text-neutral-600 leading-relaxed">{story.text}</p>
+                  <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-3">{story.title}</h3>
+                  <p className="story-copy text-base">{story.text}</p>
                 </div>
               </div>
             ))}
@@ -112,7 +121,7 @@ export default function ImpactPage() {
               align="center"
             />
             <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h3 className="text-lg font-bold text-neutral-900 mb-4">Ask for the ledger</h3>
+              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-4">Ask for the ledger</h3>
               <p className="text-neutral-600 mb-6">
                 We can share session summaries, donation logs, volunteer hour records, and program notes with partners and supporters.
               </p>

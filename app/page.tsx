@@ -1,6 +1,5 @@
-'use client';
-
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { Button } from '@/components/ui/Button';
 import { SectionHeader } from '@/components/sections/SectionHeader';
@@ -50,6 +49,25 @@ const fieldNotes = [
   },
 ];
 
+const workImages = [
+  {
+    label: 'Reading circle',
+    src: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    label: 'Study table',
+    src: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    label: 'Creative lab',
+    src: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    label: 'Volunteer prep',
+    src: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=800&q=80',
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -57,16 +75,16 @@ export default function Home() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-14 items-center animate-fadeInUp">
             <div>
-              <p className="text-primary-600 font-semibold uppercase tracking-widest mb-6">
+              <p className="eyebrow mb-6">
                 Maxfort students, Delhi communities
               </p>
-              <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6 leading-tight">
+              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
                 Not charity.
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600">
                   A weekly promise.
                 </span>
               </h1>
-              <p className="text-xl text-neutral-600 mb-8 leading-relaxed">
+              <p className="story-copy text-xl mb-8">
                 Bloom is a student-run initiative from Maxfort School that shows up for children through study circles, confidence rooms, creative labs, and care drives. We do the small work repeatedly until it becomes trust.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -81,7 +99,7 @@ export default function Home() {
 
             <div className="relative">
               <div className="rounded-lg border border-primary-200 bg-white p-6 shadow-lg rotate-1">
-                <p className="text-sm font-semibold uppercase tracking-widest text-primary-600 mb-4">
+                  <p className="eyebrow mb-4">
                   This week's board
                 </p>
                 <div className="space-y-4">
@@ -98,14 +116,14 @@ export default function Home() {
                 </div>
                 <div className="mt-6 bg-secondary-50 border border-secondary-100 rounded-lg p-4">
                   <p className="text-sm font-semibold text-neutral-900">Field note</p>
-                  <p className="text-neutral-600 text-sm">
+                  <p className="font-accent italic text-neutral-700 text-sm leading-relaxed">
                     The best moment is usually quiet: a child asking for one more page, one more sum, one more chance.
                   </p>
                 </div>
               </div>
               <div className="absolute -bottom-5 -left-5 hidden sm:block bg-primary-600 text-white rounded-lg px-5 py-4 shadow-lg -rotate-2">
-                <p className="text-3xl font-bold">2500+</p>
-                <p className="text-sm">children reached</p>
+                <p className="font-heading text-3xl font-bold">100+</p>
+                <p className="text-sm">active members</p>
               </div>
             </div>
           </div>
@@ -117,14 +135,18 @@ export default function Home() {
           <SectionHeader
             subtitle="The ledger"
             title="Numbers we can stand behind"
-            description="These are not decoration. They are the records that help us plan the next visit better."
+            description="We only publish figures the team can stand behind. More detailed records can be requested from the Bloom team."
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-            <ImpactCounter number={2500} label="Children Reached" />
-            <ImpactCounter number={150} label="Active Volunteers" />
-            <ImpactCounter number={500} label="Sessions Conducted" />
-            <ImpactCounter number={1200} label="Volunteer Hours" />
-            <ImpactCounter number={25} label="Communities Served" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <ImpactCounter number={100} label="Active Members" suffix="+" />
+            <div className="text-center">
+              <div className="font-heading text-4xl sm:text-5xl font-bold text-primary-600 mb-2">Weekly</div>
+              <p className="text-neutral-600 font-medium">Student-Led Work</p>
+            </div>
+            <div className="text-center">
+              <div className="font-heading text-4xl sm:text-5xl font-bold text-primary-600 mb-2">Logged</div>
+              <p className="text-neutral-600 font-medium">Session Notes</p>
+            </div>
           </div>
         </Container>
       </section>
@@ -177,10 +199,10 @@ export default function Home() {
                 key={note.label}
                 className="p-6 bg-white rounded-lg border border-neutral-200 hover:shadow-lg transition-shadow"
               >
-                <p className="text-sm text-primary-600 font-semibold uppercase tracking-wide mb-3">
+                <p className="eyebrow mb-3">
                   Note {index + 1}
                 </p>
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">{note.label}</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">{note.label}</h3>
                 <p className="text-neutral-600">{note.text}</p>
               </div>
             ))}
@@ -192,11 +214,11 @@ export default function Home() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-neutral-900 mb-6">Why Bloom feels different</h2>
-              <p className="text-lg text-neutral-600 mb-4 leading-relaxed">
+              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">Why Bloom feels different</h2>
+              <p className="story-copy mb-4">
                 We are close enough to notice the small things: who stopped raising their hand, who needs a quieter explanation, who secretly wants to perform but needs a friend beside them first.
               </p>
-              <p className="text-lg text-neutral-600 mb-6 leading-relaxed">
+              <p className="font-accent text-lg text-neutral-700 mb-6 leading-relaxed">
                 That is why Bloom is not built around one grand campaign. It is built around repeat visits, prepared volunteers, honest records, and children who know we will come back.
               </p>
               <Button>
@@ -205,9 +227,18 @@ export default function Home() {
             </div>
             <div className="bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg p-8 border border-primary-200">
               <div className="grid grid-cols-2 gap-4">
-                {['chalk dust', 'borrowed books', 'debate slips', 'paint hands'].map((item) => (
-                  <div key={item} className="aspect-square bg-white rounded-lg border border-neutral-200 flex items-center justify-center p-4 text-center">
-                    <span className="text-neutral-700 font-semibold">{item}</span>
+                {workImages.map((item) => (
+                  <div key={item.label} className="relative aspect-square overflow-hidden rounded-lg border border-neutral-200 bg-white">
+                    <Image
+                      src={item.src}
+                      alt={item.label}
+                      fill
+                      sizes="(min-width: 1024px) 220px, 45vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 bg-black/55 px-3 py-2">
+                      <span className="text-sm font-semibold text-white">{item.label}</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -219,7 +250,7 @@ export default function Home() {
       <section className="section-padding bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
         <Container>
           <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-4xl font-bold mb-4">Come with prepared hands.</h2>
+            <h2 className="font-heading text-4xl font-bold mb-4">Come with prepared hands.</h2>
             <p className="text-lg mb-8 opacity-90">
               Volunteer for the work behind the photo: planning, listening, teaching, sorting, recording, and returning.
             </p>

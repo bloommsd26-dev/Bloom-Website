@@ -1,6 +1,5 @@
-'use client';
-
 import Link from 'next/link';
+import Image from 'next/image';
 import clsx from 'clsx';
 import { Card } from './Card';
 
@@ -9,9 +8,9 @@ interface BlogCardProps {
   excerpt: string;
   slug: string;
   coverImage?: string;
-  author: string;
-  date: Date;
-  readingTime: number;
+  author?: string;
+  date?: Date | string;
+  readingTime?: number;
   category?: string;
   className?: string;
 }
@@ -27,11 +26,13 @@ export function BlogCard({
   category,
   className,
 }: BlogCardProps) {
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  const formattedDate = date
+    ? new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : null;
 
   return (
     <Link href={`/blog/${slug}`} className="block group">
@@ -43,11 +44,13 @@ export function BlogCard({
         )}
       >
         {coverImage && (
-          <div className="h-48 bg-gradient-to-br from-primary-100 to-secondary-100 overflow-hidden">
-            <img
+          <div className="relative h-48 bg-gradient-to-br from-primary-100 to-secondary-100 overflow-hidden">
+            <Image
               src={coverImage}
               alt={title}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-300"
             />
           </div>
         )}
@@ -58,18 +61,20 @@ export function BlogCard({
                 {category}
               </span>
             )}
-            <span className="text-xs text-neutral-500">{readingTime} min read</span>
+            {readingTime && <span className="text-xs text-neutral-500">{readingTime} min read</span>}
           </div>
-          <h3 className="text-lg font-bold text-neutral-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
+          <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
             {title}
           </h3>
           <p className="text-neutral-600 text-sm mb-4 line-clamp-3 flex-grow">
             {excerpt}
           </p>
-          <div className="flex items-center justify-between text-xs text-neutral-500 border-t border-neutral-100 pt-4">
-            <span>{author}</span>
-            <span>{formattedDate}</span>
-          </div>
+          {(author || formattedDate) && (
+            <div className="flex items-center justify-between text-xs text-neutral-500 border-t border-neutral-100 pt-4">
+              {author && <span>{author}</span>}
+              {formattedDate && <span>{formattedDate}</span>}
+            </div>
+          )}
         </div>
       </Card>
     </Link>

@@ -3,6 +3,8 @@ import { Blog } from '@/models/Blog';
 import { successResponse, errorResponse } from '@/utils/api-response';
 import { parsePaginationParams } from '@/utils/helpers';
 
+const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
+
 export async function GET(request: Request) {
   try {
     await connectDB();
@@ -12,7 +14,10 @@ export async function GET(request: Request) {
     const search = searchParams.get('search');
     const { page, limit, skip } = parsePaginationParams(searchParams);
 
-    const query: any = { status: 'published' };
+    const query: any = {
+      status: 'published',
+      slug: { $nin: demoBlogSlugs },
+    };
 
     if (category) query.category = category;
 

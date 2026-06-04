@@ -2,7 +2,7 @@ import { verifyToken } from '@/utils/auth';
 import { errorResponse } from '@/utils/api-response';
 
 export function withAuth(handler: Function) {
-  return async (request: Request) => {
+  return async (request: Request, ...args: any[]) => {
     try {
       const authHeader = request.headers.get('authorization');
 
@@ -20,7 +20,7 @@ export function withAuth(handler: Function) {
       // Attach user to request context
       (request as any).user = decoded;
 
-      return handler(request);
+      return handler(request, ...args);
     } catch (error) {
       console.error('Authentication error:', error);
       return errorResponse('Authentication failed', 401);
@@ -30,7 +30,7 @@ export function withAuth(handler: Function) {
 
 export function withRole(...roles: string[]) {
   return (handler: Function) => {
-    return async (request: Request) => {
+    return async (request: Request, ...args: any[]) => {
       try {
         const authHeader = request.headers.get('authorization');
 
@@ -51,7 +51,7 @@ export function withRole(...roles: string[]) {
 
         (request as any).user = decoded;
 
-        return handler(request);
+        return handler(request, ...args);
       } catch (error) {
         console.error('Authorization error:', error);
         return errorResponse('Authorization failed', 401);

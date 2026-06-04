@@ -1,8 +1,17 @@
 import type { Metadata } from 'next';
+import { Libre_Baskerville } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { generateMetadata } from '@/utils/seo';
 import './globals.css';
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-libre-baskerville',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   ...generateMetadata(
@@ -34,7 +43,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#965420" />
         <meta name="darkreader-lock" />
       </head>
-      <body className="bg-white text-neutral-900 antialiased">
+      <body className={`${libreBaskerville.variable} bg-white text-neutral-900 antialiased`}>
         <Header />
         <main className="min-h-screen">
           {children}

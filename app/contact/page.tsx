@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/sections/SectionHeader';
 import { Button } from '@/components/ui/Button';
@@ -53,19 +54,22 @@ export default function ContactPage() {
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Contact</p>
-              <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+              <p className="eyebrow mb-4">Contact</p>
+              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
                 Start with a real note.
               </h1>
-              <p className="text-xl text-neutral-600">
+              <p className="story-copy text-xl">
                 Write to us about a session, donation, partnership, report, or idea. The more specific you are, the faster we can route it to the right student team.
               </p>
             </div>
-            <div className="h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <img
+            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+              <Image
                 src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80"
                 alt="Students writing and planning together"
-                className="w-full h-full object-cover"
+                fill
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
               />
             </div>
           </div>
@@ -77,14 +81,14 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="space-y-8">
               <div>
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">Email</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">Email</h3>
                 <a href="mailto:hello@bloom.org" className="text-primary-600 hover:text-primary-700">
                   hello@bloom.org
                 </a>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">Location</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">Location</h3>
                 <p className="text-neutral-600">
                   Maxfort School
                   <br />
@@ -93,7 +97,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">Follow Us</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">Follow Us</h3>
                 <div className="flex gap-4">
                   <a href="https://instagram.com/bloominitiative" className="text-neutral-600 hover:text-primary-600">
                     Instagram
@@ -213,7 +217,7 @@ export default function ContactPage() {
               },
             ].map((faq) => (
               <div key={faq.q} className="bg-white p-6 rounded-lg border border-neutral-200">
-                <h3 className="text-lg font-bold text-neutral-900 mb-2">{faq.q}</h3>
+                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">{faq.q}</h3>
                 <p className="text-neutral-600">{faq.a}</p>
               </div>
             ))}

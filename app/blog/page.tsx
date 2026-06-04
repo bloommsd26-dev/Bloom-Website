@@ -2,56 +2,65 @@ import { Container } from '@/components/layout/Container';
 import { BlogCard } from '@/components/cards/BlogCard';
 import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
+import { connectDB } from '@/db/connect';
+import { Blog } from '@/models/Blog';
 
 export const metadata: Metadata = generateMetadata(
   'Blog',
   'Field notes, session stories, and volunteer reflections from Bloom.'
 );
 
-const blogPosts = [
-  {
-    title: 'The First Time She Took the Front Row',
-    slug: 'shy-to-strong-journey',
-    excerpt: 'A Voice Room note about confidence that arrived one sentence at a time.',
-    author: 'Sarah Patel',
-    date: new Date('2026-03-01'),
-    readingTime: 5,
-    category: 'inspiration',
-    coverImage: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'What We Learned From One Math Notebook',
-    slug: 'tutoring-transforms-academics',
-    excerpt: 'Homework Tables are less about speed and more about finding the exact place a child got lost.',
-    author: 'Arjun Kumar',
-    date: new Date('2026-02-25'),
-    readingTime: 7,
-    category: 'education',
-    coverImage: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'The Work Before the Visit',
-    slug: 'volunteer-hours-impact',
-    excerpt: 'Sorting worksheets, assigning roles, packing supplies: the quiet preparation behind Bloom sessions.',
-    author: 'Priya Singh',
-    date: new Date('2026-02-20'),
-    readingTime: 6,
-    category: 'impact',
-    coverImage: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1200&q=80',
-  },
-];
+export const revalidate = 3600; // Revalidate every hour
 
-export default function BlogPage() {
+type BlogListItem = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  coverImage?: string;
+  author?: string;
+  category?: string;
+  readingTime?: number;
+  createdAt?: Date;
+};
+
+const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
+
+async function getPublishedBlogs(): Promise<BlogListItem[]> {
+  try {
+    await connectDB();
+
+    const blogs = await Blog.find({
+      status: 'published',
+      slug: { $nin: demoBlogSlugs },
+    })
+      .sort({ createdAt: -1 })
+      .select('title slug excerpt coverImage author category readingTime createdAt')
+      .lean<BlogListItem[]>();
+
+    return blogs.map((blog) => ({
+      ...blog,
+      _id: String(blog._id),
+    }));
+  } catch (error) {
+    console.error('Error loading published blogs:', error);
+    return [];
+  }
+}
+
+export default async function BlogPage() {
+  const blogPosts = await getPublishedBlogs();
+
   return (
     <>
       <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
         <Container>
           <div className="max-w-3xl">
-            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">Field Notes</p>
-            <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+            <p className="eyebrow mb-4">Field Notes</p>
+            <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
               What the sessions teach us
             </h1>
-            <p className="text-xl text-neutral-600">
+            <p className="story-copy text-xl">
               Short reflections from the rooms, notebooks, sorting tables, and conversations that shape Bloom.
             </p>
           </div>
@@ -60,21 +69,32 @@ export default function BlogPage() {
 
       <section className="section-padding">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <BlogCard
-                key={post.slug}
-                title={post.title}
-                excerpt={post.excerpt}
-                slug={post.slug}
-                author={post.author}
-                date={post.date}
-                readingTime={post.readingTime}
-                category={post.category}
-                coverImage={post.coverImage}
-              />
-            ))}
-          </div>
+          {blogPosts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogPosts.map((post) => (
+                <BlogCard
+                  key={post._id}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  slug={post.slug}
+                  author={post.author}
+                  date={post.createdAt}
+                  readingTime={post.readingTime}
+                  category={post.category}
+                  coverImage={post.coverImage}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-lg border border-neutral-200 bg-white p-8 text-center">
+              <h2 className="font-heading text-2xl font-semibold text-neutral-900">
+                No published field notes yet
+              </h2>
+              <p className="mt-3 text-neutral-600">
+                Published CMS posts will appear here automatically.
+              </p>
+            </div>
+          )}
         </Container>
       </section>
     </>

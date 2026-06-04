@@ -4,6 +4,8 @@ import { successResponse, errorResponse, validationError } from '@/utils/api-res
 import { generateSlug, calculateReadingTime, parsePaginationParams } from '@/utils/helpers';
 import { verifyToken } from '@/utils/auth';
 
+const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
+
 function authenticateAdminRequest(request: Request) {
   const authHeader = request.headers.get('authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -34,7 +36,9 @@ export async function GET(request: Request) {
       return validationError('Invalid blog status');
     }
 
-    const query: any = {};
+    const query: any = {
+      slug: { $nin: demoBlogSlugs },
+    };
     if (status !== 'all') query.status = status;
 
     const blogs = await Blog.find(query)

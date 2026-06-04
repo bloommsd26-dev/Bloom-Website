@@ -1,6 +1,7 @@
 import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/sections/SectionHeader';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { generateMetadata } from '@/utils/seo';
 
 export const metadata: Metadata = generateMetadata(
@@ -93,11 +94,11 @@ export default function ProgramsPage() {
       <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
         <Container>
           <div className="max-w-3xl">
-            <p className="text-primary-600 font-semibold uppercase tracking-widest mb-4">What we run</p>
-            <h1 className="text-5xl sm:text-6xl font-bold text-neutral-900 mb-6">
+            <p className="eyebrow mb-4">What we run</p>
+            <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
               Five formats. Many rooms. One promise.
             </h1>
-            <p className="text-xl text-neutral-600">
+            <p className="story-copy text-xl">
               Bloom programs are designed for real rooms: noisy, uneven, full of different ages, and always worth returning to.
             </p>
           </div>
@@ -121,10 +122,10 @@ export default function ProgramsPage() {
                 {index % 2 === 0 ? (
                   <>
                     <div>
-                      <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+                      <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">
                         {program.title}
                       </h2>
-                      <p className="text-lg text-neutral-600 mb-6 leading-relaxed">
+                      <p className="story-copy mb-6">
                         {program.longDescription}
                       </p>
 
@@ -141,25 +142,37 @@ export default function ProgramsPage() {
                       </div>
 
                       <div className="bg-primary-50 rounded-lg p-4 border border-primary-200">
-                        <p className="text-sm font-semibold text-primary-900">
+                        <p className="font-accent text-sm font-bold text-primary-900 leading-relaxed">
                           <span className="font-bold">Impact:</span> {program.impact}
                         </p>
                       </div>
                     </div>
-                    <div className="h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-                      <img src={program.image} alt={program.title} className="w-full h-full object-cover" />
+                    <div className="relative h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+                      <Image
+                        src={program.image}
+                        alt={program.title}
+                        fill
+                        sizes="(min-width: 1024px) 50vw, 100vw"
+                        className="object-cover"
+                      />
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-                      <img src={program.image} alt={program.title} className="w-full h-full object-cover" />
+                    <div className="relative h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
+                      <Image
+                        src={program.image}
+                        alt={program.title}
+                        fill
+                        sizes="(min-width: 1024px) 50vw, 100vw"
+                        className="object-cover"
+                      />
                     </div>
                     <div>
-                      <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+                      <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">
                         {program.title}
                       </h2>
-                      <p className="text-lg text-neutral-600 mb-6 leading-relaxed">
+                      <p className="story-copy mb-6">
                         {program.longDescription}
                       </p>
 
@@ -176,7 +189,7 @@ export default function ProgramsPage() {
                       </div>
 
                       <div className="bg-primary-50 rounded-lg p-4 border border-primary-200">
-                        <p className="text-sm font-semibold text-primary-900">
+                        <p className="font-accent text-sm font-bold text-primary-900 leading-relaxed">
                           <span className="font-bold">Impact:</span> {program.impact}
                         </p>
                       </div>

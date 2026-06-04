@@ -1,5 +1,3 @@
-'use client';
-
 import clsx from 'clsx';
 
 interface SectionHeaderProps {
@@ -26,15 +24,15 @@ export function SectionHeader({
   return (
     <div className={clsx('mb-12', alignClasses[align], className)}>
       {subtitle && (
-        <p className="text-sm font-semibold text-primary-600 uppercase tracking-wide mb-2">
+        <p className="eyebrow mb-3">
           {subtitle}
         </p>
       )}
-      <h2 className="text-4xl sm:text-5xl font-bold text-neutral-900 mb-4">
+      <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight text-neutral-900 mb-4">
         {title}
       </h2>
       {description && (
-        <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+        <p className="story-copy max-w-2xl mx-auto">
           {description}
         </p>
       )}

@@ -15,7 +15,7 @@ function getJwtSecret() {
 export type AuthPayload = JwtPayload & {
   id: string;
   email: string;
-  role: 'admin' | 'editor' | 'viewer';
+  role: 'super_admin' | 'admin' | 'editor' | 'viewer';
 };
 
 export async function hashPassword(password: string): Promise<string> {

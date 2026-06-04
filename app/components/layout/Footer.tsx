@@ -39,7 +39,7 @@ export function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-4">
-              <div className="text-2xl font-bold text-primary-400">Bloom</div>
+              <div className="font-heading text-2xl font-bold text-primary-400">Bloom</div>
             </Link>
             <p className="text-neutral-400 text-sm leading-relaxed">
               Maxfort students showing up weekly with notebooks, prompts, sorted supplies, and a promise to return.
@@ -71,7 +71,7 @@ export function Footer() {
           {/* Footer Links */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h3 className="font-semibold text-white mb-4">{category}</h3>
+              <h3 className="font-heading font-semibold text-white mb-4">{category}</h3>
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={`${link.href}-${link.label}`}>
