@@ -2,24 +2,10 @@ import { connectDB } from '@/db/connect';
 import { Volunteer } from '@/models/Volunteer';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
 import { parsePaginationParams, validateEmail, validatePhone } from '@/utils/helpers';
-import { verifyToken } from '@/utils/auth';
+import { withRole } from '@/lib/middleware/auth';
 
-function canManageVolunteers(request: Request) {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return false;
-  }
-
-  const decoded = verifyToken(authHeader.substring(7));
-  return decoded?.role === 'admin' || decoded?.role === 'editor';
-}
-
-export async function GET(request: Request) {
+async function getVolunteers(request: Request) {
   try {
-    if (!canManageVolunteers(request)) {
-      return errorResponse('Unauthorized', 401);
-    }
-
     await connectDB();
 
     const { searchParams } = new URL(request.url);
@@ -98,3 +84,5 @@ export async function POST(request: Request) {
     return errorResponse('Failed to submit volunteer application', 500);
   }
 }
+
+export const GET = withRole('super_admin', 'admin', 'editor')(getVolunteers);

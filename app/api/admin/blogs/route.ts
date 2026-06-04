@@ -2,30 +2,12 @@ import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
 import { generateSlug, calculateReadingTime, parsePaginationParams } from '@/utils/helpers';
-import { verifyToken } from '@/utils/auth';
+import { withRole } from '@/lib/middleware/auth';
 
 const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
 
-function authenticateAdminRequest(request: Request) {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-
-  const decoded = verifyToken(authHeader.substring(7));
-  if (!decoded || !['admin', 'editor'].includes(decoded.role)) {
-    return null;
-  }
-
-  return decoded;
-}
-
-export async function GET(request: Request) {
+async function getBlogs(request: Request) {
   try {
-    if (!authenticateAdminRequest(request)) {
-      return errorResponse('Unauthorized', 401);
-    }
-
     await connectDB();
 
     const { searchParams } = new URL(request.url);
@@ -63,12 +45,8 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+async function createBlog(request: Request) {
   try {
-    if (!authenticateAdminRequest(request)) {
-      return errorResponse('Unauthorized', 401);
-    }
-
     await connectDB();
 
     const body = await request.json();
@@ -119,3 +97,6 @@ export async function POST(request: Request) {
     return errorResponse('Failed to create blog post', 500);
   }
 }
+
+export const GET = withRole('super_admin', 'admin', 'editor')(getBlogs);
+export const POST = withRole('super_admin', 'admin', 'editor')(createBlog);

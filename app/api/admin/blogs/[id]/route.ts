@@ -2,32 +2,14 @@ import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { successResponse, errorResponse, validationError, notFoundError } from '@/utils/api-response';
 import { calculateReadingTime, generateSlug } from '@/utils/helpers';
-import { verifyToken } from '@/utils/auth';
+import { withRole } from '@/lib/middleware/auth';
 
-function authenticateAdminRequest(request: Request) {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-
-  const decoded = verifyToken(authHeader.substring(7));
-  if (!decoded || !['admin', 'editor'].includes(decoded.role)) {
-    return null;
-  }
-
-  return decoded;
-}
-
-export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+async function updateBlog(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    if (!authenticateAdminRequest(request)) {
-      return errorResponse('Unauthorized', 401);
-    }
-
     await connectDB();
 
     const { id } = await params;
-    const body = await request.json();
+    const body = await _request.json();
     const {
       title,
       excerpt,
@@ -86,12 +68,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+async function deleteBlog(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    if (!authenticateAdminRequest(request)) {
-      return errorResponse('Unauthorized', 401);
-    }
-
     await connectDB();
 
     const { id } = await params;
@@ -107,3 +85,6 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     return errorResponse('Failed to delete blog post', 500);
   }
 }
+
+export const PATCH = withRole('super_admin', 'admin', 'editor')(updateBlog);
+export const DELETE = withRole('super_admin', 'admin', 'editor')(deleteBlog);
