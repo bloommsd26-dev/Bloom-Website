@@ -10,7 +10,11 @@
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "security-audit": "npm audit --audit-level=high",
+    "check-circular": "madge --circular --extensions ts,tsx app lib",
+    "check-unused": "depcheck",
+    "commitlint": "commitlint --from=master"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -35,6 +39,8 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20.11.0",
@@ -42,8 +48,10 @@
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@typescript-eslint/parser": "^6.20.0",
+    "depcheck": "^1.4.7",
     "eslint": "^8.56.0",
     "eslint-config-next": "^15.1.0",
+    "madge": "^8.0.0",
     "prettier": "^3.1.1",
     "tailwindcss": "^3.4.3"
   }
