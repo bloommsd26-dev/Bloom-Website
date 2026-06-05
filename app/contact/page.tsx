@@ -46,20 +46,20 @@ export default function ContactPage() {
   const faqs = [
     {
       q: 'How can I join as a volunteer?',
-      a: 'We have a formal application process. Start by filling out the volunteer form on our website. We prioritize students who can commit to weekly sessions.'
+      a: 'We have a formal application process. Start by filling out the volunteer form on our website. We prioritize students who can commit to weekly sessions.',
     },
     {
       q: 'Where do the sessions take place?',
-      a: 'We work in various community centers and local schools across Delhi. Specific locations are shared with volunteers after training.'
+      a: 'We work in various community centers and local schools across Delhi. Specific locations are shared with volunteers after training.',
     },
     {
       q: 'Can I donate items instead of money?',
-      a: 'Yes. We run regular Care Drives for notebooks, storybooks, and creative supplies. Check our "Donate" page for currently needed items.'
+      a: 'Yes. We run regular Care Drives for notebooks, storybooks, and creative supplies. Check our "Donate" page for currently needed items.',
     },
     {
       q: 'Is Bloom a registered NGO?',
-      a: 'Bloom is a student-led initiative from Maxfort School. We operate with full transparency and are held accountable to our community standards.'
-    }
+      a: 'Bloom is a student-led initiative from Maxfort School. We operate with full transparency and are held accountable to our community standards.',
+    },
   ];
 
   return (
@@ -70,10 +70,13 @@ export default function ContactPage() {
             <p className="eyebrow">Get in Touch</p>
             <h1 className="accent-statement mb-8 text-5xl sm:text-7xl leading-tight">
               Let's talk about <br />
-              <span className="italic font-accent font-normal text-cinnamon underline decoration-horchata decoration-4 underline-offset-8">the work.</span>
+              <span className="italic font-accent font-normal text-cinnamon underline decoration-horchata decoration-4 underline-offset-8">
+                the work.
+              </span>
             </h1>
             <p className="story-copy text-espresso/80">
-              Whether you want to partner with us, ask about our records, or join a session—we are here to respond.
+              Whether you want to partner with us, ask about our records, or join a session—we are
+              here to respond.
             </p>
           </div>
         </Container>
@@ -87,7 +90,12 @@ export default function ContactPage() {
                 <h2 className="accent-statement">Send a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-10">
                   <div className="space-y-3">
-                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Your Name</label>
+                    <label
+                      htmlFor="name"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      Your Name
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -97,7 +105,12 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-3">
-                    <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Email Address</label>
+                    <label
+                      htmlFor="email"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      Email Address
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -107,7 +120,12 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-3">
-                    <label htmlFor="subject" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Subject</label>
+                    <label
+                      htmlFor="subject"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      Subject
+                    </label>
                     <input
                       type="text"
                       name="subject"
@@ -117,7 +135,12 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-3">
-                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-espresso/40">How can we help?</label>
+                    <label
+                      htmlFor="message"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      How can we help?
+                    </label>
                     <textarea
                       name="message"
                       id="message"
@@ -136,7 +159,9 @@ export default function ContactPage() {
                   </Button>
 
                   {message && (
-                    <div className={`p-6 rounded-3xl text-center text-sm font-bold ${status === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                    <div
+                      className={`p-6 rounded-3xl text-center text-sm font-bold ${status === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}
+                    >
                       {message}
                     </div>
                   )}
@@ -150,7 +175,10 @@ export default function ContactPage() {
                   <p className="eyebrow">Common Questions</p>
                   <div className="divide-y divide-espresso/10 border-t border-espresso/10 mt-8">
                     {faqs.map((faq, idx) => (
-                      <div key={idx} className="py-8 group hover:bg-horchata/5 transition-colors px-4 -mx-4 rounded-2xl">
+                      <div
+                        key={idx}
+                        className="py-8 group hover:bg-horchata/5 transition-colors px-4 -mx-4 rounded-2xl"
+                      >
                         <h3 className="font-heading text-xl font-bold mb-4 group-hover:text-cinnamon transition-colors tabular-nums">
                           0{idx + 1}. {faq.q}
                         </h3>
@@ -165,9 +193,13 @@ export default function ContactPage() {
                   <div className="relative z-10">
                     <h3 className="font-heading text-2xl font-bold mb-6">Bloom Tech Team</h3>
                     <p className="opacity-80 mb-10 text-lg">
-                      For technical inquiries or website feedback, you can reach out to our digital leads:
+                      For technical inquiries or website feedback, you can reach out to our digital
+                      leads:
                     </p>
-                    <Link href="mailto:tech@bloom.org" className="text-cinnamon font-black text-2xl hover:underline underline-offset-8">
+                    <Link
+                      href="mailto:tech@bloom.org"
+                      className="text-cinnamon font-black text-2xl hover:underline underline-offset-8"
+                    >
                       tech@bloom.org
                     </Link>
                   </div>
@@ -184,8 +216,12 @@ export default function ContactPage() {
           <div className="text-center">
             <p className="eyebrow">Find us online</p>
             <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mt-12">
-              {['Instagram', 'LinkedIn', 'Twitter'].map(social => (
-                <Link key={social} href="#" className="font-heading text-3xl sm:text-5xl font-black uppercase tracking-tighter hover:text-cinnamon transition-all hover:scale-110">
+              {['Instagram', 'LinkedIn', 'Twitter'].map((social) => (
+                <Link
+                  key={social}
+                  href="#"
+                  className="font-heading text-3xl sm:text-5xl font-black uppercase tracking-tighter hover:text-cinnamon transition-all hover:scale-110"
+                >
                   {social}
                 </Link>
               ))}

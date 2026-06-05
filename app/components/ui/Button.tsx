@@ -9,16 +9,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles = {
-  primary:
-    'bg-espresso text-white hover:bg-ink active:scale-[0.98]',
-  secondary:
-    'bg-cinnamon text-white hover:bg-cinnamon/90 active:scale-[0.98]',
+  primary: 'bg-espresso text-white hover:bg-ink active:scale-[0.98]',
+  secondary: 'bg-cinnamon text-white hover:bg-cinnamon/90 active:scale-[0.98]',
   outline:
     'border-2 border-espresso text-espresso hover:bg-espresso hover:text-white active:scale-[0.98]',
-  ghost:
-    'text-espresso/60 hover:text-espresso active:scale-[0.98] px-0',
-  danger:
-    'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]',
+  ghost: 'text-espresso/60 hover:text-espresso active:scale-[0.98] px-0',
+  danger: 'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]',
 };
 
 const sizeStyles = {

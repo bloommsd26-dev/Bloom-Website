@@ -32,11 +32,10 @@ export default async function BlogPage() {
         <Container>
           <div className="max-w-4xl">
             <p className="eyebrow">Field Notes</p>
-            <h1 className="accent-statement mb-8 text-6xl sm:text-8xl">
-              Recorded trust.
-            </h1>
+            <h1 className="accent-statement mb-8 text-6xl sm:text-8xl">Recorded trust.</h1>
             <p className="story-copy text-espresso/80">
-              Our blog is a collection of field notes from our sessions—what we planned, what actually happened, and what we are carrying into the next visit.
+              Our blog is a collection of field notes from our sessions—what we planned, what
+              actually happened, and what we are carrying into the next visit.
             </p>
           </div>
         </Container>

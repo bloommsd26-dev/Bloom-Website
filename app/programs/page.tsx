@@ -98,9 +98,7 @@ export default function ProgramsPage() {
         <Container>
           <div className="max-w-4xl">
             <p className="eyebrow">Our Work</p>
-            <h1 className="accent-statement mb-8">
-              Five formats. Many rooms. One promise.
-            </h1>
+            <h1 className="accent-statement mb-8">Five formats. Many rooms. One promise.</h1>
             <p className="story-copy text-espresso/80">
               Bloom programs are designed for real rooms: noisy, uneven, full of different ages, and
               always worth returning to.
@@ -125,13 +123,17 @@ export default function ProgramsPage() {
                     />
                   </div>
                 </div>
-                <div className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'}`}>
+                <div
+                  className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'}`}
+                >
                   <p className="eyebrow">Program 0{idx + 1}</p>
                   <h2 className="accent-statement text-4xl mb-6">{program.title}</h2>
                   <p className="story-copy mb-8 text-espresso/70">{program.longDescription}</p>
-                  
+
                   <div className="mb-10 space-y-4">
-                    <h3 className="font-heading text-sm font-bold uppercase tracking-widest text-espresso/40">Activities</h3>
+                    <h3 className="font-heading text-sm font-bold uppercase tracking-widest text-espresso/40">
+                      Activities
+                    </h3>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
                       {program.activities.map((act, i) => (
                         <li key={i} className="flex items-baseline gap-3 text-espresso/80">
@@ -164,10 +166,17 @@ export default function ProgramsPage() {
               We are looking for volunteers who value preparation as much as participation.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-cinnamon text-white hover:bg-cinnamon/90 px-12 border-none">
+              <Button
+                size="lg"
+                className="bg-cinnamon text-white hover:bg-cinnamon/90 px-12 border-none"
+              >
                 <Link href="/volunteer">Volunteer Now</Link>
               </Button>
-              <Button variant="outline" size="lg" className="border-horchata text-horchata hover:bg-horchata hover:text-espresso px-12">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-horchata text-horchata hover:bg-horchata hover:text-espresso px-12"
+              >
                 <Link href="/contact">Inquire</Link>
               </Button>
             </div>

@@ -4,17 +4,18 @@
 
 :root {
   color-scheme: light;
-  --font-satoshi-stack: 'Satoshi', 'Avenir Next', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-satoshi-stack:
+    'Satoshi', 'Avenir Next', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: var(--font-satoshi-stack);
   --font-body: var(--font-satoshi-stack);
   --font-accent: var(--font-libre-baskerville), Georgia, 'Times New Roman', serif;
-  
+
   /* BLOOM Authentic Palette */
-  --color-espresso: #432713;    /* Primary Text */
-  --color-horchata: #ddc6b3;    /* Warm Neutral */
-  --color-ice-cube: #d2e3fd;    /* Accent Blue */
-  --color-cinnamon: #965420;    /* Action/Primary */
-  --color-oat-milk: #f4edea;    /* Page Background */
+  --color-espresso: #432713; /* Primary Text */
+  --color-horchata: #ddc6b3; /* Warm Neutral */
+  --color-ice-cube: #d2e3fd; /* Accent Blue */
+  --color-cinnamon: #965420; /* Action/Primary */
+  --color-oat-milk: #f4edea; /* Page Background */
 }
 
 @layer base {
@@ -23,7 +24,10 @@
     text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-heading tracking-tight text-espresso;
   }
 
@@ -61,7 +65,7 @@
   }
 
   .field-note::before {
-    content: "";
+    content: '';
     @apply absolute top-0 left-0 w-1.5 h-full bg-cinnamon;
   }
 
