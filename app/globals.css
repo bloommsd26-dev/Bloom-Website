@@ -4,18 +4,17 @@
 
 :root {
   color-scheme: light;
-  --font-satoshi-stack:
-    'Satoshi', 'Avenir Next', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-satoshi-stack: 'Satoshi', 'Avenir Next', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: var(--font-satoshi-stack);
   --font-body: var(--font-satoshi-stack);
   --font-accent: var(--font-libre-baskerville), Georgia, 'Times New Roman', serif;
-
+  
   /* BLOOM Authentic Palette */
-  --color-espresso: #432713; /* Primary Text */
-  --color-horchata: #ddc6b3; /* Warm Neutral */
-  --color-cinnamon: #965420; /* Action/Primary */
-  --color-oat-milk: #f4edea; /* Page Background */
-  --color-ink: #1a1a1a; /* Sharp contrast */
+  --color-espresso: #432713;    /* Primary Text */
+  --color-horchata: #ddc6b3;    /* Warm Neutral */
+  --color-ice-cube: #d2e3fd;    /* Accent Blue */
+  --color-cinnamon: #965420;    /* Action/Primary */
+  --color-oat-milk: #f4edea;    /* Page Background */
 }
 
 @layer base {
@@ -24,15 +23,17 @@
     text-rendering: optimizeLegibility;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
+  h1, h2, h3, h4 {
     @apply font-heading tracking-tight text-espresso;
   }
 
   p {
     @apply leading-relaxed;
+  }
+
+  /* Global Smooth Edges for Images and Containers */
+  img {
+    @apply rounded-3xl;
   }
 }
 
@@ -41,7 +42,7 @@
     @apply py-20 sm:py-32;
   }
 
-  /* NGO Editorial Elements */
+  /* NGO Editorial Elements with Smooth Edges */
   .eyebrow {
     @apply font-heading text-xs font-bold uppercase tracking-[0.2em] text-cinnamon mb-4 block;
   }
@@ -54,28 +55,23 @@
     @apply font-heading text-3xl sm:text-5xl font-bold leading-tight text-espresso;
   }
 
-  /* Staggered Layout Helpers */
-  .editorial-grid {
-    @apply grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center;
-  }
-
-  /* Field Note Component */
+  /* Field Note Component - Soft Rounded */
   .field-note {
-    @apply font-accent italic p-10 border-l border-cinnamon/30 bg-horchata/10 relative overflow-hidden;
+    @apply font-accent italic p-10 border-l border-cinnamon/30 bg-ice-cube/20 relative overflow-hidden rounded-r-3xl;
   }
 
   .field-note::before {
-    content: '';
-    @apply absolute top-0 left-0 w-1 h-full bg-cinnamon;
+    content: "";
+    @apply absolute top-0 left-0 w-1.5 h-full bg-cinnamon;
   }
 
-  /* Ledger Item (Replacing simple cards) */
+  /* Ledger Item - Soft Transitions */
   .ledger-row {
-    @apply border-t border-espresso/10 py-12 flex flex-col md:flex-row md:items-start gap-6 md:gap-16 transition-colors hover:bg-horchata/5;
+    @apply border-t border-espresso/10 py-12 flex flex-col md:flex-row md:items-start gap-6 md:gap-16 transition-all hover:bg-horchata/10 rounded-2xl px-6 -mx-6;
   }
 }
 
-/* Palette Overrides */
+/* Palette & Shape Overrides */
 .bg-white {
   background-color: var(--color-oat-milk);
 }
@@ -96,7 +92,20 @@
   border-color: var(--color-horchata);
 }
 
-/* Animation: More intentional, less "bouncy" */
+/* Rounded Utilities for NGO Feel */
+.rounded-btn {
+  @apply rounded-full;
+}
+
+.rounded-card {
+  @apply rounded-4xl;
+}
+
+.rounded-block {
+  @apply rounded-5xl;
+}
+
+/* Animation */
 .animate-fadeInUp {
   animation: fadeInUp 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
@@ -121,13 +130,4 @@
 }
 ::-webkit-scrollbar-thumb {
   @apply bg-horchata rounded-full;
-}
-
-/* Markdown/Article styles */
-article p {
-  @apply mb-6;
-}
-
-article h2 {
-  @apply text-2xl sm:text-3xl font-bold mt-12 mb-6;
 }

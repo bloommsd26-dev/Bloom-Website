@@ -9,18 +9,22 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles = {
-  primary: 'bg-espresso text-white hover:bg-ink active:scale-[0.98]',
-  secondary: 'bg-cinnamon text-white hover:bg-cinnamon/90 active:scale-[0.98]',
+  primary:
+    'bg-espresso text-white hover:bg-ink active:scale-[0.98]',
+  secondary:
+    'bg-cinnamon text-white hover:bg-cinnamon/90 active:scale-[0.98]',
   outline:
     'border-2 border-espresso text-espresso hover:bg-espresso hover:text-white active:scale-[0.98]',
-  ghost: 'text-espresso/60 hover:text-espresso active:scale-[0.98] px-0',
-  danger: 'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]',
+  ghost:
+    'text-espresso/60 hover:text-espresso active:scale-[0.98] px-0',
+  danger:
+    'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]',
 };
 
 const sizeStyles = {
-  sm: 'px-4 py-2 text-xs font-bold uppercase tracking-widest',
-  md: 'px-6 py-3 text-sm font-bold uppercase tracking-widest',
-  lg: 'px-10 py-4 text-base font-bold uppercase tracking-widest',
+  sm: 'px-6 py-2.5 text-xs font-bold uppercase tracking-widest',
+  md: 'px-8 py-3.5 text-sm font-bold uppercase tracking-widest',
+  lg: 'px-12 py-5 text-base font-bold uppercase tracking-widest',
 };
 
 export function Button({
@@ -35,7 +39,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        'font-heading transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2',
+        'font-heading transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2 rounded-full',
         variantStyles[variant],
         sizeStyles[size],
         className

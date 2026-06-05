@@ -98,8 +98,10 @@ export default function ProgramsPage() {
         <Container>
           <div className="max-w-4xl">
             <p className="eyebrow">Our Work</p>
-            <h1 className="accent-statement mb-8">Five formats. Many rooms. One promise.</h1>
-            <p className="story-copy">
+            <h1 className="accent-statement mb-8">
+              Five formats. Many rooms. One promise.
+            </h1>
+            <p className="story-copy text-espresso/80">
               Bloom programs are designed for real rooms: noisy, uneven, full of different ages, and
               always worth returning to.
             </p>
@@ -108,32 +110,28 @@ export default function ProgramsPage() {
       </section>
 
       {/* Programs List */}
-      <section className="section-padding bg-horchata/10">
+      <section className="section-padding bg-horchata/10 border-y border-espresso/5">
         <Container>
           <div className="space-y-40">
             {programsData.map((program, idx) => (
               <div key={idx} className="editorial-grid">
                 <div className={`lg:col-span-6 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div className="relative aspect-square lg:aspect-[3/4] overflow-hidden group">
+                  <div className="relative aspect-square lg:aspect-[3/4] overflow-hidden group rounded-3xl shadow-xl">
                     <Image
                       src={program.image}
                       alt={program.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105 rounded-3xl"
                     />
                   </div>
                 </div>
-                <div
-                  className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'}`}
-                >
+                <div className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'}`}>
                   <p className="eyebrow">Program 0{idx + 1}</p>
                   <h2 className="accent-statement text-4xl mb-6">{program.title}</h2>
-                  <p className="story-copy mb-8">{program.longDescription}</p>
-
+                  <p className="story-copy mb-8 text-espresso/70">{program.longDescription}</p>
+                  
                   <div className="mb-10 space-y-4">
-                    <h3 className="font-heading text-sm font-bold uppercase tracking-widest text-espresso/40">
-                      Activities
-                    </h3>
+                    <h3 className="font-heading text-sm font-bold uppercase tracking-widest text-espresso/40">Activities</h3>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
                       {program.activities.map((act, i) => (
                         <li key={i} className="flex items-baseline gap-3 text-espresso/80">
@@ -157,25 +155,19 @@ export default function ProgramsPage() {
       </section>
 
       {/* Join the work */}
-      <section className="section-padding bg-white">
-        <Container>
-          <div className="max-w-4xl mx-auto bg-espresso text-horchata p-10 sm:p-20 text-center relative">
+      <section className="section-padding bg-white px-4 sm:px-6">
+        <Container className="max-w-4xl mx-auto bg-espresso text-horchata p-10 sm:p-24 text-center relative rounded-block overflow-hidden shadow-2xl">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-cinnamon/20 rounded-full blur-3xl -ml-32 -mt-32" />
+          <div className="relative z-10">
             <h2 className="accent-statement text-horchata mb-8">Join the work behind the photo.</h2>
             <p className="story-copy text-horchata/80 mx-auto mb-10">
               We are looking for volunteers who value preparation as much as participation.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button
-                size="lg"
-                className="rounded-none bg-cinnamon text-white hover:bg-cinnamon/90 px-12 border-none"
-              >
+              <Button size="lg" className="bg-cinnamon text-white hover:bg-cinnamon/90 px-12 border-none">
                 <Link href="/volunteer">Volunteer Now</Link>
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="rounded-none border-horchata text-horchata hover:bg-horchata hover:text-espresso"
-              >
+              <Button variant="outline" size="lg" className="border-horchata text-horchata hover:bg-horchata hover:text-espresso px-12">
                 <Link href="/contact">Inquire</Link>
               </Button>
             </div>

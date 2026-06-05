@@ -32,10 +32,11 @@ export default async function BlogPage() {
         <Container>
           <div className="max-w-4xl">
             <p className="eyebrow">Field Notes</p>
-            <h1 className="accent-statement mb-8 text-6xl sm:text-8xl">Recorded trust.</h1>
-            <p className="story-copy">
-              Our blog is a collection of field notes from our sessions—what we planned, what
-              actually happened, and what we are carrying into the next visit.
+            <h1 className="accent-statement mb-8 text-6xl sm:text-8xl">
+              Recorded trust.
+            </h1>
+            <p className="story-copy text-espresso/80">
+              Our blog is a collection of field notes from our sessions—what we planned, what actually happened, and what we are carrying into the next visit.
             </p>
           </div>
         </Container>
@@ -43,7 +44,7 @@ export default async function BlogPage() {
 
       <section className="section-padding bg-white pt-0">
         <Container>
-          <div className="max-w-5xl mx-auto space-y-16">
+          <div className="max-w-5xl mx-auto space-y-24">
             {blogs.length > 0 ? (
               blogs.map((blog: any) => (
                 <BlogCard
@@ -59,8 +60,8 @@ export default async function BlogPage() {
                 />
               ))
             ) : (
-              <div className="py-20 text-center border-t border-espresso/10">
-                <p className="story-copy mx-auto text-espresso/40">
+              <div className="py-24 text-center border-t border-espresso/10 rounded-3xl bg-horchata/5">
+                <p className="story-copy mx-auto text-espresso/30 italic">
                   New field notes are being prepared by the team.
                 </p>
               </div>
