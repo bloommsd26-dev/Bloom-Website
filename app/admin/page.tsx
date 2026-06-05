@@ -924,14 +924,14 @@ export default function AdminPage() {
                         : 'border-espresso/5 bg-white hover:border-espresso/20 hover:shadow-md'
                     }`}
                   >
-                    <span className="block font-heading text-base font-bold text-espresso leading-tight mb-2">
+                    <span className="block font-heading text-base font-bold text-espresso leading-tight mb-2 line-clamp-2" title={blog.title}>
                       {blog.title}
                     </span>
                     <span className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-espresso/40">
                       <span className={blog.status === 'published' ? 'text-green-600' : ''}>
                         {blog.status}
                       </span>
-                      <span>{blog.readingTime || 1} min</span>
+                      <span className="shrink-0">{blog.readingTime || 1} min</span>
                     </span>
                   </button>
                 ))}
@@ -1050,13 +1050,14 @@ export default function AdminPage() {
                         : 'border-espresso/5 bg-white hover:border-espresso/20 hover:shadow-md'
                     }`}
                   >
-                    <span className="block font-heading text-base font-bold text-espresso mb-2">
+                    <span className="block font-heading text-base font-bold text-espresso leading-tight mb-2 truncate">
                       {acc.name}
                     </span>
-                    <span className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-espresso/40">
-                      <span>{acc.email}</span>
-                      <span className="text-cinnamon">{acc.role.replace('_', ' ')}</span>
+                    <span className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-espresso/40 overflow-hidden">
+                      <span className="truncate flex-1" title={acc.email}>{acc.email}</span>
+                      <span className="text-cinnamon shrink-0">{acc.role.replace('_', ' ')}</span>
                     </span>
+
                   </button>
                 ))}
               </div>
@@ -1200,8 +1201,10 @@ export default function AdminPage() {
                     <h2 className="font-heading text-4xl font-bold text-espresso leading-tight">
                       {selectedMessage.subject}
                     </h2>
-                    <div className="flex gap-4 mt-4 text-xs font-bold uppercase tracking-widest text-espresso/40">
-                      <span>{selectedMessage.email}</span>
+                    <div className="flex flex-wrap gap-4 mt-4 text-xs font-bold uppercase tracking-widest text-espresso/40">
+                      <span className="truncate max-w-[250px] sm:max-w-none" title={selectedMessage.email}>
+                        {selectedMessage.email}
+                      </span>
                       <span>•</span>
                       <span>{new Date(selectedMessage.createdAt).toLocaleString()}</span>
                     </div>
