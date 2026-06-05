@@ -13,7 +13,8 @@ export function generateNGOOrganizationSchema() {
     alternateName: 'Bloom Social Initiative',
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
-    description: 'A student-led social impact initiative from Maxfort School, Delhi, empowering children through education, mentorship, and creative opportunities.',
+    description:
+      'A student-led social impact initiative from Maxfort School, Delhi, empowering children through education, mentorship, and creative opportunities.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Delhi',
@@ -82,7 +83,11 @@ export function generateBreadcrumbSchema(items: { name: string; item: string }[]
 /**
  * Generate NGO Program/Service Schema
  */
-export function generateProgramSchema(program: { title: string; description: string; slug: string }) {
+export function generateProgramSchema(program: {
+  title: string;
+  description: string;
+  slug: string;
+}) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
