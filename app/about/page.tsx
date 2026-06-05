@@ -1,5 +1,4 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/sections/SectionHeader';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { generateMetadata } from '@/utils/seo';
@@ -34,130 +33,139 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
-      <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
+      {/* Hero: Bold & Asymmetrical */}
+      <section className="pt-24 pb-20 bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="eyebrow mb-4">About Bloom</p>
-              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
+          <div className="editorial-grid">
+            <div className="lg:col-span-6">
+              <p className="eyebrow">Our Story</p>
+              <h1 className="accent-statement mb-8">
                 A school-born initiative with field notes.
               </h1>
-              <p className="story-copy text-xl">
+              <p className="story-copy mb-10">
                 Bloom began at Maxfort School with students who wanted service to feel less like an
                 annual event and more like a dependable habit.
               </p>
             </div>
-            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80"
-                alt="Students collaborating around a table"
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
+            <div className="lg:col-span-6 relative">
+              <div className="relative aspect-square lg:aspect-[4/5] rounded-none overflow-hidden group">
+                <Image
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80"
+                  alt="Students collaborating around a table"
+                  fill
+                  priority
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <div className="hidden lg:block absolute -bottom-10 -left-10 w-48 h-48 bg-horchata -z-10" />
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding">
+      {/* Origin: Long-form Editorial */}
+      <section className="section-padding bg-horchata/10">
         <Container>
-          <div className="max-w-3xl mx-auto">
-            <SectionHeader
-              subtitle="Origin"
-              title="It started as a question after school"
-              align="center"
-            />
-            <div className="max-w-none text-neutral-600 space-y-6">
-              <p>
-                We kept seeing the same distance: between children and books, between talent and a
-                stage, between need and someone organized enough to respond. Bloom became our answer
-                to that distance.
-              </p>
-              <p className="font-accent italic text-xl leading-relaxed text-neutral-800">
-                The first version was simple: gather students, prepare a session, visit, listen,
-                return. That structure still guides us. Bloom is student-led, but it is not casual.
-                We plan like the work matters because it does.
-              </p>
-              <p>
-                Our volunteers learn to teach, sort, explain, document, and lead without turning
-                children into statistics. The work is practical. The feeling is personal.
-              </p>
+          <div className="max-w-4xl">
+            <p className="eyebrow">Origin</p>
+            <h2 className="accent-statement mb-12">It started as a question after school.</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+              <div className="space-y-6 text-espresso/80 text-lg">
+                <p>
+                  We kept seeing the same distance: between children and books, between talent and a
+                  stage, between need and someone organized enough to respond. Bloom became our answer
+                  to that distance.
+                </p>
+                <p>
+                  Our volunteers learn to teach, sort, explain, document, and lead without turning
+                  children into statistics. The work is practical. The feeling is personal.
+                </p>
+              </div>
+              <div className="field-note self-start transform md:translate-y-12">
+                <p className="text-xl leading-relaxed italic">
+                  The first version was simple: gather students, prepare a session, visit, listen,
+                  return. That structure still guides us.
+                </p>
+              </div>
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding bg-neutral-50">
+      {/* Mission & Standard: Staggered Blocks */}
+      <section className="section-padding bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">Our Mission</h2>
-              <p className="accent-statement">
-                To create recurring spaces where children can learn, speak, make, ask, and receive
-                practical support from students who prepare carefully and return consistently.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">
-                Our Standard
-              </h2>
-              <p className="story-copy">
-                If a program cannot be repeated, recorded, and improved, it is not finished. Bloom
-                is built for continuity, not just good photographs.
-              </p>
+          <div className="space-y-32">
+            <div className="editorial-grid">
+              <div className="lg:col-span-5">
+                <h2 className="font-heading text-4xl font-bold mb-6">Our Mission</h2>
+                <p className="story-copy">
+                  To create recurring spaces where children can learn, speak, make, ask, and receive
+                  practical support from students who prepare carefully and return consistently.
+                </p>
+              </div>
+              <div className="lg:col-span-6 lg:col-start-7 bg-espresso text-horchata p-12 lg:p-16 transform lg:-rotate-1">
+                <h2 className="font-heading text-4xl font-bold mb-6">Our Standard</h2>
+                <p className="text-xl leading-relaxed opacity-90 italic font-accent">
+                  "If a program cannot be repeated, recorded, and improved, it is not finished. Bloom
+                  is built for continuity, not just good photographs."
+                </p>
+              </div>
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding">
+      {/* Principles: List style, not cards */}
+      <section className="section-padding bg-horchata/20">
         <Container>
-          <SectionHeader
-            subtitle="How we work"
-            title="The rules we keep returning to"
-            align="center"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {principles.map((principle) => (
-              <div
-                key={principle.title}
-                className="p-8 bg-white rounded-lg border border-neutral-200 hover:shadow-lg hover:border-primary-200 transition-all duration-300"
-              >
-                <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-3">
-                  {principle.title}
-                </h3>
-                <p className="text-neutral-600 leading-relaxed">{principle.description}</p>
+          <div className="mb-20">
+            <p className="eyebrow text-center">How we work</p>
+            <h2 className="accent-statement text-center">The rules we keep returning to.</h2>
+          </div>
+          <div className="max-w-4xl mx-auto divide-y divide-espresso/10 border-y border-espresso/10">
+            {principles.map((principle, idx) => (
+              <div key={idx} className="py-12 group flex flex-col md:flex-row md:items-start gap-6 md:gap-12">
+                <span className="font-heading text-4xl font-bold text-cinnamon/20 group-hover:text-cinnamon transition-colors">
+                  0{idx + 1}
+                </span>
+                <div>
+                  <h3 className="font-heading text-2xl font-bold mb-3 group-hover:text-cinnamon transition-colors">
+                    {principle.title}
+                  </h3>
+                  <p className="text-espresso/70 text-lg max-w-2xl">{principle.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="section-padding bg-neutral-50">
+      {/* Leadership: Editorial Split */}
+      <section className="section-padding bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80"
-                alt="Books arranged in a library"
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
+          <div className="editorial-grid">
+            <div className="lg:col-span-6 order-2 lg:order-1">
+              <div className="relative aspect-video lg:aspect-[4/3] overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80"
+                  alt="Books arranged in a library"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
-            <div>
-              <p className="eyebrow mb-4">Leadership</p>
-              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">
+            <div className="lg:col-span-5 lg:col-start-8 order-1 lg:order-2">
+              <p className="eyebrow">Leadership</p>
+              <h2 className="accent-statement mb-8">
                 Led by students, held to standards.
               </h2>
-              <p className="story-copy mb-6">
+              <p className="story-copy mb-10">
                 We are still learning. That is part of the point. Bloom trains students to be useful
                 before they are impressive: to listen first, plan properly, and stay accountable
                 after the session ends.
               </p>
-              <Button size="lg">
+              <Button variant="outline" size="lg" className="rounded-none border-espresso text-espresso">
                 <Link href="/contact">Talk to the Team</Link>
               </Button>
             </div>
@@ -165,23 +173,20 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="section-padding bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
+      {/* Final CTA */}
+      <section className="section-padding bg-horchata text-espresso">
         <Container>
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-heading text-4xl font-bold mb-4">Come see the work up close.</h2>
-            <p className="text-lg mb-8 opacity-90">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="accent-statement mb-6">Come see the work up close.</h2>
+            <p className="story-copy mx-auto mb-10">
               The best way to understand Bloom is to join a session, help prepare one, or ask us
               what we learned from the last visit.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-white text-white hover:bg-white hover:text-primary-600"
-              >
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" className="rounded-none bg-espresso text-white hover:bg-ink px-12">
                 <Link href="/volunteer">Volunteer</Link>
               </Button>
-              <Button size="lg" className="bg-white text-primary-600 hover:bg-neutral-100">
+              <Button variant="outline" size="lg" className="rounded-none border-espresso text-espresso px-12">
                 <Link href="/contact">Contact Us</Link>
               </Button>
             </div>

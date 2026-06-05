@@ -10,19 +10,21 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles = {
   primary:
-    'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 disabled:bg-neutral-300',
+    'bg-espresso text-white hover:bg-ink active:scale-[0.98]',
   secondary:
-    'bg-secondary-600 text-white hover:bg-secondary-700 active:bg-secondary-800 disabled:bg-neutral-300',
+    'bg-cinnamon text-white hover:bg-cinnamon/90 active:scale-[0.98]',
   outline:
-    'border-2 border-neutral-300 text-neutral-900 hover:bg-neutral-50 active:bg-neutral-100 disabled:border-neutral-200',
-  ghost: 'text-neutral-700 hover:bg-neutral-100 active:bg-neutral-200 disabled:text-neutral-400',
-  danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 disabled:bg-neutral-300',
+    'border-2 border-espresso text-espresso hover:bg-espresso hover:text-white active:scale-[0.98]',
+  ghost:
+    'text-espresso/60 hover:text-espresso active:scale-[0.98] px-0',
+  danger:
+    'bg-red-600 text-white hover:bg-red-700 active:scale-[0.98]',
 };
 
 const sizeStyles = {
-  sm: 'px-3 py-1.5 text-sm font-medium rounded-md',
-  md: 'px-4 py-2 text-base font-medium rounded-lg',
-  lg: 'px-6 py-3 text-lg font-semibold rounded-lg',
+  sm: 'px-4 py-2 text-xs font-bold uppercase tracking-widest',
+  md: 'px-6 py-3 text-sm font-bold uppercase tracking-widest',
+  lg: 'px-10 py-4 text-base font-bold uppercase tracking-widest',
 };
 
 export function Button({
@@ -37,7 +39,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        'font-body transition-colors duration-200 font-medium disabled:cursor-not-allowed',
+        'font-heading transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 inline-flex items-center justify-center gap-2',
         variantStyles[variant],
         sizeStyles[size],
         className
@@ -52,7 +54,6 @@ export function Button({
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            suppressHydrationWarning
           >
             <circle
               className="opacity-25"

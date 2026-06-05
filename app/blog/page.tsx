@@ -5,97 +5,68 @@ import { generateMetadata } from '@/utils/seo';
 import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 
-export const metadata: Metadata = generateMetadata(
-  'Blog',
-  'Field notes, session stories, and volunteer reflections from Bloom.'
-);
-
 export const revalidate = 3600; // Revalidate every hour
 
-type BlogListItem = {
-  _id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  coverImage?: string;
-  author?: string;
-  category?: string;
-  readingTime?: number;
-  createdAt?: Date;
-};
+export const metadata: Metadata = generateMetadata(
+  'Field Notes | Bloom',
+  'Weekly records, student perspectives, and community stories from the rooms Bloom works in.'
+);
 
-const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
-
-async function getPublishedBlogs(): Promise<BlogListItem[]> {
+async function getBlogs() {
   try {
     await connectDB();
-
-    const blogs = await Blog.find({
-      status: 'published',
-      slug: { $nin: demoBlogSlugs },
-    })
-      .sort({ createdAt: -1 })
-      .select('title slug excerpt coverImage author category readingTime createdAt')
-      .lean<BlogListItem[]>();
-
-    return blogs.map((blog) => ({
-      ...blog,
-      _id: String(blog._id),
-    }));
+    const blogs = await Blog.find({ status: 'published' }).sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(blogs));
   } catch (error) {
-    console.error('Error loading published blogs:', error);
+    console.error('Error fetching blogs:', error);
     return [];
   }
 }
 
 export default async function BlogPage() {
-  const blogPosts = await getPublishedBlogs();
+  const blogs = await getBlogs();
 
   return (
     <>
-      <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
+      <section className="pt-24 pb-20 bg-white">
         <Container>
-          <div className="max-w-3xl">
-            <p className="eyebrow mb-4">Field Notes</p>
-            <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
-              What the sessions teach us
+          <div className="max-w-4xl">
+            <p className="eyebrow">Field Notes</p>
+            <h1 className="accent-statement mb-8 text-6xl sm:text-8xl">
+              Recorded trust.
             </h1>
-            <p className="story-copy text-xl">
-              Short reflections from the rooms, notebooks, sorting tables, and conversations that
-              shape Bloom.
+            <p className="story-copy">
+              Our blog is a collection of field notes from our sessions—what we planned, what actually happened, and what we are carrying into the next visit.
             </p>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding">
+      <section className="section-padding bg-white pt-0">
         <Container>
-          {blogPosts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post) => (
+          <div className="max-w-5xl mx-auto space-y-16">
+            {blogs.length > 0 ? (
+              blogs.map((blog: any) => (
                 <BlogCard
-                  key={post._id}
-                  title={post.title}
-                  excerpt={post.excerpt}
-                  slug={post.slug}
-                  author={post.author}
-                  date={post.createdAt}
-                  readingTime={post.readingTime}
-                  category={post.category}
-                  coverImage={post.coverImage}
+                  key={blog._id}
+                  title={blog.title}
+                  excerpt={blog.excerpt}
+                  slug={blog.slug}
+                  coverImage={blog.coverImage}
+                  author={blog.author}
+                  date={blog.createdAt}
+                  readingTime={blog.readingTime}
+                  category={blog.category}
                 />
-              ))}
-            </div>
-          ) : (
-            <div className="rounded-lg border border-neutral-200 bg-white p-8 text-center">
-              <h2 className="font-heading text-2xl font-semibold text-neutral-900">
-                No published field notes yet
-              </h2>
-              <p className="mt-3 text-neutral-600">
-                Published CMS posts will appear here automatically.
-              </p>
-            </div>
-          )}
+              ))
+            ) : (
+              <div className="py-20 text-center border-t border-espresso/10">
+                <p className="story-copy mx-auto text-espresso/40">
+                  New field notes are being prepared by the team.
+                </p>
+              </div>
+            )}
+          </div>
         </Container>
       </section>
     </>

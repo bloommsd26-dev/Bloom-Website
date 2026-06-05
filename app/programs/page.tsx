@@ -1,8 +1,9 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/sections/SectionHeader';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { generateMetadata } from '@/utils/seo';
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 
 export const metadata: Metadata = generateMetadata(
   'Our Programs',
@@ -17,12 +18,6 @@ const programsData = [
     longDescription:
       'Homework Tables are deliberately small. A volunteer sits with a few children, opens the notebook, notices where the confusion begins, and builds from there. The goal is not a perfect worksheet. The goal is a child who feels less alone with the page.',
     activities: ['Math help', 'Reading practice', 'Exam prep', 'Study habits', 'Notebook review'],
-    goals: [
-      'Make study support feel personal',
-      'Track recurring gaps across sessions',
-      'Build confidence before marks',
-      'Create repeatable study routines',
-    ],
     impact:
       'Children return to schoolwork with clearer basics, steadier habits, and someone they can ask without fear.',
     image:
@@ -41,12 +36,6 @@ const programsData = [
       'Role-play',
       'Peer feedback',
     ],
-    goals: [
-      'Help shy children speak safely',
-      'Turn listening into leadership',
-      'Make mistakes feel survivable',
-      'Build voice through repetition',
-    ],
     impact:
       'Children who once avoided the front of the room begin volunteering for the first line.',
     image:
@@ -59,12 +48,6 @@ const programsData = [
     longDescription:
       'Blank Page Labs start with the simplest invitation: make something. A scene, a sketch, a poem, a cardboard prop. The work is playful, but the outcome is serious: children learn that their imagination deserves space.',
     activities: ['Art sessions', 'Writing prompts', 'Storytelling', 'Theatre games', 'Showcases'],
-    goals: [
-      'Give quiet talent a platform',
-      'Build expression beyond academics',
-      'Make creativity low-cost and accessible',
-      'Celebrate process, not polish',
-    ],
     impact:
       'Children leave with something they made and the feeling that their ideas can take shape.',
     image:
@@ -82,12 +65,6 @@ const programsData = [
       'Health education',
       'Mentorship',
       'Peer support',
-    ],
-    goals: [
-      'Help girls take up space',
-      'Create peer support networks',
-      'Make sensitive topics easier to ask about',
-      'Build visible young leaders',
     ],
     impact:
       'Girls begin leading discussions, asking sharper questions, and seeing themselves as decision-makers.',
@@ -107,12 +84,6 @@ const programsData = [
       'Awareness walks',
       'Distribution logs',
     ],
-    goals: [
-      'Reduce waste through useful reuse',
-      'Match donations to real needs',
-      'Train volunteers in logistics',
-      'Make giving accountable',
-    ],
     impact: 'Families receive usable materials, and volunteers learn the discipline behind care.',
     image:
       'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80',
@@ -122,15 +93,15 @@ const programsData = [
 export default function ProgramsPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
+      {/* Hero */}
+      <section className="pt-24 pb-20 bg-white">
         <Container>
-          <div className="max-w-3xl">
-            <p className="eyebrow mb-4">What we run</p>
-            <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
+          <div className="max-w-4xl">
+            <p className="eyebrow">Our Work</p>
+            <h1 className="accent-statement mb-8">
               Five formats. Many rooms. One promise.
             </h1>
-            <p className="story-copy text-xl">
+            <p className="story-copy">
               Bloom programs are designed for real rooms: noisy, uneven, full of different ages, and
               always worth returning to.
             </p>
@@ -138,95 +109,67 @@ export default function ProgramsPage() {
         </Container>
       </section>
 
-      {/* Programs Grid */}
-      <section className="section-padding">
+      {/* Programs List */}
+      <section className="section-padding bg-horchata/10">
         <Container>
-          <SectionHeader
-            title="Programs with a working rhythm"
-            description="Every format has a purpose, a prep list, and a follow-up note. That is how a student-led initiative becomes dependable."
-            align="center"
-          />
-          <div className="space-y-12">
-            {programsData.map((program, index) => (
-              <div
-                key={index}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pb-12 border-b border-neutral-200 last:border-b-0`}
-              >
-                {index % 2 === 0 ? (
-                  <>
-                    <div>
-                      <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">
-                        {program.title}
-                      </h2>
-                      <p className="story-copy mb-6">{program.longDescription}</p>
+          <div className="space-y-40">
+            {programsData.map((program, idx) => (
+              <div key={idx} className="editorial-grid">
+                <div className={`lg:col-span-6 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <div className="relative aspect-square lg:aspect-[3/4] overflow-hidden group">
+                    <Image
+                      src={program.image}
+                      alt={program.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+                <div className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'}`}>
+                  <p className="eyebrow">Program 0{idx + 1}</p>
+                  <h2 className="accent-statement text-4xl mb-6">{program.title}</h2>
+                  <p className="story-copy mb-8">{program.longDescription}</p>
+                  
+                  <div className="mb-10 space-y-4">
+                    <h3 className="font-heading text-sm font-bold uppercase tracking-widest text-espresso/40">Activities</h3>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                      {program.activities.map((act, i) => (
+                        <li key={i} className="flex items-baseline gap-3 text-espresso/80">
+                          <span className="w-1.5 h-1.5 bg-cinnamon rounded-full" />
+                          {act}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                      <div className="mb-6">
-                        <h3 className="font-semibold text-neutral-900 mb-3">Key Activities</h3>
-                        <ul className="space-y-2">
-                          {program.activities.map((activity, i) => (
-                            <li key={i} className="flex items-center gap-3 text-neutral-600">
-                              <span className="w-2 h-2 bg-primary-600 rounded-full"></span>
-                              {activity}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="bg-primary-50 rounded-lg p-4 border border-primary-200">
-                        <p className="font-accent text-sm font-bold text-primary-900 leading-relaxed">
-                          <span className="font-bold">Impact:</span> {program.impact}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="relative h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-                      <Image
-                        src={program.image}
-                        alt={program.title}
-                        fill
-                        sizes="(min-width: 1024px) 50vw, 100vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="relative h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-                      <Image
-                        src={program.image}
-                        alt={program.title}
-                        fill
-                        sizes="(min-width: 1024px) 50vw, 100vw"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h2 className="font-heading text-3xl font-bold text-neutral-900 mb-4">
-                        {program.title}
-                      </h2>
-                      <p className="story-copy mb-6">{program.longDescription}</p>
-
-                      <div className="mb-6">
-                        <h3 className="font-semibold text-neutral-900 mb-3">Key Activities</h3>
-                        <ul className="space-y-2">
-                          {program.activities.map((activity, i) => (
-                            <li key={i} className="flex items-center gap-3 text-neutral-600">
-                              <span className="w-2 h-2 bg-primary-600 rounded-full"></span>
-                              {activity}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="bg-primary-50 rounded-lg p-4 border border-primary-200">
-                        <p className="font-accent text-sm font-bold text-primary-900 leading-relaxed">
-                          <span className="font-bold">Impact:</span> {program.impact}
-                        </p>
-                      </div>
-                    </div>
-                  </>
-                )}
+                  <div className="field-note">
+                    <p className="text-espresso/90 italic">
+                      <strong>Impact:</strong> {program.impact}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Join the work */}
+      <section className="section-padding bg-white">
+        <Container>
+          <div className="max-w-4xl mx-auto bg-espresso text-horchata p-10 sm:p-20 text-center relative">
+            <h2 className="accent-statement text-horchata mb-8">Join the work behind the photo.</h2>
+            <p className="story-copy text-horchata/80 mx-auto mb-10">
+              We are looking for volunteers who value preparation as much as participation.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" className="rounded-none bg-cinnamon text-white hover:bg-cinnamon/90 px-12 border-none">
+                <Link href="/volunteer">Volunteer Now</Link>
+              </Button>
+              <Button variant="outline" size="lg" className="rounded-none border-horchata text-horchata hover:bg-horchata hover:text-espresso">
+                <Link href="/contact">Inquire</Link>
+              </Button>
+            </div>
           </div>
         </Container>
       </section>

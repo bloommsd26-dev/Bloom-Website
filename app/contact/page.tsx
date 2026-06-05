@@ -1,253 +1,192 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/sections/SectionHeader';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
-    'idle'
-  );
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus('loading');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitStatus('loading');
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+    };
 
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setSubmitStatus('idle'), 3000);
+        setStatus('success');
+        setMessage(result.message);
+        (event.target as HTMLFormElement).reset();
       } else {
-        setSubmitStatus('error');
+        throw new Error(result.error || 'Failed to send message');
       }
-    } catch {
-      setSubmitStatus('error');
+    } catch (error) {
+      setStatus('error');
+      setMessage(error instanceof Error ? error.message : 'Something went wrong');
     }
-  };
+  }
+
+  const faqs = [
+    {
+      q: 'How can I join as a volunteer?',
+      a: 'We have a formal application process. Start by filling out the volunteer form on our website. We prioritize students who can commit to weekly sessions.'
+    },
+    {
+      q: 'Where do the sessions take place?',
+      a: 'We work in various community centers and local schools across Delhi. Specific locations are shared with volunteers after training.'
+    },
+    {
+      q: 'Can I donate items instead of money?',
+      a: 'Yes. We run regular Care Drives for notebooks, storybooks, and creative supplies. Check our "Donate" page for currently needed items.'
+    },
+    {
+      q: 'Is Bloom a registered NGO?',
+      a: 'Bloom is a student-led initiative from Maxfort School. We operate with full transparency and are held accountable to our community standards.'
+    }
+  ];
 
   return (
     <>
-      <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
+      <section className="pt-24 pb-20 bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="eyebrow mb-4">Contact</p>
-              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
-                Start with a real note.
-              </h1>
-              <p className="story-copy text-xl">
-                Write to us about a session, donation, partnership, report, or idea. The more
-                specific you are, the faster we can route it to the right student team.
-              </p>
-            </div>
-            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80"
-                alt="Students writing and planning together"
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
+          <div className="max-w-4xl">
+            <p className="eyebrow">Get in Touch</p>
+            <h1 className="accent-statement mb-8 text-5xl sm:text-7xl">
+              Let's talk about <br />
+              <span className="italic font-accent font-normal text-cinnamon">the work.</span>
+            </h1>
+            <p className="story-copy">
+              Whether you want to partner with us, ask about our records, or join a session—we are here to respond.
+            </p>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding">
+      <section className="section-padding bg-horchata/10 border-y border-espresso/5">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="space-y-8">
-              <div>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">Email</h3>
-                <a
-                  href="mailto:hello@bloom.org"
-                  className="text-primary-600 hover:text-primary-700"
-                >
-                  hello@bloom.org
-                </a>
-              </div>
-
-              <div>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
-                  Location
-                </h3>
-                <p className="text-neutral-600">
-                  Maxfort School
-                  <br />
-                  New Delhi, India
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
-                  Follow Us
-                </h3>
-                <div className="flex gap-4">
-                  <a
-                    href="https://instagram.com/bloominitiative"
-                    className="text-neutral-600 hover:text-primary-600"
-                  >
-                    Instagram
-                  </a>
-                  <a
-                    href="https://linkedin.com"
-                    className="text-neutral-600 hover:text-primary-600"
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href="mailto:hello@bloom.org"
-                    className="text-neutral-600 hover:text-primary-600"
-                  >
-                    Email
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-2">
-              <form
-                onSubmit={handleSubmit}
-                className="bg-neutral-50 rounded-lg p-8 border border-neutral-200"
-              >
-                <div className="space-y-6">
-                  <Input
-                    label="Your Name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    placeholder="Full name"
-                  />
-
-                  <Input
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    placeholder="your@email.com"
-                  />
-
-                  <Input
-                    label="Subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    placeholder="Session, donation, partnership, report..."
-                  />
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-neutral-700 mb-2"
-                    >
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
+          <div className="editorial-grid items-start">
+            <div className="lg:col-span-5">
+              <div className="bg-white p-8 sm:p-12 border border-espresso/10">
+                <h2 className="font-heading text-3xl font-bold mb-10">Send a Message</h2>
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Your Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
                       required
-                      placeholder="Tell us what you need, where you are writing from, and what timeline matters..."
-                      className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      rows={5}
+                      className="w-full border-b border-espresso/10 py-3 focus:border-cinnamon outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      required
+                      className="w-full border-b border-espresso/10 py-3 focus:border-cinnamon outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="subject" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Subject</label>
+                    <input
+                      type="text"
+                      name="subject"
+                      id="subject"
+                      required
+                      className="w-full border-b border-espresso/10 py-3 focus:border-cinnamon outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-espresso/40">How can we help?</label>
+                    <textarea
+                      name="message"
+                      id="message"
+                      rows={4}
+                      required
+                      className="w-full border border-espresso/10 p-4 focus:border-cinnamon outline-none transition-colors resize-none"
                     />
                   </div>
 
-                  {submitStatus === 'success' && (
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                      <p className="text-green-800 font-medium">
-                        Thank you for your message. We will route it to the right Bloom team.
-                      </p>
-                    </div>
-                  )}
-
-                  {submitStatus === 'error' && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                      <p className="text-red-800 font-medium">
-                        Something went wrong. Please try again.
-                      </p>
-                    </div>
-                  )}
-
                   <Button
                     type="submit"
-                    size="lg"
-                    isLoading={submitStatus === 'loading'}
-                    className="w-full"
+                    disabled={status === 'loading'}
+                    className="w-full py-5 text-lg"
                   >
-                    Send Message
+                    {status === 'loading' ? 'Sending...' : 'Send Message'}
                   </Button>
+
+                  {message && (
+                    <p className={`text-center text-sm font-bold ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                      {message}
+                    </p>
+                  )}
+                </form>
+              </div>
+            </div>
+
+            <div className="lg:col-span-6 lg:col-start-7">
+              <div className="space-y-16">
+                <div>
+                  <p className="eyebrow">Common Questions</p>
+                  <div className="divide-y divide-espresso/10 border-t border-espresso/10 mt-6">
+                    {faqs.map((faq, idx) => (
+                      <div key={idx} className="py-8 group">
+                        <h3 className="font-heading text-xl font-bold mb-3 group-hover:text-cinnamon transition-colors tabular-nums">
+                          0{idx + 1}. {faq.q}
+                        </h3>
+                        <p className="text-espresso/70 leading-relaxed text-lg">{faq.a}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </form>
+
+                <div className="bg-espresso text-horchata p-10 transform lg:rotate-1">
+                  <h3 className="font-heading text-2xl font-bold mb-6">Bloom Tech Team</h3>
+                  <p className="opacity-80 mb-8">
+                    For technical inquiries or website feedback, you can reach out to our digital leads at:
+                  </p>
+                  <Link href="mailto:tech@bloom.org" className="text-cinnamon font-bold text-xl hover:underline">
+                    tech@bloom.org
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding bg-neutral-50">
+      {/* Socials / Footer Intro */}
+      <section className="section-padding bg-white">
         <Container>
-          <SectionHeader
-            title="Before you write"
-            description="A little context helps us respond with something useful."
-            align="center"
-          />
-          <div className="max-w-3xl mx-auto space-y-6">
-            {[
-              {
-                q: 'How do I volunteer with Bloom?',
-                a: 'Use the Volunteer page and tell us what work you can do consistently. We match people with session prep, teaching support, creative labs, or donation logistics.',
-              },
-              {
-                q: 'What should I donate?',
-                a: 'Clean, usable items only: books, stationery, uniforms, bags, working devices, and essentials. If it needs repair before use, please repair it first.',
-              },
-              {
-                q: 'Can an organization partner with Bloom?',
-                a: 'Yes. Write with the location, age group, available dates, and the kind of support needed so our student team can assess fit.',
-              },
-              {
-                q: 'Can I request impact records?',
-                a: 'Yes. We can share session summaries, volunteer-hour records, donation logs, and program notes with partners and supporters.',
-              },
-            ].map((faq) => (
-              <div key={faq.q} className="bg-white p-6 rounded-lg border border-neutral-200">
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
-                  {faq.q}
-                </h3>
-                <p className="text-neutral-600">{faq.a}</p>
-              </div>
-            ))}
+          <div className="text-center">
+            <p className="eyebrow">Find us online</p>
+            <div className="flex justify-center gap-12 mt-8">
+              {['Instagram', 'LinkedIn', 'Twitter'].map(social => (
+                <Link key={social} href="#" className="font-heading text-2xl font-black uppercase tracking-tighter hover:text-cinnamon transition-colors">
+                  {social}
+                </Link>
+              ))}
+            </div>
           </div>
         </Container>
       </section>

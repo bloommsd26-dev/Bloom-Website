@@ -1,355 +1,192 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/sections/SectionHeader';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-
-const volunteerBenefits = [
-  {
-    title: 'Prepare before you serve',
-    description:
-      'Help build prompts, worksheets, activity kits, and backup plans before a session begins.',
-  },
-  {
-    title: 'Lead at child-height',
-    description: 'Learn how to explain without showing off and guide without taking over.',
-  },
-  {
-    title: 'Listen for what is unsaid',
-    description:
-      'Notice hesitation, confusion, and small breakthroughs that do not announce themselves.',
-  },
-  {
-    title: 'Work like a crew',
-    description:
-      "Share roles, carry materials, document outcomes, and make the next volunteer's job easier.",
-  },
-  {
-    title: 'Build useful confidence',
-    description: 'Grow through responsibility: planning, showing up, adapting, and returning.',
-  },
-  {
-    title: 'Stay accountable',
-    description: 'Volunteer hours become notes, records, and improvements, not just certificates.',
-  },
-];
-
-const interests = [
-  { label: 'Education Support', value: 'education' },
-  { label: 'Personality Development', value: 'mentorship' },
-  { label: 'Creative Expression', value: 'creative' },
-  { label: 'Women Empowerment', value: 'women_empowerment' },
-  { label: 'Community Care', value: 'community' },
-];
 
 export default function VolunteerPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    interests: [] as string[],
-    skills: '',
-    availability: 'flexible',
-    message: '',
-  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
-    'idle'
-  );
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus('loading');
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleInterestChange = (interest: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      interests: prev.interests.includes(interest)
-        ? prev.interests.filter((i) => i !== interest)
-        : [...prev.interests, interest],
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitStatus('loading');
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      interests: formData.getAll('interests'),
+      availability: formData.get('availability'),
+      message: formData.get('message'),
+    };
 
     try {
       const response = await fetch('/api/volunteers', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          interests: [],
-          skills: '',
-          availability: 'flexible',
-          message: '',
-        });
-        setTimeout(() => setSubmitStatus('idle'), 3000);
+        setStatus('success');
+        setMessage(result.message);
+        (event.target as HTMLFormElement).reset();
       } else {
-        setSubmitStatus('error');
+        throw new Error(result.error || 'Failed to submit application');
       }
     } catch (error) {
-      setSubmitStatus('error');
+      setStatus('error');
+      setMessage(error instanceof Error ? error.message : 'Something went wrong');
     }
-  };
+  }
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
+      {/* Hero */}
+      <section className="pt-24 pb-20 bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="eyebrow mb-4">Volunteer</p>
-              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
-                Come ready to do the small work well.
+          <div className="editorial-grid">
+            <div className="lg:col-span-7">
+              <p className="eyebrow">Join the Movement</p>
+              <h1 className="accent-statement mb-8">
+                We show up, <br />
+                <span className="italic font-accent font-normal text-cinnamon text-5xl sm:text-7xl">week after week.</span>
               </h1>
-              <p className="story-copy text-xl">
-                Bloom volunteers teach, sort, listen, carry, write, explain, and return. If that
-                sounds ordinary, good. Ordinary work done consistently is where trust begins.
+              <p className="story-copy">
+                Bloom is built on preparation. We are looking for students who want to turn their time into dependable community work.
               </p>
             </div>
-            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80"
-                alt="Students planning together"
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="section-padding bg-neutral-50">
-        <Container>
-          <SectionHeader title="What volunteers actually practice" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {volunteerBenefits.map((benefit, index) => (
-              <div key={index} className="p-6 bg-white rounded-lg border border-neutral-200">
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-neutral-600">{benefit.description}</p>
+            <div className="lg:col-span-5 relative hidden lg:block">
+              <div className="field-note transform lg:-rotate-2">
+                <p className="text-sm font-semibold mb-4 uppercase tracking-widest text-cinnamon">Our Requirement</p>
+                <p className="text-lg">
+                  "Volunteer for the work behind the photo: planning, teaching, sorting, recording, and returning."
+                </p>
               </div>
-            ))}
+            </div>
           </div>
         </Container>
       </section>
 
       {/* Form Section */}
-      <section className="section-padding">
-        <Container size="md">
-          <SectionHeader
-            title="Tell us where you can show up"
-            description="We use this form to match you with prep work, sessions, donation logistics, or creative labs."
-            align="center"
-          />
-
-          <form
-            onSubmit={handleSubmit}
-            className="bg-neutral-50 rounded-lg p-8 border border-neutral-200"
-          >
-            <div className="space-y-6">
-              {/* Name */}
-              <Input
-                label="Full Name"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                placeholder="Your full name"
-              />
-
-              {/* Email */}
-              <Input
-                label="Email Address"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="your@email.com"
-              />
-
-              {/* Phone */}
-              <Input
-                label="Phone Number"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                placeholder="+91 98765 43210"
-              />
-
-              {/* Interests */}
-              <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-3">
-                  Areas of Interest (Select all that apply)
-                </label>
-                <div className="space-y-2">
-                  {interests.map((interest) => (
-                    <label key={interest.value} className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={formData.interests.includes(interest.value)}
-                        onChange={() => handleInterestChange(interest.value)}
-                        className="w-4 h-4 text-primary-600 rounded"
-                      />
-                      <span className="text-neutral-700">{interest.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Skills */}
-              <div>
-                <label htmlFor="skills" className="block text-sm font-medium text-neutral-700 mb-2">
-                  Your Skills (optional)
-                </label>
-                <textarea
-                  id="skills"
-                  name="skills"
-                  value={formData.skills}
-                  onChange={handleChange}
-                  placeholder="e.g., explaining math, poster design, sorting supplies, public speaking"
-                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  rows={3}
-                />
-              </div>
-
-              {/* Availability */}
-              <div>
-                <label
-                  htmlFor="availability"
-                  className="block text-sm font-medium text-neutral-700 mb-2"
-                >
-                  Availability
-                </label>
-                <select
-                  id="availability"
-                  name="availability"
-                  value={formData.availability}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  <option value="weekdays">Weekdays</option>
-                  <option value="weekends">Weekends</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </div>
-
-              {/* Message */}
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-neutral-700 mb-2"
-                >
-                  Tell us how you want to help (optional)
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell us what kind of work you can do consistently..."
-                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  rows={4}
-                />
-              </div>
-
-              {/* Submit Status */}
-              {submitStatus === 'success' && (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <p className="text-green-800 font-medium">
-                    Thank you for your interest! We'll be in touch soon.
+      <section className="section-padding bg-horchata/10 border-y border-espresso/5">
+        <Container>
+          <div className="editorial-grid items-start">
+            <div className="lg:col-span-4">
+              <div className="sticky top-32 space-y-12">
+                <div>
+                  <h3 className="font-heading text-2xl font-bold mb-4">The Commitment</h3>
+                  <p className="text-espresso/70 leading-relaxed">
+                    Most sessions require 2 hours of preparation and 2 hours of community work. We value consistency over intensity.
                   </p>
                 </div>
-              )}
-
-              {submitStatus === 'error' && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <p className="text-red-800 font-medium">
-                    Something went wrong. Please try again.
+                <div>
+                  <h3 className="font-heading text-2xl font-bold mb-4">The Training</h3>
+                  <p className="text-espresso/70 leading-relaxed">
+                    New volunteers are paired with experienced leads to learn our documentation standards and teaching methods.
                   </p>
                 </div>
-              )}
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                size="lg"
-                isLoading={submitStatus === 'loading'}
-                className="w-full"
-              >
-                Submit Application
-              </Button>
+              </div>
             </div>
-          </form>
+
+            <div className="lg:col-span-7 lg:col-start-6">
+              <div className="bg-white p-8 sm:p-12 border border-espresso/10">
+                <h2 className="font-heading text-3xl font-bold mb-10">Application</h2>
+                
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Full Name</label>
+                      <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        required
+                        className="w-full border-b border-espresso/10 py-3 focus:border-cinnamon outline-none transition-colors"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        required
+                        className="w-full border-b border-espresso/10 py-3 focus:border-cinnamon outline-none transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="phone" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Phone Number</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      id="phone"
+                      required
+                      className="w-full border-b border-espresso/10 py-3 focus:border-cinnamon outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className="text-xs font-bold uppercase tracking-widest text-espresso/40">Focus Areas</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {['Education', 'Personality', 'Creative', 'Women Empowerment', 'Community'].map((area) => (
+                        <label key={area} className="flex items-center gap-3 cursor-pointer group">
+                          <input type="checkbox" name="interests" value={area.toLowerCase()} className="w-4 h-4 accent-cinnamon" />
+                          <span className="text-espresso/70 group-hover:text-espresso transition-colors">{area}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Why Bloom?</label>
+                    <textarea
+                      name="message"
+                      id="message"
+                      rows={4}
+                      placeholder="Tell us why you want to join a student-led initiative."
+                      className="w-full border border-espresso/10 p-4 focus:border-cinnamon outline-none transition-colors resize-none"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="w-full py-5 text-lg"
+                  >
+                    {status === 'loading' ? 'Submitting...' : 'Submit Application'}
+                  </Button>
+
+                  {message && (
+                    <p className={`text-center text-sm font-bold ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                      {message}
+                    </p>
+                  )}
+                </form>
+              </div>
+            </div>
+          </div>
         </Container>
       </section>
 
-      {/* Expectations Section */}
-      <section className="section-padding bg-neutral-50">
+      {/* Secondary CTA */}
+      <section className="section-padding bg-white">
         <Container>
-          <SectionHeader title="What we ask from volunteers" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">
-                Commitment
-              </h3>
-              <p className="text-neutral-600">
-                We ask for regular participation and reliability. Your consistency makes a real
-                difference in children's lives.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">Respect</h3>
-              <p className="text-neutral-600">
-                Treat children, families, and fellow volunteers with dignity and cultural
-                sensitivity.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">
-                Responsibility
-              </h3>
-              <p className="text-neutral-600">
-                Take your role seriously and be accountable for your commitments and actions.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-3">
-                Growth Mindset
-              </h3>
-              <p className="text-neutral-600">
-                Be open to learning, feedback, and continuously improving your skills.
-              </p>
-            </div>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="accent-statement mb-6">Not ready to volunteer?</h2>
+            <p className="story-copy mx-auto mb-10 text-espresso/60">
+              You can still support our sessions by contributing to our resource drives or making a donation.
+            </p>
+            <Button variant="outline" size="lg" className="rounded-none border-espresso text-espresso">
+              <Link href="/donate">View Donation Drives</Link>
+            </Button>
           </div>
         </Container>
       </section>

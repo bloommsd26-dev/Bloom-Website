@@ -9,29 +9,30 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/programs', label: 'Programs' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/impact', label: 'Impact' },
+    { href: '/about', label: 'Our Story' },
+    { href: '/programs', label: 'Work' },
+    { href: '/blog', label: 'Field Notes' },
+    { href: '/impact', label: 'Ledger' },
     { href: '/contact', label: 'Contact' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white">
+    <header className="sticky top-0 z-50 w-full border-b border-espresso/5 bg-white/95 backdrop-blur-sm">
       <Container>
-        <nav className="flex items-center justify-between py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="font-heading text-2xl font-bold text-primary-600">Bloom</div>
+        <nav className="flex items-center justify-between py-6">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="font-heading text-2xl font-black uppercase tracking-tighter text-espresso group-hover:text-cinnamon transition-colors">
+              Bloom
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-body text-neutral-700 hover:text-primary-600 transition-colors font-medium text-sm"
+                className="font-heading text-xs font-bold uppercase tracking-[0.15em] text-espresso/60 hover:text-cinnamon transition-colors"
               >
                 {link.label}
               </Link>
@@ -39,64 +40,59 @@ export function Header() {
           </div>
 
           {/* CTA Buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm">
-              <Link href="/admin">Admin</Link>
-            </Button>
-            <Button variant="outline" size="sm">
+          <div className="hidden md:flex items-center gap-6">
+            <Link 
+              href="/admin" 
+              className="text-[10px] font-bold uppercase tracking-widest text-espresso/40 hover:text-cinnamon transition-colors"
+            >
+              Admin
+            </Link>
+            <Button variant="outline" size="sm" className="border-espresso text-espresso hover:bg-espresso hover:text-white">
               <Link href="/volunteer">Volunteer</Link>
-            </Button>
-            <Button size="sm">
-              <Link href="/donate">Donate</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-espresso"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              suppressHydrationWarning
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            <div className="w-6 flex flex-col gap-1.5">
+              <span className={`h-0.5 w-full bg-current transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`h-0.5 w-full bg-current transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`h-0.5 w-full bg-current transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            </div>
           </button>
         </nav>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4 space-y-3 border-t border-neutral-200 pt-4">
+          <div className="md:hidden pb-10 space-y-6 pt-6 border-t border-espresso/5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-body block text-neutral-700 hover:text-primary-600 font-medium py-2"
+                className="font-heading block text-2xl font-bold text-espresso"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="flex flex-wrap gap-2 pt-4">
-              <Button variant="ghost" size="sm" className="flex-1 min-w-[80px]">
-                <Link href="/admin">Admin</Link>
+            <div className="flex flex-col gap-4 pt-6">
+              <Button variant="primary" size="lg" className="w-full">
+                <Link href="/volunteer">Volunteer Now</Link>
               </Button>
-              <Button variant="outline" size="sm" className="flex-1 min-w-[80px]">
-                <Link href="/volunteer">Volunteer</Link>
+              <Button variant="outline" size="lg" className="w-full border-espresso text-espresso">
+                <Link href="/donate">Support Us</Link>
               </Button>
-              <Button size="sm" className="flex-1 min-w-[80px]">
-                <Link href="/donate">Donate</Link>
-              </Button>
+              <Link 
+                href="/admin" 
+                className="text-center text-xs font-bold uppercase tracking-widest text-espresso/40 pt-4"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Admin Access
+              </Link>
             </div>
           </div>
         )}

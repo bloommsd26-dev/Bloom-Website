@@ -1,171 +1,118 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/sections/SectionHeader';
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { generateMetadata } from '@/utils/seo';
-import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import Image from 'next/image';
 
 export const metadata: Metadata = generateMetadata(
-  'Donate to Bloom',
-  'Support Bloom donation camps with clean, usable school materials, books, clothing, and essentials that can be sorted and shared responsibly.'
+  'Support the Work | Bloom',
+  'Contribute to Bloom’s recurring sessions through resource donations or financial support. Every contribution is logged and matched to community needs.'
 );
 
-const donationItems = [
-  {
-    category: 'School Desk',
-    items: ['Unused notebooks', 'Storybooks', 'Stationery', 'Art supplies', 'School bags'],
-  },
-  {
-    category: 'Daily Essentials',
-    items: ['Clean uniforms', 'Shoes', 'Socks', 'Hygiene kits', 'Water bottles'],
-  },
-  {
-    category: 'Home Support',
-    items: ['Clothes', 'Blankets', 'Bedding', 'Kitchen utensils', 'Storage boxes'],
-  },
-  {
-    category: 'Digital Bridge',
-    items: ['Working laptops', 'Tablets', 'Keyboards', 'Chargers', 'Headphones'],
-  },
-];
-
-const campSteps = [
-  ['Check', 'You bring items that are clean, working, and genuinely usable.'],
-  ['Sort', 'Bloom volunteers separate, count, label, and record every useful donation.'],
-  ['Match', 'Items are grouped by actual need instead of handed out randomly.'],
-  ['Report', 'We note where material went so donors and volunteers can stay accountable.'],
+const needs = [
+  { item: 'Notebooks & Stationery', purpose: 'For Homework Tables and Creative Labs.' },
+  { item: 'Storybooks (Ages 5-15)', purpose: 'To build community reading circles.' },
+  { item: 'Art Supplies', purpose: 'Paints, brushes, and paper for Blank Page Labs.' },
+  { item: 'Educational Kits', purpose: 'Science and math tools for practical learning.' },
 ];
 
 export default function DonatePage() {
   return (
     <>
-      <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
+      {/* Hero */}
+      <section className="pt-24 pb-20 bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="eyebrow mb-4">Donate</p>
-              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
-                Give things a second classroom.
-              </h1>
-              <p className="story-copy text-xl">
-                Bloom donation camps turn clean, usable material into school support, care kits, and
-                practical relief. The work is sorting before sharing.
-              </p>
-            </div>
-            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80"
-                alt="Volunteers sorting donations"
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="section-padding">
-        <Container>
-          <SectionHeader
-            title="How a Bloom camp works"
-            description="A donation is useful only when it reaches someone in usable condition, with enough care to match the need."
-            align="center"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {campSteps.map(([title, description], index) => (
-              <div key={title} className="text-center">
-                <div className="font-heading w-16 h-16 bg-primary-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  {index + 1}
-                </div>
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-2">
-                  {title}
-                </h3>
-                <p className="text-neutral-600 text-sm">{description}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="section-padding bg-neutral-50">
-        <Container>
-          <SectionHeader title="What we can actually use" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {donationItems.map((group) => (
-              <div
-                key={group.category}
-                className="bg-white p-6 rounded-lg border border-neutral-200"
-              >
-                <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-4">
-                  {group.category}
-                </h3>
-                <ul className="space-y-2">
-                  {group.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-neutral-600">
-                      <span className="w-2 h-2 bg-primary-600 rounded-full"></span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 bg-primary-50 border border-primary-200 rounded-lg p-6 text-center">
-            <p className="text-neutral-700 font-medium">
-              Please skip broken electronics, stained clothing, damaged books, expired products, and
-              anything you would not give with dignity.
+          <div className="max-w-4xl">
+            <p className="eyebrow">Support Us</p>
+            <h1 className="accent-statement mb-8 text-5xl sm:text-7xl">
+              Fuel the <br />
+              <span className="italic font-accent font-normal text-cinnamon">weekly promise.</span>
+            </h1>
+            <p className="story-copy">
+              Your contributions directly support the preparation and execution of our sessions. We prioritize practical resources that children can use immediately.
             </p>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding">
+      {/* Resource Needs: Editorial Grid */}
+      <section className="section-padding bg-horchata/10 border-y border-espresso/5">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-80 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80"
-                alt="Students organizing materials"
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
+          <div className="editorial-grid">
+            <div className="lg:col-span-6">
+              <h2 className="accent-statement mb-10 text-3xl">Current resource needs.</h2>
+              <div className="space-y-6">
+                {needs.map((need, idx) => (
+                  <div key={idx} className="flex gap-6 items-start p-6 bg-white border border-espresso/5">
+                    <span className="font-heading text-cinnamon font-bold">0{idx + 1}</span>
+                    <div>
+                      <h3 className="font-heading font-bold text-lg mb-1">{need.item}</h3>
+                      <p className="text-espresso/60 text-sm">{need.purpose}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div>
-              <p className="eyebrow mb-4">Why it matters</p>
-              <h2 className="font-heading text-4xl font-bold text-neutral-900 mb-6">
-                The sorting table is part of the service.
-              </h2>
-              <p className="font-accent text-lg text-neutral-700 mb-6 leading-relaxed">
-                Donation work can become messy fast. Bloom treats logistics as care: volunteers
-                check condition, group items, record counts, and learn that respect lives in the
-                details.
-              </p>
-              <Button>
-                <Link href="/contact">Plan a Donation</Link>
+            <div className="lg:col-span-5 lg:col-start-8 relative">
+              <div className="relative aspect-square overflow-hidden transform lg:rotate-2">
+                <Image
+                  src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80"
+                  alt="Creative supplies"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="field-note mt-10">
+                <p className="text-sm italic">"We collect what can actually be used, sort it carefully, and record it in our distribution logs."</p>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Financial Support */}
+      <section className="section-padding bg-white">
+        <Container>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="accent-statement mb-12">Financial Contributions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+              {[
+                { amount: '₹500', use: 'Support one child for a month of circles.' },
+                { amount: '₹2000', use: 'Provide a complete kit for a Creative Lab.' },
+                { amount: '₹5000', use: 'Fund an entire week of community sessions.' },
+              ].map((tier, idx) => (
+                <div key={idx} className="p-10 border border-espresso/10 hover:border-cinnamon transition-colors group">
+                  <p className="text-4xl font-black text-espresso mb-4 tabular-nums group-hover:text-cinnamon">{tier.amount}</p>
+                  <p className="text-espresso/60 text-sm">{tier.use}</p>
+                </div>
+              ))}
+            </div>
+            
+            <div className="bg-espresso text-horchata p-10 sm:p-16">
+              <h3 className="font-heading text-2xl font-bold mb-6">Bank Transfer Details</h3>
+              <div className="space-y-2 font-mono text-sm opacity-80 mb-10">
+                <p>Account Name: Bloom Social Initiative</p>
+                <p>Account Number: 0000 0000 0000</p>
+                <p>IFSC Code: BLOOM000123</p>
+                <p>Bank: HDFC Bank, Delhi</p>
+              </div>
+              <Button size="lg" className="rounded-none bg-cinnamon text-white hover:bg-cinnamon/90 border-none">
+                <Link href="/contact">Confirm Contribution</Link>
               </Button>
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
+      {/* Transparency Note */}
+      <section className="section-padding bg-horchata border-t border-espresso/5">
         <Container>
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-heading text-4xl font-bold mb-4">Bring less. Bring better.</h2>
-            <p className="text-lg mb-8 opacity-90">
-              The best donation is clean, usable, and easy to place in a child's day.
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="font-heading text-xs font-bold uppercase tracking-widest text-espresso/40 mb-6">Transparency</p>
+            <p className="story-copy text-espresso/80 italic">
+              "Bloom is a student-led organization. Every rupee received is logged and accounted for in our monthly ledger. Donors receive a summary of how their contribution was utilized."
             </p>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-primary-600"
-            >
-              <Link href="/contact">Get in Touch</Link>
-            </Button>
           </div>
         </Container>
       </section>

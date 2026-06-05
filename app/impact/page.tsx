@@ -1,125 +1,69 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/sections/SectionHeader';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
-import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
-import Image from 'next/image';
+import { Button } from '@/components/ui/Button';
+import { ImpactCounter } from '@/components/cards/ImpactCounter';
 
 export const metadata: Metadata = generateMetadata(
-  'Impact',
-  'See how Bloom records active members, session notes, and field learning from its student-led work.'
+  'The Ledger | Bloom Impact',
+  'A transparent record of Bloom’s work: sessions logged, children supported, and the student-led hours behind the initiative.'
 );
 
-const proofPoints = [
-  ['100+', 'Active Members', 'Students and supporters who prepare, visit, record, and return.'],
-  ['Weekly', 'Student-Led Work', 'Recurring study, voice, creative, and care-drive preparation.'],
-  ['Logged', 'Session Notes', 'Useful records are treated as planning tools, not trophies.'],
+const impactMetrics = [
+  { number: 100, label: 'Active Volunteers', suffix: '+', detail: 'Maxfort School students committed to weekly visits.' },
+  { number: 1200, label: 'Session Minutes', suffix: '', detail: 'Average preparation and teaching time per week.' },
+  { number: 15, label: 'Community Circles', suffix: '', detail: 'Recurring safe spaces for learning and confidence.' },
+  { number: 400, label: 'Resources Distributed', suffix: '+', detail: 'Notebooks, kits, and curated materials provided.' },
 ];
 
 const stories = [
   {
-    title: 'The notebook that finally opened',
-    image:
-      'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
-    text: 'A child who avoided math began bringing the same notebook back each week because one volunteer slowed the problem down enough.',
+    title: 'The silence that broke',
+    text: 'A child in circle #04 didn’t speak for three weeks. In week four, he asked for the stage in the Voice Room. He didn’t give a speech; he just said his name clearly. That was the win of the month.',
+    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
+    meta: 'Field Note #12 | Personality Development'
   },
   {
-    title: 'The first debate line',
-    image:
-      'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
-    text: 'In a Voice Room, one sentence became a full argument. The win was not the speech. It was choosing to stand up.',
-  },
-  {
-    title: 'A drawing with a name on it',
-    image:
-      'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
-    text: 'Creative sessions help children put their names on work they are proud to show, not just submit.',
-  },
-  {
-    title: 'Sorted before shared',
-    image:
-      'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80',
-    text: 'Care drives now include sorting logs, condition checks, and distribution notes so usefulness comes before volume.',
-  },
+    title: 'A dependable Saturday',
+    text: 'At the Homework Tables, impact isn’t measured in grades alone. It’s measured in the fact that when we arrive at 10 AM, the children are already there, notebooks open, waiting for the person who promised to return.',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
+    meta: 'Field Note #08 | Educational Support'
+  }
 ];
 
 export default function ImpactPage() {
   return (
     <>
-      <section className="pt-16 pb-20 bg-gradient-to-b from-primary-50 to-white">
+      {/* Hero */}
+      <section className="pt-24 pb-20 bg-white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="eyebrow mb-4">Impact</p>
-              <h1 className="font-heading text-5xl sm:text-7xl font-bold text-neutral-900 mb-6 leading-tight">
-                We count so we can return better.
-              </h1>
-              <p className="story-copy text-xl">
-                Bloom tracks the practical things: who came, what happened, what was missing, and
-                what should change next time.
-              </p>
-            </div>
-            <div className="relative h-96 rounded-lg overflow-hidden border border-neutral-200 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=1200&q=80"
-                alt="People working together around a table"
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
+          <div className="max-w-4xl">
+            <p className="eyebrow">The Ledger</p>
+            <h1 className="accent-statement mb-8 text-5xl sm:text-7xl">
+              Numbers and notes.
+            </h1>
+            <p className="story-copy">
+              We only publish figures we can stand behind. Our impact is not found in one-time events, but in the slow, steady build of recurring sessions.
+            </p>
           </div>
         </Container>
       </section>
 
-      <section className="section-padding bg-neutral-50">
+      {/* Metrics: Records Style */}
+      <section className="section-padding bg-horchata/10 border-y border-espresso/5">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {proofPoints.map(([number, label, description]) => (
-              <div
-                key={label}
-                className="bg-white p-8 rounded-lg border border-neutral-200 text-center"
-              >
-                <div className="font-heading text-5xl font-bold text-primary-600 mb-2">
-                  {number}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-espresso/10 border border-espresso/10">
+            {impactMetrics.map((metric, idx) => (
+              <div key={idx} className="bg-white p-12 flex flex-col justify-between hover:bg-horchata/5 transition-colors">
+                <div className="mb-10">
+                  <p className="font-heading text-xs font-bold uppercase tracking-widest text-espresso/40 mb-2">Record 0{idx + 1}</p>
+                  <ImpactCounter number={metric.number} label="" suffix={metric.suffix} />
                 </div>
-                <div className="text-neutral-700 font-medium">{label}</div>
-                <p className="text-neutral-600 text-sm mt-3">{description}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="section-padding">
-        <Container>
-          <SectionHeader
-            title="Impact stories without polish"
-            description="The moments we remember are usually small enough to fit in a notebook margin."
-            align="center"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {stories.map((story) => (
-              <div
-                key={story.title}
-                className="bg-white rounded-lg border border-neutral-200 overflow-hidden"
-              >
-                <div className="relative h-56">
-                  <Image
-                    src={story.image}
-                    alt={story.title}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-heading text-xl font-semibold text-neutral-900 mb-3">
-                    {story.title}
-                  </h3>
-                  <p className="story-copy text-base">{story.text}</p>
+                <div>
+                  <h3 className="font-heading text-2xl font-bold mb-3">{metric.label}</h3>
+                  <p className="text-espresso/60 text-lg leading-relaxed">{metric.detail}</p>
                 </div>
               </div>
             ))}
@@ -127,23 +71,55 @@ export default function ImpactPage() {
         </Container>
       </section>
 
-      <section className="section-padding bg-neutral-50">
+      {/* Stories: Editorial Layout */}
+      <section className="section-padding bg-white">
         <Container>
-          <div className="max-w-3xl mx-auto">
-            <SectionHeader
-              title="The report is a working document"
-              description="We use reporting to improve the next session, not just summarize the last one."
-              align="center"
-            />
-            <div className="bg-white p-8 rounded-lg border border-neutral-200">
-              <h3 className="font-heading text-lg font-semibold text-neutral-900 mb-4">
-                Ask for the ledger
-              </h3>
-              <p className="text-neutral-600 mb-6">
-                We can share session summaries, donation logs, volunteer hour records, and program
-                notes with partners and supporters.
+          <div className="mb-20">
+            <p className="eyebrow">Qualitative Impact</p>
+            <h2 className="accent-statement">The moments between the metrics.</h2>
+          </div>
+          
+          <div className="space-y-40">
+            {stories.map((story, idx) => (
+              <div key={idx} className="editorial-grid">
+                <div className={`lg:col-span-7 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <div className="relative aspect-video lg:aspect-[16/9] overflow-hidden group">
+                    <Image
+                      src={story.image}
+                      alt={story.title}
+                      fill
+                      className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                    />
+                  </div>
+                </div>
+                <div className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-9'}`}>
+                  <p className="text-sm font-bold text-cinnamon mb-6">{story.meta}</p>
+                  <h3 className="font-heading text-3xl font-bold mb-6 italic">"{story.title}"</h3>
+                  <p className="story-copy text-lg mb-10">{story.text}</p>
+                  <div className="h-px w-20 bg-espresso/20" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Transparency */}
+      <section className="section-padding bg-horchata">
+        <Container>
+          <div className="max-w-4xl mx-auto editorial-grid">
+            <div className="lg:col-span-6">
+              <h2 className="accent-statement mb-6">Transparency by default.</h2>
+              <p className="story-copy">
+                Every rupee donated and every hour volunteered is logged. We are a student-run organization held to professional standards of accountability.
               </p>
-              <Button>
+            </div>
+            <div className="lg:col-span-5 lg:col-start-7 bg-white/50 p-10 border border-espresso/5">
+              <p className="font-heading text-sm font-bold uppercase tracking-widest mb-6">Request Records</p>
+              <p className="text-espresso/70 mb-8">
+                Detailed impact reports, distribution logs, and attendance summaries are available to our donors and supporters upon request.
+              </p>
+              <Button variant="outline" className="w-full rounded-none border-espresso text-espresso">
                 <Link href="/contact">Request a Report</Link>
               </Button>
             </div>
