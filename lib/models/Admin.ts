@@ -4,7 +4,7 @@ export interface IAdmin extends Document {
   name: string;
   email: string;
   username: string;
-  passwordHash: string;
+  passwordHash?: string;
   role: 'super_admin' | 'admin' | 'editor' | 'viewer';
   permissions: string[];
   createdAt: Date;
@@ -34,7 +34,6 @@ const AdminSchema = new Schema<IAdmin>(
     },
     passwordHash: {
       type: String,
-      required: [true, 'Please provide a password'],
       minlength: 6,
       select: false,
     },

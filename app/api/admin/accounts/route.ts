@@ -30,8 +30,8 @@ async function createAdmin(request: Request) {
     const body = await request.json();
     const { name, email, username, password, role, permissions } = body;
 
-    if (!name || !email || !username || !password || !role) {
-      return validationError('Name, email, username, password, and role are required');
+    if (!name || !email || !username || !role) {
+      return validationError('Name, email, username, and role are required');
     }
 
     await connectDB();
@@ -43,7 +43,7 @@ async function createAdmin(request: Request) {
       return validationError('Admin with this email or username already exists');
     }
 
-    const passwordHash = await hashPassword(password);
+    const passwordHash = password ? await hashPassword(password) : undefined;
     const newAdmin = await Admin.create({
       name,
       email,
