@@ -1,17 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
+import { AdminDocument } from '../types';
 
-export interface IAdmin extends Document {
-  name: string;
-  email: string;
-  username: string;
-  passwordHash?: string;
-  role: 'super_admin' | 'admin' | 'editor' | 'viewer';
-  permissions: string[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const AdminSchema = new Schema<IAdmin>(
+const AdminSchema: Schema<AdminDocument> = new Schema(
   {
     name: {
       type: String,
@@ -60,4 +50,5 @@ const AdminSchema = new Schema<IAdmin>(
   { timestamps: true }
 );
 
-export const Admin = mongoose.models.Admin || mongoose.model<IAdmin>('Admin', AdminSchema);
+export const Admin: Model<AdminDocument> =
+  mongoose.models.Admin || mongoose.model<AdminDocument>('Admin', AdminSchema);

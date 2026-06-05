@@ -1,16 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
+import { ContactDocument } from '../types';
 
-export interface IContact extends Document {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  status: 'new' | 'read' | 'replied' | 'archived';
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const ContactSchema: Schema = new Schema(
+const ContactSchema: Schema<ContactDocument> = new Schema(
   {
     name: {
       type: String,
@@ -42,5 +33,5 @@ const ContactSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export const Contact =
-  mongoose.models.Contact || mongoose.model<IContact>('Contact', ContactSchema);
+export const Contact: Model<ContactDocument> =
+  mongoose.models.Contact || mongoose.model<ContactDocument>('Contact', ContactSchema);

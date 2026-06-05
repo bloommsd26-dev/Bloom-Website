@@ -1,34 +1,121 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'editor' | 'viewer';
-}
+import { Document, Types } from 'mongoose';
+import { BlogStatus, MessageStatus, AdminRole } from '@/app/admin/types';
 
-export interface AuthToken {
-  token: string;
-  expiresIn: number;
-}
+/**
+ * UTILITY TYPES
+ */
+export type Serialized<T> = {
+  [K in keyof T]: T[K] extends Date
+    ? string
+    : T[K] extends Types.ObjectId
+    ? string
+    : T[K] extends object
+    ? Serialized<T[K]>
+    : T[K];
+};
 
-export interface ApiResponse<T = any> {
+export type ApiResponse<T> = {
   success: boolean;
   data?: T;
-  error?: string;
   message?: string;
+  error?: string;
+};
+
+/**
+ * BLOG TYPES
+ */
+export interface IBlog {
+  _id: Types.ObjectId;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage?: string;
+  author: string;
+  tags: string[];
+  category: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  status: BlogStatus;
+  readingTime?: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface PaginationParams {
-  page: number;
-  limit: number;
-  sort?: string;
+export type BlogDocument = IBlog & Document;
+export type BlogDTO = Serialized<IBlog>;
+
+/**
+ * CONTACT TYPES
+ */
+export interface IContact {
+  _id: Types.ObjectId;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: MessageStatus;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface PaginatedResponse<T> {
-  data: T[];
-  pagination: {
-    total: number;
-    page: number;
-    limit: number;
-    pages: number;
-  };
+export type ContactDocument = IContact & Document;
+export type ContactDTO = Serialized<IContact>;
+
+/**
+ * ADMIN TYPES
+ */
+export interface IAdmin {
+  _id: Types.ObjectId;
+  name: string;
+  email: string;
+  username: string;
+  passwordHash?: string;
+  role: AdminRole;
+  permissions: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
+
+export type AdminDocument = IAdmin & Document;
+export type AdminDTO = Serialized<IAdmin>;
+
+/**
+ * VOLUNTEER TYPES
+ */
+export interface IVolunteer {
+  _id: Types.ObjectId;
+  name: string;
+  email: string;
+  phone: string;
+  interests: string[];
+  skills: string[];
+  availability: string;
+  message: string;
+  status: 'pending' | 'reviewed' | 'accepted' | 'rejected';
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type VolunteerDocument = IVolunteer & Document;
+export type VolunteerDTO = Serialized<IVolunteer>;
+
+/**
+ * PROGRAM TYPES
+ */
+export interface IProgram {
+  _id: Types.ObjectId;
+  title: string;
+  slug: string;
+  description: string;
+  longDescription: string;
+  focusArea: 'education' | 'personality' | 'creative' | 'women' | 'community';
+  image: string;
+  activities: string[];
+  impact: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type ProgramDocument = IProgram & Document;
+export type ProgramDTO = Serialized<IProgram>;

@@ -1,47 +1,29 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
+import { VolunteerDocument } from '../types';
 
-export interface IVolunteer extends Document {
-  name: string;
-  email: string;
-  phone: string;
-  interests: string[];
-  skills: string[];
-  availability: string;
-  applicationStatus: 'pending' | 'approved' | 'rejected';
-  message?: string;
-  hoursContributed: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const VolunteerSchema = new Schema<IVolunteer>(
+const VolunteerSchema: Schema<VolunteerDocument> = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please provide your name'],
+      required: [true, 'Name is required'],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Please provide your email'],
+      required: [true, 'Email is required'],
+      unique: true,
+      trim: true,
       lowercase: true,
-      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email'],
     },
     phone: {
       type: String,
-      required: [true, 'Please provide your phone number'],
+      required: [true, 'Phone number is required'],
+      trim: true,
     },
     interests: [
       {
         type: String,
-        enum: [
-          'education',
-          'mentorship',
-          'creative',
-          'community',
-          'women_empowerment',
-          'awareness',
-        ],
+        trim: true,
       },
     ],
     skills: [
@@ -52,25 +34,20 @@ const VolunteerSchema = new Schema<IVolunteer>(
     ],
     availability: {
       type: String,
-      enum: ['weekdays', 'weekends', 'flexible'],
       default: 'flexible',
-    },
-    applicationStatus: {
-      type: String,
-      enum: ['pending', 'approved', 'rejected'],
-      default: 'pending',
     },
     message: {
       type: String,
-      maxlength: 1000,
+      trim: true,
     },
-    hoursContributed: {
-      type: Number,
-      default: 0,
+    status: {
+      type: String,
+      enum: ['pending', 'reviewed', 'accepted', 'rejected'],
+      default: 'pending',
     },
   },
   { timestamps: true }
 );
 
-export const Volunteer =
-  mongoose.models.Volunteer || mongoose.model<IVolunteer>('Volunteer', VolunteerSchema);
+export const Volunteer: Model<VolunteerDocument> =
+  mongoose.models.Volunteer || mongoose.model<VolunteerDocument>('Volunteer', VolunteerSchema);

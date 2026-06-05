@@ -1,22 +1,17 @@
-import { connectDB } from '@/db/connect';
 import { Program } from '@/models/Program';
-import { successResponse, errorResponse } from '@/utils/api-response';
+import { successResponse } from '@/utils/api-response';
+import { apiHandler } from '@/lib/api/handler';
 
-export async function GET(request: Request) {
-  try {
-    await connectDB();
+async function getPrograms(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const focusArea = searchParams.get('focusArea');
 
-    const { searchParams } = new URL(request.url);
-    const focusArea = searchParams.get('focusArea');
+  const query: any = {};
+  if (focusArea) query.focusArea = focusArea;
 
-    const query: any = {};
-    if (focusArea) query.focusArea = focusArea;
+  const programs = await Program.find(query).sort({ focusArea: 1 });
 
-    const programs = await Program.find(query).sort({ focusArea: 1 });
-
-    return successResponse({ programs });
-  } catch (error) {
-    console.error('Error fetching programs:', error);
-    return errorResponse('Failed to fetch programs', 500);
-  }
+  return successResponse({ programs });
 }
+
+export const GET = apiHandler(getPrograms);

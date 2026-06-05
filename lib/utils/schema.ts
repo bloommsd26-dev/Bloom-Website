@@ -1,4 +1,4 @@
-import { IBlog } from '@/models/Blog';
+import { IBlog } from '@/lib/types';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bloom.org';
 

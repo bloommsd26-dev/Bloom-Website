@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import type { ApiResponse } from '@/types';
+import type { ApiResponse } from '@/lib/types';
 
 export function successResponse<T>(data: T, message?: string, status: number = 200) {
   return NextResponse.json(
@@ -17,7 +17,7 @@ export function errorResponse(error: string, status: number = 400) {
     {
       success: false,
       error,
-    } as ApiResponse,
+    } as ApiResponse<never>,
     { status }
   );
 }

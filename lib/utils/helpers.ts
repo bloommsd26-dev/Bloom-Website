@@ -3,6 +3,9 @@ import slugify from 'slugify';
 export const DEFAULT_PAGE_SIZE = 10;
 export const MAX_PAGE_SIZE = 50;
 
+/**
+ * Generate a URL-friendly slug from text
+ */
 export function generateSlug(text: string): string {
   return slugify(text, {
     lower: true,
@@ -11,61 +14,57 @@ export function generateSlug(text: string): string {
   });
 }
 
+/**
+ * Calculate estimated reading time for content
+ */
 export function calculateReadingTime(content: string): number {
   const wordsPerMinute = 200;
-  const wordCount = content.split(/\s+/).length;
-  return Math.ceil(wordCount / wordsPerMinute);
+  const words = content.trim().split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
 }
 
-export function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + '...';
-}
-
-export function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
-
-export function generateSEOSlug(text: string): string {
-  return slugify(text, {
-    lower: true,
-    strict: true,
-  });
-}
-
+/**
+ * Validate email format
+ */
 export function validateEmail(email: string): boolean {
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return emailRegex.test(email);
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
 }
 
+/**
+ * Validate phone number format
+ */
 export function validatePhone(phone: string): boolean {
-  const phoneRegex = /^[0-9]{10,}$/;
-  return phoneRegex.test(phone.replace(/\D/g, ''));
+  const re = /^\+?[1-9]\d{1,14}$/;
+  return re.test(phone);
 }
 
+/**
+ * Parse pagination parameters from search params
+ */
 export function parsePaginationParams(searchParams: URLSearchParams) {
-  const page = Math.max(1, Number.parseInt(searchParams.get('page') || '1', 10) || 1);
-  const requestedLimit =
-    Number.parseInt(searchParams.get('limit') || String(DEFAULT_PAGE_SIZE), 10) ||
-    DEFAULT_PAGE_SIZE;
-  const limit = Math.min(Math.max(1, requestedLimit), MAX_PAGE_SIZE);
+  const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+  const limit = Math.min(
+    MAX_PAGE_SIZE,
+    Math.max(1, parseInt(searchParams.get('limit') || String(DEFAULT_PAGE_SIZE)))
+  );
+  const skip = (page - 1) * limit;
 
-  return {
-    page,
-    limit,
-    skip: (page - 1) * limit,
-  };
+  return { page, limit, skip };
 }
 
-export function sanitizeInput(input: string): string {
-  return input.trim().replace(/[<>]/g, '');
+/**
+ * Serialize MongoDB document to Plain Object for React Server Components
+ * Corrects Date objects to strings and ObjectId to strings recursively.
+ */
+export function serialize<T>(data: T): any {
+  return JSON.parse(JSON.stringify(data));
 }
 
-export function generateRandomString(length: number = 32): string {
+/**
+ * Generate a random string (e.g. for temporary IDs)
+ */
+export function generateRandomString(length: number = 8): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
   for (let i = 0; i < length; i++) {
@@ -74,6 +73,9 @@ export function generateRandomString(length: number = 32): string {
   return result;
 }
 
+/**
+ * Check if a string is a valid URL
+ */
 export function isValidUrl(url: string): boolean {
   try {
     new URL(url);

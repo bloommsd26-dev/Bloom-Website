@@ -1,51 +1,34 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
+import { ProgramDocument } from '../types';
 
-export interface IProgram extends Document {
-  title: string;
-  slug: string;
-  description: string;
-  longDescription: string;
-  focusArea: 'education' | 'personality' | 'creative' | 'women' | 'community';
-  activities: string[];
-  goals: string[];
-  impact: string;
-  images: string[];
-  impactMetrics: {
-    childrenReached: number;
-    sessionsConducetd: number;
-    volunteerHours: number;
-  };
-  seoTitle: string;
-  seoDescription: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const ProgramSchema = new Schema<IProgram>(
+const ProgramSchema: Schema<ProgramDocument> = new Schema(
   {
     title: {
       type: String,
-      required: [true, 'Please provide a program title'],
+      required: [true, 'Title is required'],
       trim: true,
     },
     slug: {
       type: String,
-      required: [true, 'Slug is required'],
       unique: true,
       lowercase: true,
     },
     description: {
       type: String,
-      required: [true, 'Please provide a short description'],
+      required: [true, 'Short description is required'],
     },
     longDescription: {
       type: String,
-      required: [true, 'Please provide a detailed description'],
+      required: [true, 'Long description is required'],
     },
     focusArea: {
       type: String,
       enum: ['education', 'personality', 'creative', 'women', 'community'],
-      required: true,
+      required: [true, 'Focus area is required'],
+    },
+    image: {
+      type: String,
+      required: [true, 'Image URL is required'],
     },
     activities: [
       {
@@ -53,45 +36,13 @@ const ProgramSchema = new Schema<IProgram>(
         trim: true,
       },
     ],
-    goals: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
     impact: {
       type: String,
-    },
-    images: [
-      {
-        type: String,
-      },
-    ],
-    impactMetrics: {
-      childrenReached: {
-        type: Number,
-        default: 0,
-      },
-      sessionsConducetd: {
-        type: Number,
-        default: 0,
-      },
-      volunteerHours: {
-        type: Number,
-        default: 0,
-      },
-    },
-    seoTitle: {
-      type: String,
-      maxlength: 60,
-    },
-    seoDescription: {
-      type: String,
-      maxlength: 160,
+      required: [true, 'Impact description is required'],
     },
   },
   { timestamps: true }
 );
 
-export const Program =
-  mongoose.models.Program || mongoose.model<IProgram>('Program', ProgramSchema);
+export const Program: Model<ProgramDocument> =
+  mongoose.models.Program || mongoose.model<ProgramDocument>('Program', ProgramSchema);

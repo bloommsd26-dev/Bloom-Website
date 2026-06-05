@@ -1,66 +1,65 @@
 import bcrypt from 'bcryptjs';
-import jwt, { type JwtPayload, type SignOptions } from 'jsonwebtoken';
+import { SignJWT, jwtVerify } from 'jose';
+import type { JWTPayload } from 'jose';
 
 const SALT_ROUNDS = 10;
 
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    throw new Error('Please define the JWT_SECRET environment variable');
+    throw new Error('JWT_SECRET environment variable is not set');
   }
-
-  return secret;
+  return new TextEncoder().encode(secret);
 }
 
-export type AuthPayload = JwtPayload & {
+export const AUTH_COOKIE_NAME = 'bloom_admin_token';
+
+export type AuthPayload = JWTPayload & {
   id: string;
   email: string;
   role: 'super_admin' | 'admin' | 'editor' | 'viewer';
 };
 
+/**
+ * Node.js only: Hash a password
+ */
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, SALT_ROUNDS);
 }
 
+/**
+ * Node.js only: Compare a password with a hash
+ */
 export async function comparePasswords(password: string, hash: string): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
 
-export function generateToken(
-  payload: AuthPayload,
-  expiresIn: SignOptions['expiresIn'] = '7d'
-): string {
-  return jwt.sign(payload, getJwtSecret(), { expiresIn });
+/**
+ * Edge & Node.js: Generate a secure JWT
+ */
+export async function generateToken(payload: AuthPayload, expiresIn: string = '7d'): Promise<string> {
+  return new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime(expiresIn)
+    .sign(getJwtSecret());
 }
 
-export function verifyToken(token: string): AuthPayload | null {
+/**
+ * Edge & Node.js: Verify a JWT
+ */
+export async function verifyToken(token: string): Promise<AuthPayload | null> {
   try {
-    const decoded = jwt.verify(token, getJwtSecret());
-    if (typeof decoded === 'string') return null;
-    return decoded as AuthPayload;
+    const { payload } = await jwtVerify(token, getJwtSecret());
+    return payload as AuthPayload;
   } catch (error) {
     return null;
   }
 }
 
-export function decodeToken(token: string): JwtPayload | null {
-  try {
-    const decoded = jwt.decode(token);
-    if (!decoded || typeof decoded === 'string') return null;
-    return decoded;
-  } catch (error) {
-    return null;
-  }
-}
-
-export function isTokenExpired(token: string): boolean {
-  const decoded = decodeToken(token);
-  if (!decoded || !decoded.exp) return true;
-
-  const currentTime = Math.floor(Date.now() / 1000);
-  return decoded.exp < currentTime;
-}
-
+/**
+ * Node.js only (legacy helper)
+ */
 export async function validateCredentials(password: string, hash: string): Promise<boolean> {
   return comparePasswords(password, hash);
 }

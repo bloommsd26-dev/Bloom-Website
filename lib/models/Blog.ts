@@ -1,51 +1,34 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
+import { BlogDocument } from '../types';
 
-export interface IBlog extends Document {
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  coverImage: string;
-  author: string;
-  tags: string[];
-  category: string;
-  seoTitle: string;
-  seoDescription: string;
-  status: 'draft' | 'published';
-  readingTime: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const BlogSchema = new Schema<IBlog>(
+const BlogSchema: Schema<BlogDocument> = new Schema(
   {
     title: {
       type: String,
-      required: [true, 'Please provide a blog title'],
+      required: [true, 'Please provide a title'],
       trim: true,
     },
     slug: {
       type: String,
-      required: [true, 'Slug is required'],
       unique: true,
       lowercase: true,
     },
     excerpt: {
       type: String,
-      required: [true, 'Please provide a blog excerpt'],
-      maxlength: 300,
+      required: [true, 'Please provide an excerpt'],
     },
     content: {
       type: String,
-      required: [true, 'Please provide blog content'],
+      required: [true, 'Please provide content'],
     },
     coverImage: {
       type: String,
-      required: false,
+      default: '',
     },
     author: {
       type: String,
-      required: [true, 'Please provide author name'],
+      required: [true, 'Please provide an author'],
+      default: 'Bloom Team',
     },
     tags: [
       {
@@ -55,7 +38,6 @@ const BlogSchema = new Schema<IBlog>(
     ],
     category: {
       type: String,
-      enum: ['education', 'mentorship', 'inspiration', 'updates', 'impact', 'volunteering'],
       default: 'updates',
     },
     seoTitle: {
@@ -82,4 +64,5 @@ const BlogSchema = new Schema<IBlog>(
 // Create text index for search
 BlogSchema.index({ title: 'text', content: 'text', tags: 'text' });
 
-export const Blog = mongoose.models.Blog || mongoose.model<IBlog>('Blog', BlogSchema);
+export const Blog: Model<BlogDocument> = 
+  mongoose.models.Blog || mongoose.model<BlogDocument>('Blog', BlogSchema);
