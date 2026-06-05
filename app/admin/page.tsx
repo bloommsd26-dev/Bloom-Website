@@ -924,7 +924,10 @@ export default function AdminPage() {
                         : 'border-espresso/5 bg-white hover:border-espresso/20 hover:shadow-md'
                     }`}
                   >
-                    <span className="block font-heading text-base font-bold text-espresso leading-tight mb-2 line-clamp-2" title={blog.title}>
+                    <span
+                      className="block font-heading text-base font-bold text-espresso leading-tight mb-2 line-clamp-2"
+                      title={blog.title}
+                    >
                       {blog.title}
                     </span>
                     <span className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-espresso/40">
@@ -1054,10 +1057,11 @@ export default function AdminPage() {
                       {acc.name}
                     </span>
                     <span className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-espresso/40 overflow-hidden">
-                      <span className="truncate flex-1" title={acc.email}>{acc.email}</span>
+                      <span className="truncate flex-1" title={acc.email}>
+                        {acc.email}
+                      </span>
                       <span className="text-cinnamon shrink-0">{acc.role.replace('_', ' ')}</span>
                     </span>
-
                   </button>
                 ))}
               </div>
@@ -1202,7 +1206,10 @@ export default function AdminPage() {
                       {selectedMessage.subject}
                     </h2>
                     <div className="flex flex-wrap gap-4 mt-4 text-xs font-bold uppercase tracking-widest text-espresso/40">
-                      <span className="truncate max-w-[250px] sm:max-w-none" title={selectedMessage.email}>
+                      <span
+                        className="truncate max-w-[250px] sm:max-w-none"
+                        title={selectedMessage.email}
+                      >
                         {selectedMessage.email}
                       </span>
                       <span>•</span>
