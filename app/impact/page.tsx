@@ -12,25 +12,47 @@ export const metadata: Metadata = generateMetadata(
 );
 
 const impactMetrics = [
-  { number: 100, label: 'Active Volunteers', suffix: '+', detail: 'Maxfort School students committed to weekly visits.' },
-  { number: 1200, label: 'Session Minutes', suffix: '', detail: 'Average preparation and teaching time per week.' },
-  { number: 15, label: 'Community Circles', suffix: '', detail: 'Recurring safe spaces for learning and confidence.' },
-  { number: 400, label: 'Resources Distributed', suffix: '+', detail: 'Notebooks, kits, and curated materials provided.' },
+  {
+    number: 100,
+    label: 'Active Volunteers',
+    suffix: '+',
+    detail: 'Maxfort School students committed to weekly visits.',
+  },
+  {
+    number: 1200,
+    label: 'Session Minutes',
+    suffix: '',
+    detail: 'Average preparation and teaching time per week.',
+  },
+  {
+    number: 15,
+    label: 'Community Circles',
+    suffix: '',
+    detail: 'Recurring safe spaces for learning and confidence.',
+  },
+  {
+    number: 400,
+    label: 'Resources Distributed',
+    suffix: '+',
+    detail: 'Notebooks, kits, and curated materials provided.',
+  },
 ];
 
 const stories = [
   {
     title: 'The silence that broke',
     text: 'A child in circle #04 didn’t speak for three weeks. In week four, he asked for the stage in the Voice Room. He didn’t give a speech; he just said his name clearly. That was the win of the month.',
-    image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
-    meta: 'Field Note #12 | Personality Development'
+    image:
+      'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80',
+    meta: 'Field Note #12 | Personality Development',
   },
   {
     title: 'A dependable Saturday',
     text: 'At the Homework Tables, impact isn’t measured in grades alone. It’s measured in the fact that when we arrive at 10 AM, the children are already there, notebooks open, waiting for the person who promised to return.',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
-    meta: 'Field Note #08 | Educational Support'
-  }
+    image:
+      'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=80',
+    meta: 'Field Note #08 | Educational Support',
+  },
 ];
 
 export default function ImpactPage() {
@@ -41,11 +63,10 @@ export default function ImpactPage() {
         <Container>
           <div className="max-w-4xl">
             <p className="eyebrow">The Ledger</p>
-            <h1 className="accent-statement mb-8 text-5xl sm:text-7xl">
-              Numbers and notes.
-            </h1>
+            <h1 className="accent-statement mb-8 text-5xl sm:text-7xl">Numbers and notes.</h1>
             <p className="story-copy">
-              We only publish figures we can stand behind. Our impact is not found in one-time events, but in the slow, steady build of recurring sessions.
+              We only publish figures we can stand behind. Our impact is not found in one-time
+              events, but in the slow, steady build of recurring sessions.
             </p>
           </div>
         </Container>
@@ -56,9 +77,14 @@ export default function ImpactPage() {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-espresso/10 border border-espresso/10">
             {impactMetrics.map((metric, idx) => (
-              <div key={idx} className="bg-white p-12 flex flex-col justify-between hover:bg-horchata/5 transition-colors">
+              <div
+                key={idx}
+                className="bg-white p-12 flex flex-col justify-between hover:bg-horchata/5 transition-colors"
+              >
                 <div className="mb-10">
-                  <p className="font-heading text-xs font-bold uppercase tracking-widest text-espresso/40 mb-2">Record 0{idx + 1}</p>
+                  <p className="font-heading text-xs font-bold uppercase tracking-widest text-espresso/40 mb-2">
+                    Record 0{idx + 1}
+                  </p>
                   <ImpactCounter number={metric.number} label="" suffix={metric.suffix} />
                 </div>
                 <div>
@@ -78,7 +104,7 @@ export default function ImpactPage() {
             <p className="eyebrow">Qualitative Impact</p>
             <h2 className="accent-statement">The moments between the metrics.</h2>
           </div>
-          
+
           <div className="space-y-40">
             {stories.map((story, idx) => (
               <div key={idx} className="editorial-grid">
@@ -92,7 +118,9 @@ export default function ImpactPage() {
                     />
                   </div>
                 </div>
-                <div className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-9'}`}>
+                <div
+                  className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-9'}`}
+                >
                   <p className="text-sm font-bold text-cinnamon mb-6">{story.meta}</p>
                   <h3 className="font-heading text-3xl font-bold mb-6 italic">"{story.title}"</h3>
                   <p className="story-copy text-lg mb-10">{story.text}</p>
@@ -111,15 +139,22 @@ export default function ImpactPage() {
             <div className="lg:col-span-6">
               <h2 className="accent-statement mb-6">Transparency by default.</h2>
               <p className="story-copy">
-                Every rupee donated and every hour volunteered is logged. We are a student-run organization held to professional standards of accountability.
+                Every rupee donated and every hour volunteered is logged. We are a student-run
+                organization held to professional standards of accountability.
               </p>
             </div>
             <div className="lg:col-span-5 lg:col-start-7 bg-white/50 p-10 border border-espresso/5">
-              <p className="font-heading text-sm font-bold uppercase tracking-widest mb-6">Request Records</p>
-              <p className="text-espresso/70 mb-8">
-                Detailed impact reports, distribution logs, and attendance summaries are available to our donors and supporters upon request.
+              <p className="font-heading text-sm font-bold uppercase tracking-widest mb-6">
+                Request Records
               </p>
-              <Button variant="outline" className="w-full rounded-none border-espresso text-espresso">
+              <p className="text-espresso/70 mb-8">
+                Detailed impact reports, distribution logs, and attendance summaries are available
+                to our donors and supporters upon request.
+              </p>
+              <Button
+                variant="outline"
+                className="w-full rounded-none border-espresso text-espresso"
+              >
                 <Link href="/contact">Request a Report</Link>
               </Button>
             </div>

@@ -46,20 +46,20 @@ export default function ContactPage() {
   const faqs = [
     {
       q: 'How can I join as a volunteer?',
-      a: 'We have a formal application process. Start by filling out the volunteer form on our website. We prioritize students who can commit to weekly sessions.'
+      a: 'We have a formal application process. Start by filling out the volunteer form on our website. We prioritize students who can commit to weekly sessions.',
     },
     {
       q: 'Where do the sessions take place?',
-      a: 'We work in various community centers and local schools across Delhi. Specific locations are shared with volunteers after training.'
+      a: 'We work in various community centers and local schools across Delhi. Specific locations are shared with volunteers after training.',
     },
     {
       q: 'Can I donate items instead of money?',
-      a: 'Yes. We run regular Care Drives for notebooks, storybooks, and creative supplies. Check our "Donate" page for currently needed items.'
+      a: 'Yes. We run regular Care Drives for notebooks, storybooks, and creative supplies. Check our "Donate" page for currently needed items.',
     },
     {
       q: 'Is Bloom a registered NGO?',
-      a: 'Bloom is a student-led initiative from Maxfort School. We operate with full transparency and are held accountable to our community standards.'
-    }
+      a: 'Bloom is a student-led initiative from Maxfort School. We operate with full transparency and are held accountable to our community standards.',
+    },
   ];
 
   return (
@@ -73,7 +73,8 @@ export default function ContactPage() {
               <span className="italic font-accent font-normal text-cinnamon">the work.</span>
             </h1>
             <p className="story-copy">
-              Whether you want to partner with us, ask about our records, or join a session—we are here to respond.
+              Whether you want to partner with us, ask about our records, or join a session—we are
+              here to respond.
             </p>
           </div>
         </Container>
@@ -87,7 +88,12 @@ export default function ContactPage() {
                 <h2 className="font-heading text-3xl font-bold mb-10">Send a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-8">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Your Name</label>
+                    <label
+                      htmlFor="name"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      Your Name
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -97,7 +103,12 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Email Address</label>
+                    <label
+                      htmlFor="email"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      Email Address
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -107,7 +118,12 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="subject" className="text-xs font-bold uppercase tracking-widest text-espresso/40">Subject</label>
+                    <label
+                      htmlFor="subject"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      Subject
+                    </label>
                     <input
                       type="text"
                       name="subject"
@@ -117,7 +133,12 @@ export default function ContactPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="message" className="text-xs font-bold uppercase tracking-widest text-espresso/40">How can we help?</label>
+                    <label
+                      htmlFor="message"
+                      className="text-xs font-bold uppercase tracking-widest text-espresso/40"
+                    >
+                      How can we help?
+                    </label>
                     <textarea
                       name="message"
                       id="message"
@@ -136,7 +157,9 @@ export default function ContactPage() {
                   </Button>
 
                   {message && (
-                    <p className={`text-center text-sm font-bold ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                    <p
+                      className={`text-center text-sm font-bold ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}
+                    >
                       {message}
                     </p>
                   )}
@@ -163,9 +186,13 @@ export default function ContactPage() {
                 <div className="bg-espresso text-horchata p-10 transform lg:rotate-1">
                   <h3 className="font-heading text-2xl font-bold mb-6">Bloom Tech Team</h3>
                   <p className="opacity-80 mb-8">
-                    For technical inquiries or website feedback, you can reach out to our digital leads at:
+                    For technical inquiries or website feedback, you can reach out to our digital
+                    leads at:
                   </p>
-                  <Link href="mailto:tech@bloom.org" className="text-cinnamon font-bold text-xl hover:underline">
+                  <Link
+                    href="mailto:tech@bloom.org"
+                    className="text-cinnamon font-bold text-xl hover:underline"
+                  >
                     tech@bloom.org
                   </Link>
                 </div>
@@ -181,8 +208,12 @@ export default function ContactPage() {
           <div className="text-center">
             <p className="eyebrow">Find us online</p>
             <div className="flex justify-center gap-12 mt-8">
-              {['Instagram', 'LinkedIn', 'Twitter'].map(social => (
-                <Link key={social} href="#" className="font-heading text-2xl font-black uppercase tracking-tighter hover:text-cinnamon transition-colors">
+              {['Instagram', 'LinkedIn', 'Twitter'].map((social) => (
+                <Link
+                  key={social}
+                  href="#"
+                  className="font-heading text-2xl font-black uppercase tracking-tighter hover:text-cinnamon transition-colors"
+                >
                   {social}
                 </Link>
               ))}

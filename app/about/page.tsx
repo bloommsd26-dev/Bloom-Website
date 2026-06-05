@@ -39,9 +39,7 @@ export default function AboutPage() {
           <div className="editorial-grid">
             <div className="lg:col-span-6">
               <p className="eyebrow">Our Story</p>
-              <h1 className="accent-statement mb-8">
-                A school-born initiative with field notes.
-              </h1>
+              <h1 className="accent-statement mb-8">A school-born initiative with field notes.</h1>
               <p className="story-copy mb-10">
                 Bloom began at Maxfort School with students who wanted service to feel less like an
                 annual event and more like a dependable habit.
@@ -73,8 +71,8 @@ export default function AboutPage() {
               <div className="space-y-6 text-espresso/80 text-lg">
                 <p>
                   We kept seeing the same distance: between children and books, between talent and a
-                  stage, between need and someone organized enough to respond. Bloom became our answer
-                  to that distance.
+                  stage, between need and someone organized enough to respond. Bloom became our
+                  answer to that distance.
                 </p>
                 <p>
                   Our volunteers learn to teach, sort, explain, document, and lead without turning
@@ -107,8 +105,8 @@ export default function AboutPage() {
               <div className="lg:col-span-6 lg:col-start-7 bg-espresso text-horchata p-12 lg:p-16 transform lg:-rotate-1">
                 <h2 className="font-heading text-4xl font-bold mb-6">Our Standard</h2>
                 <p className="text-xl leading-relaxed opacity-90 italic font-accent">
-                  "If a program cannot be repeated, recorded, and improved, it is not finished. Bloom
-                  is built for continuity, not just good photographs."
+                  "If a program cannot be repeated, recorded, and improved, it is not finished.
+                  Bloom is built for continuity, not just good photographs."
                 </p>
               </div>
             </div>
@@ -125,7 +123,10 @@ export default function AboutPage() {
           </div>
           <div className="max-w-4xl mx-auto divide-y divide-espresso/10 border-y border-espresso/10">
             {principles.map((principle, idx) => (
-              <div key={idx} className="py-12 group flex flex-col md:flex-row md:items-start gap-6 md:gap-12">
+              <div
+                key={idx}
+                className="py-12 group flex flex-col md:flex-row md:items-start gap-6 md:gap-12"
+              >
                 <span className="font-heading text-4xl font-bold text-cinnamon/20 group-hover:text-cinnamon transition-colors">
                   0{idx + 1}
                 </span>
@@ -157,15 +158,17 @@ export default function AboutPage() {
             </div>
             <div className="lg:col-span-5 lg:col-start-8 order-1 lg:order-2">
               <p className="eyebrow">Leadership</p>
-              <h2 className="accent-statement mb-8">
-                Led by students, held to standards.
-              </h2>
+              <h2 className="accent-statement mb-8">Led by students, held to standards.</h2>
               <p className="story-copy mb-10">
                 We are still learning. That is part of the point. Bloom trains students to be useful
                 before they are impressive: to listen first, plan properly, and stay accountable
                 after the session ends.
               </p>
-              <Button variant="outline" size="lg" className="rounded-none border-espresso text-espresso">
+              <Button
+                variant="outline"
+                size="lg"
+                className="rounded-none border-espresso text-espresso"
+              >
                 <Link href="/contact">Talk to the Team</Link>
               </Button>
             </div>
@@ -186,7 +189,11 @@ export default function AboutPage() {
               <Button size="lg" className="rounded-none bg-espresso text-white hover:bg-ink px-12">
                 <Link href="/volunteer">Volunteer</Link>
               </Button>
-              <Button variant="outline" size="lg" className="rounded-none border-espresso text-espresso px-12">
+              <Button
+                variant="outline"
+                size="lg"
+                className="rounded-none border-espresso text-espresso px-12"
+              >
                 <Link href="/contact">Contact Us</Link>
               </Button>
             </div>

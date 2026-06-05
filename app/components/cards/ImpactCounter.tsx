@@ -9,12 +9,7 @@ interface ImpactCounterProps {
   icon?: React.ReactNode;
 }
 
-export function ImpactCounter({
-  number,
-  label,
-  suffix = '',
-  icon,
-}: ImpactCounterProps) {
+export function ImpactCounter({ number, label, suffix = '', icon }: ImpactCounterProps) {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -62,7 +57,11 @@ export function ImpactCounter({
         {count.toLocaleString()}
         <span className="text-cinnamon ml-1">{suffix}</span>
       </div>
-      {label && <p className="text-xs font-bold uppercase tracking-[0.2em] text-espresso/40 mt-2">{label}</p>}
+      {label && (
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-espresso/40 mt-2">
+          {label}
+        </p>
+      )}
     </div>
   );
 }

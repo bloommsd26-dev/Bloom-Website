@@ -36,14 +36,21 @@ export function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-6">
-              <div className="font-heading text-3xl font-black uppercase tracking-tighter text-white">Bloom</div>
+              <div className="font-heading text-3xl font-black uppercase tracking-tighter text-white">
+                Bloom
+              </div>
             </Link>
             <p className="story-copy text-sm opacity-60 max-w-sm mb-8">
-              A student-led initiative from Maxfort School showing up weekly with notebooks, prompts, and a promise to return.
+              A student-led initiative from Maxfort School showing up weekly with notebooks,
+              prompts, and a promise to return.
             </p>
             <div className="flex gap-8">
-              {['Instagram', 'LinkedIn', 'Twitter'].map(social => (
-                <Link key={social} href="#" className="text-[10px] font-bold uppercase tracking-[0.2em] hover:text-cinnamon transition-colors">
+              {['Instagram', 'LinkedIn', 'Twitter'].map((social) => (
+                <Link
+                  key={social}
+                  href="#"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] hover:text-cinnamon transition-colors"
+                >
                   {social}
                 </Link>
               ))}
@@ -53,7 +60,9 @@ export function Footer() {
           {/* Footer Links */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h3 className="font-heading text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-6">{category}</h3>
+              <h3 className="font-heading text-xs font-bold uppercase tracking-[0.15em] text-white/40 mb-6">
+                {category}
+              </h3>
               <ul className="space-y-4">
                 {links.map((link) => (
                   <li key={`${link.href}-${link.label}`}>
@@ -76,9 +85,15 @@ export function Footer() {
             &copy; {currentYear} Bloom. All rights reserved.
           </p>
           <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest opacity-40">
-            <Link href="#" className="hover:text-cinnamon transition-colors">Privacy</Link>
-            <Link href="#" className="hover:text-cinnamon transition-colors">Terms</Link>
-            <Link href="/admin" className="hover:text-cinnamon transition-colors italic">Internal Access</Link>
+            <Link href="#" className="hover:text-cinnamon transition-colors">
+              Privacy
+            </Link>
+            <Link href="#" className="hover:text-cinnamon transition-colors">
+              Terms
+            </Link>
+            <Link href="/admin" className="hover:text-cinnamon transition-colors italic">
+              Internal Access
+            </Link>
           </div>
         </div>
       </Container>

@@ -41,13 +41,17 @@ export function Header() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-6">
-            <Link 
-              href="/admin" 
+            <Link
+              href="/admin"
               className="text-[10px] font-bold uppercase tracking-widest text-espresso/40 hover:text-cinnamon transition-colors"
             >
               Admin
             </Link>
-            <Button variant="outline" size="sm" className="border-espresso text-espresso hover:bg-espresso hover:text-white">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-espresso text-espresso hover:bg-espresso hover:text-white"
+            >
               <Link href="/volunteer">Volunteer</Link>
             </Button>
           </div>
@@ -59,9 +63,15 @@ export function Header() {
             aria-label="Toggle menu"
           >
             <div className="w-6 flex flex-col gap-1.5">
-              <span className={`h-0.5 w-full bg-current transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`h-0.5 w-full bg-current transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`h-0.5 w-full bg-current transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              <span
+                className={`h-0.5 w-full bg-current transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}
+              />
+              <span
+                className={`h-0.5 w-full bg-current transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}
+              />
+              <span
+                className={`h-0.5 w-full bg-current transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}
+              />
             </div>
           </button>
         </nav>
@@ -86,8 +96,8 @@ export function Header() {
               <Button variant="outline" size="lg" className="w-full border-espresso text-espresso">
                 <Link href="/donate">Support Us</Link>
               </Button>
-              <Link 
-                href="/admin" 
+              <Link
+                href="/admin"
                 className="text-center text-xs font-bold uppercase tracking-widest text-espresso/40 pt-4"
                 onClick={() => setIsMenuOpen(false)}
               >
