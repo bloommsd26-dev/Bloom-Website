@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IAdmin extends Document {
   name: string;
   email: string;
+  username: string;
   passwordHash: string;
   role: 'super_admin' | 'admin' | 'editor' | 'viewer';
   permissions: string[];
@@ -23,6 +24,13 @@ const AdminSchema = new Schema<IAdmin>(
       unique: true,
       lowercase: true,
       match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email'],
+    },
+    username: {
+      type: String,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      minlength: [3, 'Username must be at least 3 characters'],
     },
     passwordHash: {
       type: String,

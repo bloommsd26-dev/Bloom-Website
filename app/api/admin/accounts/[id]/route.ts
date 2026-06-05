@@ -33,7 +33,7 @@ async function updateAdmin(request: Request, { params }: { params: Promise<{ id:
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, email, password, role, permissions } = body;
+    const { name, email, username, password, role, permissions } = body;
 
     await connectDB();
 
@@ -44,6 +44,7 @@ async function updateAdmin(request: Request, { params }: { params: Promise<{ id:
 
     if (name) admin.name = name;
     if (email) admin.email = email;
+    if (username) admin.username = username;
     if (role) admin.role = role;
     if (permissions) admin.permissions = permissions;
     if (password) {

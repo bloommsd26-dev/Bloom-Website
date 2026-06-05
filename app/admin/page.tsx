@@ -10,6 +10,7 @@ type AdminAccount = {
   _id: string;
   name: string;
   email: string;
+  username: string;
   role: AdminRole;
   permissions: string[];
   createdAt?: string;
@@ -18,6 +19,7 @@ type AdminAccount = {
 type AdminForm = {
   name: string;
   email: string;
+  username: string;
   password?: string;
   role: AdminRole;
   permissions: string[];
@@ -88,6 +90,7 @@ const emptyForm: BlogForm = {
 const emptyAccountForm: AdminForm = {
   name: '',
   email: '',
+  username: '',
   password: '',
   role: 'viewer',
   permissions: [],
@@ -340,6 +343,7 @@ export default function AdminPage() {
     setAccountForm({
       name: acc.name,
       email: acc.email,
+      username: acc.username || '',
       password: '',
       role: acc.role,
       permissions: acc.permissions,
@@ -580,11 +584,11 @@ export default function AdminPage() {
                 htmlFor="username"
                 className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
               >
-                Email Address
+                Email or Username
               </label>
               <input
                 id="username"
-                type="email"
+                type="text"
                 value={login.username}
                 onChange={(event) =>
                   setLogin((current) => ({ ...current, username: event.target.value }))
@@ -1182,6 +1186,24 @@ export default function AdminPage() {
                   value={accountForm.email}
                   onChange={(event) =>
                     setAccountForm((current) => ({ ...current, email: event.target.value }))
+                  }
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="acc-username"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+                >
+                  Username
+                </label>
+                <input
+                  id="acc-username"
+                  value={accountForm.username}
+                  onChange={(event) =>
+                    setAccountForm((current) => ({ ...current, username: event.target.value }))
                   }
                   className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
                   required

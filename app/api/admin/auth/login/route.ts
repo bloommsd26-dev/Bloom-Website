@@ -2,7 +2,6 @@ import { connectDB } from '@/db/connect';
 import { Admin } from '@/models/Admin';
 import { comparePasswords, generateToken } from '@/utils/auth';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
-import { validateEmail } from '@/utils/helpers';
 
 export async function POST(request: Request) {
   try {
@@ -41,22 +40,20 @@ export async function POST(request: Request) {
       });
     }
 
-    if (!validateEmail(login)) {
-      return errorResponse('Invalid username or password', 401);
-    }
-
     await connectDB();
 
-    const admin = await Admin.findOne({ email: login }).select('+passwordHash');
+    const admin = await Admin.findOne({
+      $or: [{ email: login }, { username: login }],
+    }).select('+passwordHash');
 
     if (!admin) {
-      return errorResponse('Invalid email or password', 401);
+      return errorResponse('Invalid email/username or password', 401);
     }
 
     const isPasswordValid = await comparePasswords(password, admin.passwordHash);
 
     if (!isPasswordValid) {
-      return errorResponse('Invalid email or password', 401);
+      return errorResponse('Invalid email/username or password', 401);
     }
 
     const token = generateToken(

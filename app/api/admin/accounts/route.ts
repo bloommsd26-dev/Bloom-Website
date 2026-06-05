@@ -28,23 +28,26 @@ async function getAdmins(_request: Request) {
 async function createAdmin(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, password, role, permissions } = body;
+    const { name, email, username, password, role, permissions } = body;
 
-    if (!name || !email || !password || !role) {
-      return validationError('Name, email, password, and role are required');
+    if (!name || !email || !username || !password || !role) {
+      return validationError('Name, email, username, password, and role are required');
     }
 
     await connectDB();
 
-    const existingAdmin = await Admin.findOne({ email });
+    const existingAdmin = await Admin.findOne({
+      $or: [{ email }, { username }],
+    });
     if (existingAdmin) {
-      return validationError('Admin with this email already exists');
+      return validationError('Admin with this email or username already exists');
     }
 
     const passwordHash = await hashPassword(password);
     const newAdmin = await Admin.create({
       name,
       email,
+      username,
       passwordHash,
       role,
       permissions: permissions || [],

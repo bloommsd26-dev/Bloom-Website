@@ -24,6 +24,7 @@ async function seedDatabase() {
     const superAdmin = await Admin.create({
       name: 'Bloom Super Admin',
       email: process.env.ADMIN_EMAIL || 'admin@bloom.org',
+      username: process.env.ADMIN_USERNAME || 'admin',
       passwordHash: adminPassword,
       role: 'super_admin',
       permissions: [
@@ -43,6 +44,7 @@ async function seedDatabase() {
     const regularAdmin = await Admin.create({
       name: 'Bloom Team Lead',
       email: 'lead@bloom.org',
+      username: 'lead',
       passwordHash: regularAdminPassword,
       role: 'admin',
       permissions: ['manage_blogs', 'manage_programs', 'manage_volunteers', 'manage_impact'],
