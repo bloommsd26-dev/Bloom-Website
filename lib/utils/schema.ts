@@ -12,7 +12,7 @@ export function generateNGOOrganizationSchema() {
     name: 'Bloom',
     alternateName: 'Bloom Social Initiative',
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
+    logo: `${siteUrl}/favicon.png`,
     description:
       'A student-led social impact initiative from Maxfort School, Delhi, empowering children through education, mentorship, and creative opportunities.',
     address: {
@@ -54,7 +54,7 @@ export function generateBlogPostSchema(blog: IBlog) {
       name: 'Bloom',
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/logo.png`,
+        url: `${siteUrl}/favicon.png`,
       },
     },
     mainEntityOfPage: {

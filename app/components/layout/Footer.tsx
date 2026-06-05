@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from './Container';
 
 export function Footer() {
@@ -35,7 +36,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 lg:gap-8 mb-20">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-block mb-6">
+            <Link href="/" className="flex items-center gap-3 mb-8 group">
+              <div className="relative w-8 h-8 transition-transform group-hover:scale-110 duration-500">
+                <Image
+                  src="/favicon.png"
+                  alt="Bloom Logo"
+                  fill
+                  className="object-contain grayscale group-hover:grayscale-0 transition-all"
+                />
+              </div>
               <div className="font-heading text-3xl font-black uppercase tracking-tighter text-white">
                 Bloom
               </div>

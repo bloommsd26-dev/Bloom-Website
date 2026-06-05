@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { RichTextEditor } from '@/components/ui/RichTextEditor';
 
@@ -617,7 +618,10 @@ export default function AdminPage() {
     return (
       <main className="min-h-screen bg-horchata/10 px-4 py-16 font-body">
         <section className="mx-auto max-w-md rounded-3xl border border-espresso/10 bg-white p-10 shadow-2xl">
-          <div className="text-center mb-10">
+          <div className="flex flex-col items-center text-center mb-10">
+            <div className="relative w-12 h-12 mb-4">
+              <Image src="/favicon.png" alt="Bloom Logo" fill className="object-contain" />
+            </div>
             <h1 className="font-heading text-4xl font-black uppercase tracking-tighter text-espresso mb-2">
               Bloom
             </h1>

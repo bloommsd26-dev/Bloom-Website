@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
 import { Container } from './Container';
 import { Button } from '@/components/ui/Button';
 
@@ -20,8 +21,11 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-espresso/5 bg-white/95 backdrop-blur-sm">
       <Container>
         <nav className="flex items-center justify-between py-6">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="font-heading text-2xl font-black uppercase tracking-tighter text-espresso group-hover:text-cinnamon transition-colors">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative w-8 h-8 sm:w-10 sm:h-10 transition-transform group-hover:scale-110 duration-500">
+              <Image src="/favicon.png" alt="Bloom Logo" fill className="object-contain" priority />
+            </div>
+            <div className="font-heading text-xl sm:text-2xl font-black uppercase tracking-tighter text-espresso group-hover:text-cinnamon transition-colors">
               Bloom
             </div>
           </Link>
