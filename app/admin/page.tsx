@@ -841,7 +841,9 @@ export default function AdminPage() {
                       <span className="block font-heading text-sm font-bold text-espresso leading-tight line-clamp-1">
                         {msg.name}
                       </span>
-                      {msg.status === 'new' && <span className="w-2 h-2 bg-cinnamon rounded-full" />}
+                      {msg.status === 'new' && (
+                        <span className="w-2 h-2 bg-cinnamon rounded-full" />
+                      )}
                     </div>
                     <p className="text-xs text-espresso/60 line-clamp-1 mb-3">{msg.subject}</p>
                     <span className="block text-[10px] font-bold uppercase tracking-widest text-espresso/30">

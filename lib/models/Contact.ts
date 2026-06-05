@@ -42,4 +42,5 @@ const ContactSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export const Contact = mongoose.models.Contact || mongoose.model<IContact>('Contact', ContactSchema);
+export const Contact =
+  mongoose.models.Contact || mongoose.model<IContact>('Contact', ContactSchema);

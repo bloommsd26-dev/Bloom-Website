@@ -17,10 +17,7 @@ async function getMessages(request: Request) {
       query.status = status;
     }
 
-    const messages = await Contact.find(query)
-      .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: -1 });
+    const messages = await Contact.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
 
     const total = await Contact.countDocuments(query);
 
