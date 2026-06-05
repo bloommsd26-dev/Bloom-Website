@@ -68,8 +68,8 @@ export default function Home() {
                   </Button>
                 </div>
               </div>
-              <div className="lg:col-span-5 relative">
-                <div className="field-note transform lg:rotate-2">
+              <div className="lg:col-span-5 relative mt-12 lg:mt-24">
+                <div className="field-note transform lg:rotate-2 shadow-sm">
                   <p className="text-sm font-semibold mb-2 uppercase tracking-widest text-cinnamon">
                     Field note #24
                   </p>
