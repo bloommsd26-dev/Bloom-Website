@@ -127,10 +127,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       <section className="section-padding pt-8">
         <Container size="md">
-          <article className="space-y-6 text-lg leading-relaxed text-neutral-700">
-            {blog.content.split(/\n{2,}/).map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+          <article className="prose prose-lg sm:prose-xl prose-espresso max-w-none prose-headings:font-heading prose-headings:font-bold prose-p:font-accent prose-p:text-espresso/80 prose-blockquote:border-cinnamon prose-blockquote:bg-horchata/10 prose-blockquote:p-8 prose-blockquote:rounded-r-3xl prose-li:font-accent prose-strong:text-espresso prose-strong:font-black">
+            <div dangerouslySetInnerHTML={{ __html: blog.content }} />
           </article>
         </Container>
       </section>

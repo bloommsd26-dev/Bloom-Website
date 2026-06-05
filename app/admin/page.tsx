@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/Skeleton';
+import { RichTextEditor } from '@/components/ui/RichTextEditor';
 
 type BlogStatus = 'draft' | 'published';
 type AdminRole = 'super_admin' | 'admin' | 'editor' | 'viewer';
@@ -1013,16 +1014,11 @@ export default function AdminPage() {
                   htmlFor="content"
                   className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
                 >
-                  Content (Markdown Supported)
+                  Post Content
                 </label>
-                <textarea
-                  id="content"
-                  value={form.content}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, content: event.target.value }))
-                  }
-                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-3xl px-6 py-6 text-espresso focus:border-cinnamon outline-none transition-all min-h-[400px] font-mono text-sm leading-relaxed"
-                  required
+                <RichTextEditor
+                  content={form.content}
+                  onChange={(html) => setForm((current) => ({ ...current, content: html }))}
                 />
               </div>
             </div>
