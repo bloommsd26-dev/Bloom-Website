@@ -4,6 +4,7 @@ import { generateMetadata } from '@/utils/seo';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import Image from 'next/image';
+import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = generateMetadata(
   'Support the Work | Bloom',
@@ -18,8 +19,17 @@ const needs = [
 ];
 
 export default function DonatePage() {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: '/' },
+    { name: 'Support', item: '/donate' },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero */}
       <section className="pt-24 pb-20 bg-white">
         <Container>

@@ -3,6 +3,7 @@ import { Libre_Baskerville } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { generateMetadata } from '@/utils/seo';
+import { generateNGOOrganizationSchema } from '@/lib/utils/schema';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
@@ -35,11 +36,17 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const organizationSchema = generateNGOOrganizationSchema();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#965420" />
         <meta name="darkreader-lock" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body className={`${libreBaskerville.variable} bg-white text-neutral-900 antialiased`}>
         <Header />

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { generateMetadata } from '@/utils/seo';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { generateProgramSchema, generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = generateMetadata(
   'Our Programs',
@@ -91,8 +92,26 @@ const programsData = [
 ];
 
 export default function ProgramsPage() {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: '/' },
+    { name: 'Work', item: '/programs' },
+  ]);
+
+  const programSchemas = programsData.map((p) => generateProgramSchema(p));
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {programSchemas.map((schema, idx) => (
+        <script
+          key={idx}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       {/* Hero */}
       <section className="pt-24 pb-20 bg-white">
         <Container>

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { Button } from '@/components/ui/Button';
 import { ImpactCounter } from '@/components/cards/ImpactCounter';
+import { generateNGOOrganizationSchema, generateProgramSchema } from '@/lib/utils/schema';
 
 const programs = [
   {
@@ -37,8 +38,22 @@ const ledgerItems = [
 ];
 
 export default function Home() {
+  const organizationSchema = generateNGOOrganizationSchema();
+  const programSchemas = programs.map((p) => generateProgramSchema(p));
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      {programSchemas.map((schema, idx) => (
+        <script
+          key={idx}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       {/* Hero: Editorial & Bold with Smooth Edges */}
       <section className="pt-24 pb-20 sm:pt-32 sm:pb-32 bg-white">
         <Container>

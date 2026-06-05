@@ -5,6 +5,7 @@ import { Container } from '@/components/layout/Container';
 import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { generateMetadata as createSeoMetadata } from '@/utils/seo';
+import { generateBlogPostSchema } from '@/lib/utils/schema';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -89,8 +90,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       })
     : null;
 
+  const blogPostSchema = generateBlogPostSchema({
+    ...blog,
+    createdAt: blog.createdAt ? new Date(blog.createdAt) : new Date(),
+    updatedAt: blog.createdAt ? new Date(blog.createdAt) : new Date(), // Using createdAt as fallback for dateModified
+  } as any);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostSchema) }}
+      />
       <section className="pt-16 pb-12 bg-gradient-to-b from-primary-50 to-white">
         <Container>
           <div className="max-w-3xl">

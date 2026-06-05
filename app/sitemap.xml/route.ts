@@ -1,3 +1,6 @@
+import { connectDB } from '@/db/connect';
+import { Blog } from '@/models/Blog';
+
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bloom.org';
 
@@ -12,6 +15,24 @@ export async function GET() {
     '/contact',
   ];
 
+  let dynamicPages: string[] = [];
+
+  try {
+    await connectDB();
+    const blogs = await Blog.find({ status: 'published' }).select('slug updatedAt').lean();
+    dynamicPages = blogs.map(
+      (blog) => `
+  <url>
+    <loc>${baseUrl}/blog/${blog.slug}</loc>
+    <lastmod>${new Date(blog.updatedAt).toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`
+    );
+  } catch (error) {
+    console.error('Error fetching blogs for sitemap:', error);
+  }
+
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   ${staticPages
@@ -22,10 +43,10 @@ export async function GET() {
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>${page === '' ? 'weekly' : 'monthly'}</changefreq>
     <priority>${page === '' ? '1.0' : '0.8'}</priority>
-  </url>
-  `
+  </url>`
     )
     .join('')}
+  ${dynamicPages.join('')}
 </urlset>`;
 
   return new Response(sitemap, {

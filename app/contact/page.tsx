@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { Button } from '@/components/ui/Button';
+import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -43,6 +44,11 @@ export default function ContactPage() {
     }
   }
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: '/' },
+    { name: 'Contact', item: '/contact' },
+  ]);
+
   const faqs = [
     {
       q: 'How can I join as a volunteer?',
@@ -64,6 +70,10 @@ export default function ContactPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="pt-24 pb-20 bg-white">
         <Container>
           <div className="max-w-4xl">

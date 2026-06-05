@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { Button } from '@/components/ui/Button';
+import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export default function VolunteerPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -45,8 +46,17 @@ export default function VolunteerPage() {
     }
   }
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: '/' },
+    { name: 'Join Us', item: '/volunteer' },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero */}
       <section className="pt-24 pb-20 bg-white">
         <Container>

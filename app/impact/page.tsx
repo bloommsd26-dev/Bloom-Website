@@ -5,6 +5,7 @@ import { generateMetadata } from '@/utils/seo';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { ImpactCounter } from '@/components/cards/ImpactCounter';
+import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = generateMetadata(
   'The Ledger | Bloom Impact',
@@ -56,8 +57,17 @@ const stories = [
 ];
 
 export default function ImpactPage() {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: '/' },
+    { name: 'The Ledger', item: '/impact' },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero */}
       <section className="pt-24 pb-20 bg-white">
         <Container>

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { generateMetadata } from '@/utils/seo';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = generateMetadata(
   'About Bloom',
@@ -31,8 +32,17 @@ const principles = [
 ];
 
 export default function AboutPage() {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: '/' },
+    { name: 'Our Story', item: '/about' },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero: Bold & Asymmetrical with Smooth Edges */}
       <section className="pt-24 pb-20 bg-white">
         <Container>

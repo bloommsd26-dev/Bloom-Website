@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
 import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
+import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -26,8 +27,17 @@ async function getBlogs() {
 export default async function BlogPage() {
   const blogs = await getBlogs();
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', item: '/' },
+    { name: 'Field Notes', item: '/blog' },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="pt-24 pb-20 bg-white">
         <Container>
           <div className="max-w-4xl">
