@@ -23,8 +23,19 @@ type AdminForm = {
   permissions: string[];
 };
 
+type MessageStatus = 'new' | 'read' | 'replied' | 'archived';
+
+type Message = {
+  _id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: MessageStatus;
+  createdAt: string;
+};
+
 type BlogPost = {
-  // ... rest of types ...
   _id: string;
   title: string;
   slug: string;
@@ -74,8 +85,6 @@ const emptyForm: BlogForm = {
   status: 'draft',
 };
 
-const categories = ['updates', 'education', 'mentorship', 'inspiration', 'impact', 'volunteering'];
-
 const emptyAccountForm: AdminForm = {
   name: '',
   email: '',
@@ -96,15 +105,11 @@ const permissionsList = [
 
 const rolesList: AdminRole[] = ['super_admin', 'admin', 'editor', 'viewer'];
 
-function inputClassName(extra = '') {
-  return `w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition focus:border-primary-600 focus:ring-2 focus:ring-primary-600/20 ${extra}`;
-}
-
 export default function AdminPage() {
   const [token, setToken] = useState('');
   const [adminName, setAdminName] = useState('');
   const [adminRole, setAdminRole] = useState<AdminRole | ''>('');
-  const [activeTab, setActiveTab] = useState<'blogs' | 'accounts'>('blogs');
+  const [activeTab, setActiveTab] = useState<'blogs' | 'accounts' | 'messages'>('blogs');
   const [login, setLogin] = useState({ username: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -120,6 +125,11 @@ export default function AdminPage() {
   const [accountForm, setAccountForm] = useState<AdminForm>(emptyAccountForm);
   const [isLoadingAccounts, setIsLoadingAccounts] = useState(false);
 
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
+  const [messageStatusFilter, setMessageStatusFilter] = useState<'all' | MessageStatus>('all');
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+
   const [isSaving, setIsSaving] = useState(false);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
@@ -132,6 +142,11 @@ export default function AdminPage() {
   const selectedAccount = useMemo(
     () => accounts.find((acc) => acc._id === selectedAccountId) || null,
     [accounts, selectedAccountId]
+  );
+
+  const selectedMessage = useMemo(
+    () => messages.find((msg) => msg._id === selectedMessageId) || null,
+    [messages, selectedMessageId]
   );
 
   const filteredBlogs = useMemo(() => {
@@ -209,14 +224,45 @@ export default function AdminPage() {
     [token, adminRole]
   );
 
+  const loadMessages = useCallback(
+    async (authToken = token, status = messageStatusFilter) => {
+      setIsLoadingMessages(true);
+      setError('');
+
+      try {
+        const url = `/api/admin/messages?status=${status}&limit=100`;
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        const payload = (await response.json()) as ApiResponse<{
+          messages: Message[];
+        }>;
+
+        if (!response.ok || !payload.success || !payload.data) {
+          throw new Error(payload.error || 'Unable to load messages');
+        }
+
+        setMessages(payload.data.messages);
+      } catch (loadError) {
+        setError(loadError instanceof Error ? loadError.message : 'Unable to load messages');
+      } finally {
+        setIsLoadingMessages(false);
+      }
+    },
+    [token, messageStatusFilter]
+  );
+
   useEffect(() => {
     if (token) {
       void loadBlogs(token);
       if (adminRole === 'super_admin') {
         void loadAccounts(token);
       }
+      void loadMessages(token);
     }
-  }, [loadBlogs, loadAccounts, token, adminRole]);
+  }, [loadBlogs, loadAccounts, loadMessages, token, adminRole]);
 
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -417,6 +463,61 @@ export default function AdminPage() {
     }
   }
 
+  async function updateMessageStatus(id: string, status: MessageStatus) {
+    setIsSaving(true);
+    setError('');
+
+    try {
+      const response = await fetch(`/api/admin/messages/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      });
+      const payload = (await response.json()) as ApiResponse<unknown>;
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.error || 'Unable to update message');
+      }
+
+      setNotice('Message updated.');
+      await loadMessages();
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : 'Unable to update message');
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function deleteMessage() {
+    if (!selectedMessageId || !window.confirm('Delete this message permanently?')) return;
+
+    setError('');
+    setNotice('');
+
+    try {
+      const response = await fetch(`/api/admin/messages/${selectedMessageId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const payload = (await response.json()) as ApiResponse<unknown>;
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.error || 'Unable to delete message');
+      }
+
+      setNotice('Message deleted.');
+      setSelectedMessageId(null);
+      await loadMessages();
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : 'Unable to delete message');
+    }
+  }
+
   async function deleteAccount() {
     if (!selectedAccountId || !window.confirm('Delete this admin account permanently?')) return;
 
@@ -453,61 +554,66 @@ export default function AdminPage() {
     setAdminRole('');
     setBlogs([]);
     setAccounts([]);
+    setMessages([]);
     setActiveTab('blogs');
     startNewPost();
     startNewAccount();
+    setSelectedMessageId(null);
   }
 
   if (!token) {
     return (
-      <main className="min-h-screen bg-neutral-50 px-4 py-16">
-        <section className="mx-auto max-w-md rounded-lg border border-neutral-200 bg-white p-8 shadow-lg">
-          <p className="eyebrow mb-3">Bloom CMS</p>
-          <h1 className="font-heading text-4xl font-bold leading-tight text-neutral-900">
-            Admin sign in
-          </h1>
-          <p className="mt-4 text-neutral-600">
-            Use the admin username and password configured in the environment.
-          </p>
+      <main className="min-h-screen bg-horchata/10 px-4 py-16 font-body">
+        <section className="mx-auto max-w-md rounded-3xl border border-espresso/10 bg-white p-10 shadow-2xl">
+          <div className="text-center mb-10">
+            <h1 className="font-heading text-4xl font-black uppercase tracking-tighter text-espresso mb-2">
+              Bloom
+            </h1>
+            <p className="text-xs font-bold uppercase tracking-widest text-espresso/40">
+              Administrative Access
+            </p>
+          </div>
 
-          <form onSubmit={handleLogin} className="mt-8 space-y-5">
-            <div>
-              <label htmlFor="username" className="mb-2 block text-sm font-medium text-neutral-700">
-                Username or email
+          <form onSubmit={handleLogin} className="space-y-8">
+            <div className="space-y-2">
+              <label
+                htmlFor="username"
+                className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+              >
+                Email Address
               </label>
               <input
                 id="username"
-                name="username"
+                type="email"
                 value={login.username}
                 onChange={(event) =>
                   setLogin((current) => ({ ...current, username: event.target.value }))
                 }
-                className={inputClassName()}
-                autoComplete="username"
+                className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon focus:bg-white outline-none transition-all"
                 required
               />
             </div>
-
-            <div>
-              <label htmlFor="password" className="mb-2 block text-sm font-medium text-neutral-700">
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+              >
                 Password
               </label>
               <input
                 id="password"
-                name="password"
                 type="password"
                 value={login.password}
                 onChange={(event) =>
                   setLogin((current) => ({ ...current, password: event.target.value }))
                 }
-                className={inputClassName()}
-                autoComplete="current-password"
+                className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon focus:bg-white outline-none transition-all"
                 required
               />
             </div>
 
             {loginError && (
-              <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+              <p className="rounded-2xl bg-red-50 p-4 text-center text-xs font-bold text-red-600 border border-red-100">
                 {loginError}
               </p>
             )}
@@ -515,9 +621,9 @@ export default function AdminPage() {
             <button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full rounded-lg bg-primary-600 px-5 py-3 font-body text-sm font-semibold text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-full bg-espresso py-5 text-xs font-black uppercase tracking-[0.3em] text-white transition hover:bg-ink disabled:opacity-50 shadow-xl"
             >
-              {isLoggingIn ? 'Signing in...' : 'Sign in'}
+              {isLoggingIn ? 'Verifying...' : 'Enter Dashboard'}
             </button>
           </form>
         </section>
@@ -526,55 +632,74 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-50">
-      <section className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <main className="min-h-screen bg-horchata/5 font-body">
+      <section className="border-b border-espresso/10 bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div>
-            <p className="eyebrow mb-2">Bloom CMS</p>
-            <h1 className="font-heading text-4xl font-bold leading-tight text-neutral-900">
-              Content admin
+            <p className="eyebrow mb-2">Internal Dashboard</p>
+            <h1 className="font-heading text-4xl font-black uppercase tracking-tighter text-espresso">
+              Bloom Control
             </h1>
           </div>
           <div className="flex flex-wrap items-center gap-6">
-            <div className="flex items-center gap-1 rounded-lg bg-neutral-100 p-1">
+            <div className="flex items-center gap-1 rounded-full bg-horchata/20 p-1">
               <button
                 type="button"
                 onClick={() => setActiveTab('blogs')}
-                className={`rounded-md px-4 py-1.5 text-sm font-semibold transition ${
+                className={`rounded-full px-6 py-2 text-xs font-bold uppercase tracking-widest transition ${
                   activeTab === 'blogs'
-                    ? 'bg-white text-neutral-900 shadow-sm'
-                    : 'text-neutral-500 hover:text-neutral-700'
+                    ? 'bg-espresso text-white shadow-md'
+                    : 'text-espresso/50 hover:text-espresso'
                 }`}
               >
                 Content
               </button>
+              {(adminRole === 'super_admin' || adminRole === 'admin') && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('messages')}
+                  className={`rounded-full px-6 py-2 text-xs font-bold uppercase tracking-widest transition ${
+                    activeTab === 'messages'
+                      ? 'bg-espresso text-white shadow-md'
+                      : 'text-espresso/50 hover:text-espresso'
+                  }`}
+                >
+                  Messages
+                </button>
+              )}
               {adminRole === 'super_admin' && (
                 <button
                   type="button"
                   onClick={() => setActiveTab('accounts')}
-                  className={`rounded-md px-4 py-1.5 text-sm font-semibold transition ${
+                  className={`rounded-full px-6 py-2 text-xs font-bold uppercase tracking-widest transition ${
                     activeTab === 'accounts'
-                      ? 'bg-white text-neutral-900 shadow-sm'
-                      : 'text-neutral-500 hover:text-neutral-700'
+                      ? 'bg-espresso text-white shadow-md'
+                      : 'text-espresso/50 hover:text-espresso'
                   }`}
                 >
                   Admin Accounts
                 </button>
               )}
             </div>
-            <div className="flex items-center gap-3 border-l border-neutral-200 pl-6">
-              <p className="text-sm text-neutral-600">Signed in as {adminName}</p>
+            <div className="flex items-center gap-6 border-l border-espresso/10 pl-6">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-espresso/40">
+                {adminName}
+              </p>
               <button
                 type="button"
-                onClick={() => (activeTab === 'blogs' ? void loadBlogs() : void loadAccounts())}
-                className="rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 transition hover:border-primary-600 hover:text-primary-600"
+                onClick={() => {
+                  if (activeTab === 'blogs') void loadBlogs();
+                  else if (activeTab === 'accounts') void loadAccounts();
+                  else void loadMessages();
+                }}
+                className="text-[10px] font-bold uppercase tracking-widest text-espresso hover:text-cinnamon transition-colors"
               >
                 Refresh
               </button>
               <button
                 type="button"
                 onClick={logout}
-                className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-neutral-800"
+                className="rounded-full bg-espresso px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition hover:bg-ink"
               >
                 Sign out
               </button>
@@ -584,30 +709,32 @@ export default function AdminPage() {
       </section>
 
       <section className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[360px_1fr] lg:px-8">
-        <aside className="rounded-lg border border-neutral-200 bg-white p-5">
+        <aside className="rounded-3xl border border-espresso/10 bg-white p-6 shadow-sm h-fit sticky top-32">
           {activeTab === 'blogs' ? (
             <>
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="font-heading text-xl font-semibold text-neutral-900">Posts</h2>
+              <div className="flex items-center justify-between gap-4 mb-8">
+                <h2 className="font-heading text-xl font-black uppercase tracking-tighter text-espresso">
+                  Posts
+                </h2>
                 <button
                   type="button"
                   onClick={startNewPost}
-                  className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
+                  className="rounded-full bg-cinnamon px-5 py-2 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-cinnamon/90"
                 >
                   New
                 </button>
               </div>
 
-              <div className="mt-5 grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-2 mb-6">
                 {(['all', 'published', 'draft'] as const).map((status) => (
                   <button
                     key={status}
                     type="button"
                     onClick={() => setStatusFilter(status)}
-                    className={`rounded-lg border px-3 py-2 text-sm font-semibold capitalize transition ${
+                    className={`rounded-full border px-3 py-2 text-[10px] font-bold uppercase tracking-widest transition ${
                       statusFilter === status
-                        ? 'border-primary-600 bg-primary-50 text-primary-700'
-                        : 'border-neutral-200 bg-white text-neutral-600 hover:border-primary-200'
+                        ? 'border-cinnamon bg-cinnamon text-white'
+                        : 'border-espresso/10 bg-white text-espresso/40 hover:border-espresso/20'
                     }`}
                   >
                     {status}
@@ -615,37 +742,110 @@ export default function AdminPage() {
                 ))}
               </div>
 
-              <div className="mt-5 space-y-3">
+              <div className="space-y-3">
                 {isLoadingBlogs &&
                   [...Array(5)].map((_, i) => (
-                    <div key={i} className="rounded-lg border border-neutral-200 p-4 space-y-2">
-                      <Skeleton className="h-5 w-3/4" />
+                    <div key={i} className="rounded-2xl border border-espresso/5 p-4 space-y-3">
+                      <Skeleton className="h-4 w-3/4 rounded-full" />
                       <div className="flex justify-between">
-                        <Skeleton className="h-3 w-16" />
-                        <Skeleton className="h-3 w-16" />
+                        <Skeleton className="h-2 w-12 rounded-full" />
+                        <Skeleton className="h-2 w-12 rounded-full" />
                       </div>
                     </div>
                   ))}
                 {!isLoadingBlogs && filteredBlogs.length === 0 && (
-                  <p className="text-sm text-neutral-500">No posts in this view.</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-espresso/20 py-10 text-center">
+                    No posts found.
+                  </p>
                 )}
                 {filteredBlogs.map((blog) => (
                   <button
                     key={blog._id}
                     type="button"
                     onClick={() => editPost(blog)}
-                    className={`w-full rounded-lg border p-4 text-left transition ${
+                    className={`w-full rounded-2xl border p-5 text-left transition-all ${
                       selectedBlogId === blog._id
-                        ? 'border-primary-600 bg-primary-50'
-                        : 'border-neutral-200 bg-white hover:border-primary-200'
+                        ? 'border-cinnamon bg-horchata/10 ring-1 ring-cinnamon'
+                        : 'border-espresso/5 bg-white hover:border-espresso/20 hover:shadow-md'
                     }`}
                   >
-                    <span className="block font-heading text-base font-semibold text-neutral-900">
+                    <span className="block font-heading text-base font-bold text-espresso leading-tight mb-2">
                       {blog.title}
                     </span>
-                    <span className="mt-2 flex items-center justify-between gap-3 text-xs text-neutral-500">
-                      <span className="capitalize">{blog.status}</span>
-                      <span>{blog.readingTime || 1} min read</span>
+                    <span className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-espresso/40">
+                      <span className={blog.status === 'published' ? 'text-green-600' : ''}>
+                        {blog.status}
+                      </span>
+                      <span>{blog.readingTime || 1} min</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : activeTab === 'messages' ? (
+            <>
+              <div className="flex items-center justify-between gap-4 mb-8">
+                <h2 className="font-heading text-xl font-black uppercase tracking-tighter text-espresso">
+                  Messages
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-4 gap-1 mb-6">
+                {(['all', 'new', 'read', 'replied'] as const).map((status) => (
+                  <button
+                    key={status}
+                    type="button"
+                    onClick={() => {
+                      setMessageStatusFilter(status as any);
+                      void loadMessages(token, status as any);
+                    }}
+                    className={`rounded-full border py-2 text-[8px] font-black uppercase tracking-widest transition ${
+                      messageStatusFilter === status
+                        ? 'border-cinnamon bg-cinnamon text-white'
+                        : 'border-espresso/10 bg-white text-espresso/40 hover:border-espresso/20'
+                    }`}
+                  >
+                    {status}
+                  </button>
+                ))}
+              </div>
+
+              <div className="space-y-3">
+                {isLoadingMessages &&
+                  [...Array(5)].map((_, i) => (
+                    <div key={i} className="rounded-2xl border border-espresso/5 p-4 space-y-3">
+                      <Skeleton className="h-4 w-1/2 rounded-full" />
+                      <Skeleton className="h-2 w-3/4 rounded-full" />
+                    </div>
+                  ))}
+                {!isLoadingMessages && messages.length === 0 && (
+                  <p className="text-xs font-bold uppercase tracking-widest text-espresso/20 py-10 text-center">
+                    No messages.
+                  </p>
+                )}
+                {messages.map((msg) => (
+                  <button
+                    key={msg._id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedMessageId(msg._id);
+                      if (msg.status === 'new') void updateMessageStatus(msg._id, 'read');
+                    }}
+                    className={`w-full rounded-2xl border p-5 text-left transition-all ${
+                      selectedMessageId === msg._id
+                        ? 'border-cinnamon bg-horchata/10 ring-1 ring-cinnamon'
+                        : 'border-espresso/5 bg-white hover:border-espresso/20 hover:shadow-md'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start gap-2 mb-2">
+                      <span className="block font-heading text-sm font-bold text-espresso leading-tight line-clamp-1">
+                        {msg.name}
+                      </span>
+                      {msg.status === 'new' && <span className="w-2 h-2 bg-cinnamon rounded-full" />}
+                    </div>
+                    <p className="text-xs text-espresso/60 line-clamp-1 mb-3">{msg.subject}</p>
+                    <span className="block text-[10px] font-bold uppercase tracking-widest text-espresso/30">
+                      {new Date(msg.createdAt).toLocaleDateString()}
                     </span>
                   </button>
                 ))}
@@ -653,48 +853,52 @@ export default function AdminPage() {
             </>
           ) : (
             <>
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="font-heading text-xl font-semibold text-neutral-900">Admins</h2>
+              <div className="flex items-center justify-between gap-4 mb-8">
+                <h2 className="font-heading text-xl font-black uppercase tracking-tighter text-espresso">
+                  Admins
+                </h2>
                 <button
                   type="button"
                   onClick={startNewAccount}
-                  className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
+                  className="rounded-full bg-cinnamon px-5 py-2 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-cinnamon/90"
                 >
                   New
                 </button>
               </div>
 
-              <div className="mt-5 space-y-3">
+              <div className="space-y-3">
                 {isLoadingAccounts &&
                   [...Array(3)].map((_, i) => (
-                    <div key={i} className="rounded-lg border border-neutral-200 p-4 space-y-2">
-                      <Skeleton className="h-5 w-1/2" />
+                    <div key={i} className="rounded-2xl border border-espresso/5 p-4 space-y-3">
+                      <Skeleton className="h-4 w-1/2 rounded-full" />
                       <div className="flex justify-between">
-                        <Skeleton className="h-3 w-1/3" />
-                        <Skeleton className="h-3 w-12" />
+                        <Skeleton className="h-2 w-20 rounded-full" />
+                        <Skeleton className="h-2 w-10 rounded-full" />
                       </div>
                     </div>
                   ))}
                 {!isLoadingAccounts && accounts.length === 0 && (
-                  <p className="text-sm text-neutral-500">No admin accounts found.</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-espresso/20 py-10 text-center">
+                    No accounts found.
+                  </p>
                 )}
                 {accounts.map((acc) => (
                   <button
                     key={acc._id}
                     type="button"
                     onClick={() => editAccount(acc)}
-                    className={`w-full rounded-lg border p-4 text-left transition ${
+                    className={`w-full rounded-2xl border p-5 text-left transition-all ${
                       selectedAccountId === acc._id
-                        ? 'border-primary-600 bg-primary-50'
-                        : 'border-neutral-200 bg-white hover:border-primary-200'
+                        ? 'border-cinnamon bg-horchata/10 ring-1 ring-cinnamon'
+                        : 'border-espresso/5 bg-white hover:border-espresso/20 hover:shadow-md'
                     }`}
                   >
-                    <span className="block font-heading text-base font-semibold text-neutral-900">
+                    <span className="block font-heading text-base font-bold text-espresso mb-2">
                       {acc.name}
                     </span>
-                    <span className="mt-2 flex items-center justify-between gap-3 text-xs text-neutral-500">
+                    <span className="flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-espresso/40">
                       <span>{acc.email}</span>
-                      <span className="capitalize">{acc.role.replace('_', ' ')}</span>
+                      <span className="text-cinnamon">{acc.role.replace('_', ' ')}</span>
                     </span>
                   </button>
                 ))}
@@ -704,11 +908,14 @@ export default function AdminPage() {
         </aside>
 
         {activeTab === 'blogs' ? (
-          <form onSubmit={handleSave} className="rounded-lg border border-neutral-200 bg-white p-6">
-            <div className="flex flex-col gap-4 border-b border-neutral-200 pb-5 sm:flex-row sm:items-start sm:justify-between">
+          <form
+            onSubmit={handleSave}
+            className="rounded-3xl border border-espresso/10 bg-white p-8 shadow-sm"
+          >
+            <div className="flex flex-col gap-6 border-b border-espresso/5 pb-8 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="eyebrow mb-2">{selectedBlog ? 'Edit post' : 'New post'}</p>
-                <h2 className="font-heading text-3xl font-bold text-neutral-900">
+                <h2 className="font-heading text-4xl font-bold text-espresso leading-tight">
                   {selectedBlog ? selectedBlog.title : 'Create CMS content'}
                 </h2>
               </div>
@@ -716,32 +923,35 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => void deletePost()}
-                  className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100"
+                  className="rounded-full bg-red-50 px-6 py-2 text-xs font-bold uppercase tracking-widest text-red-600 transition hover:bg-red-100"
                 >
-                  Delete
+                  Delete Post
                 </button>
               )}
             </div>
 
             {(notice || error) && (
-              <div className="mt-5 space-y-3">
+              <div className="mt-8 space-y-4">
                 {notice && (
-                  <p className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">
+                  <p className="rounded-2xl bg-green-50 px-6 py-4 text-sm font-bold text-green-700 border border-green-100">
                     {notice}
                   </p>
                 )}
                 {error && (
-                  <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+                  <p className="rounded-2xl bg-red-50 px-6 py-4 text-sm font-bold text-red-700 border border-red-100">
                     {error}
                   </p>
                 )}
               </div>
             )}
 
-            <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
-              <div className="lg:col-span-2">
-                <label htmlFor="title" className="mb-2 block text-sm font-medium text-neutral-700">
-                  Title
+            <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <div className="lg:col-span-2 space-y-2">
+                <label
+                  htmlFor="title"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+                >
+                  Post Title
                 </label>
                 <input
                   id="title"
@@ -749,13 +959,16 @@ export default function AdminPage() {
                   onChange={(event) =>
                     setForm((current) => ({ ...current, title: event.target.value }))
                   }
-                  className={inputClassName('text-base font-semibold')}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-lg font-bold text-espresso focus:border-cinnamon focus:bg-white outline-none transition-all"
                   required
                 />
               </div>
 
-              <div>
-                <label htmlFor="author" className="mb-2 block text-sm font-medium text-neutral-700">
+              <div className="space-y-2">
+                <label
+                  htmlFor="author"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+                >
                   Author
                 </label>
                 <input
@@ -764,14 +977,17 @@ export default function AdminPage() {
                   onChange={(event) =>
                     setForm((current) => ({ ...current, author: event.target.value }))
                   }
-                  className={inputClassName()}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
                   required
                 />
               </div>
 
-              <div>
-                <label htmlFor="status" className="mb-2 block text-sm font-medium text-neutral-700">
-                  Status
+              <div className="space-y-2">
+                <label
+                  htmlFor="status"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+                >
+                  Publication Status
                 </label>
                 <select
                   id="status"
@@ -779,76 +995,19 @@ export default function AdminPage() {
                   onChange={(event) =>
                     setForm((current) => ({ ...current, status: event.target.value as BlogStatus }))
                   }
-                  className={inputClassName()}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all appearance-none cursor-pointer"
                 >
                   <option value="draft">Draft</option>
                   <option value="published">Published</option>
                 </select>
               </div>
 
-              <div>
-                <label
-                  htmlFor="category"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
-                >
-                  Category
-                </label>
-                <select
-                  id="category"
-                  value={form.category}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, category: event.target.value }))
-                  }
-                  className={inputClassName()}
-                >
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="tags" className="mb-2 block text-sm font-medium text-neutral-700">
-                  Tags
-                </label>
-                <input
-                  id="tags"
-                  value={form.tags}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, tags: event.target.value }))
-                  }
-                  className={inputClassName()}
-                  placeholder="education, field notes"
-                />
-              </div>
-
-              <div className="lg:col-span-2">
-                <label
-                  htmlFor="excerpt"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
-                >
-                  Excerpt
-                </label>
-                <textarea
-                  id="excerpt"
-                  value={form.excerpt}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, excerpt: event.target.value }))
-                  }
-                  className={inputClassName('min-h-24 resize-y')}
-                  maxLength={300}
-                  required
-                />
-              </div>
-
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 space-y-2">
                 <label
                   htmlFor="content"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
                 >
-                  Content
+                  Content (Markdown Supported)
                 </label>
                 <textarea
                   id="content"
@@ -856,91 +1015,110 @@ export default function AdminPage() {
                   onChange={(event) =>
                     setForm((current) => ({ ...current, content: event.target.value }))
                   }
-                  className={inputClassName('min-h-72 resize-y font-mono leading-relaxed')}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-3xl px-6 py-6 text-espresso focus:border-cinnamon outline-none transition-all min-h-[400px] font-mono text-sm leading-relaxed"
                   required
-                />
-              </div>
-
-              <div className="lg:col-span-2">
-                <label
-                  htmlFor="coverImage"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
-                >
-                  Cover image URL
-                </label>
-                <input
-                  id="coverImage"
-                  value={form.coverImage}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, coverImage: event.target.value }))
-                  }
-                  className={inputClassName()}
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="seoTitle"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
-                >
-                  SEO title
-                </label>
-                <input
-                  id="seoTitle"
-                  value={form.seoTitle}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, seoTitle: event.target.value }))
-                  }
-                  className={inputClassName()}
-                  maxLength={60}
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="seoDescription"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
-                >
-                  SEO description
-                </label>
-                <input
-                  id="seoDescription"
-                  value={form.seoDescription}
-                  onChange={(event) =>
-                    setForm((current) => ({ ...current, seoDescription: event.target.value }))
-                  }
-                  className={inputClassName()}
-                  maxLength={160}
                 />
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col-reverse gap-3 border-t border-neutral-200 pt-5 sm:flex-row sm:justify-end">
+            <div className="mt-12 flex flex-col-reverse gap-4 border-t border-espresso/5 pt-8 sm:flex-row sm:justify-end">
               <button
                 type="button"
                 onClick={startNewPost}
-                className="rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold text-neutral-800 transition hover:border-primary-600 hover:text-primary-600"
+                className="rounded-full border-2 border-espresso/10 px-8 py-3 text-xs font-bold uppercase tracking-widest text-espresso hover:bg-horchata/10 transition-all"
               >
-                Clear
+                Clear Form
               </button>
               <button
                 type="submit"
                 disabled={isSaving}
-                className="rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-full bg-espresso px-12 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-ink disabled:opacity-50 shadow-lg hover:shadow-xl active:translate-y-0.5"
               >
-                {isSaving ? 'Saving...' : selectedBlog ? 'Save changes' : 'Create post'}
+                {isSaving ? 'Saving...' : selectedBlog ? 'Update Post' : 'Publish Post'}
               </button>
             </div>
           </form>
+        ) : activeTab === 'messages' ? (
+          <div className="rounded-3xl border border-espresso/10 bg-white p-8 shadow-sm h-full min-h-[600px] flex flex-col">
+            {selectedMessage ? (
+              <>
+                <div className="flex flex-col gap-6 border-b border-espresso/5 pb-8 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="eyebrow mb-2">Message from {selectedMessage.name}</p>
+                    <h2 className="font-heading text-4xl font-bold text-espresso leading-tight">
+                      {selectedMessage.subject}
+                    </h2>
+                    <div className="flex gap-4 mt-4 text-xs font-bold uppercase tracking-widest text-espresso/40">
+                      <span>{selectedMessage.email}</span>
+                      <span>•</span>
+                      <span>{new Date(selectedMessage.createdAt).toLocaleString()}</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => void deleteMessage()}
+                      className="rounded-full bg-red-50 px-6 py-2 text-xs font-bold uppercase tracking-widest text-red-600 transition hover:bg-red-100"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex-1 py-10">
+                  <div className="field-note bg-horchata/5 border-horchata/30 mb-10">
+                    <p className="text-xl text-espresso/80 leading-relaxed whitespace-pre-wrap">
+                      {selectedMessage.message}
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/30">
+                      Quick Actions
+                    </p>
+                    <div className="flex flex-wrap gap-4">
+                      <a
+                        href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
+                        onClick={() => void updateMessageStatus(selectedMessage._id, 'replied')}
+                        className="rounded-full bg-cinnamon px-8 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-cinnamon/90 shadow-md"
+                      >
+                        Reply via Email
+                      </a>
+                      {selectedMessage.status !== 'archived' && (
+                        <button
+                          onClick={() => void updateMessageStatus(selectedMessage._id, 'archived')}
+                          className="rounded-full border-2 border-espresso/10 px-8 py-3 text-xs font-bold uppercase tracking-widest text-espresso hover:bg-horchata/10 transition-all"
+                        >
+                          Archive
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="flex-1 flex flex-col items-center justify-center text-center py-20">
+                <div className="w-20 h-20 bg-horchata/20 rounded-full flex items-center justify-center mb-6">
+                  <span className="text-4xl">✉️</span>
+                </div>
+                <h3 className="font-heading text-2xl font-bold text-espresso mb-2">
+                  No message selected
+                </h3>
+                <p className="text-espresso/40 max-w-xs">
+                  Select an inquiry from the sidebar to view details and take action.
+                </p>
+              </div>
+            )}
+          </div>
         ) : (
           <form
             onSubmit={handleAccountSave}
-            className="rounded-lg border border-neutral-200 bg-white p-6"
+            className="rounded-3xl border border-espresso/10 bg-white p-8 shadow-sm"
           >
-            <div className="flex flex-col gap-4 border-b border-neutral-200 pb-5 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex flex-col gap-6 border-b border-espresso/5 pb-8 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="eyebrow mb-2">{selectedAccount ? 'Edit account' : 'New account'}</p>
-                <h2 className="font-heading text-3xl font-bold text-neutral-900">
+                <h2 className="font-heading text-4xl font-bold text-espresso leading-tight">
                   {selectedAccount ? selectedAccount.name : 'Manage admin access'}
                 </h2>
               </div>
@@ -948,33 +1126,33 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => void deleteAccount()}
-                  className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100"
+                  className="rounded-full bg-red-50 px-6 py-2 text-xs font-bold uppercase tracking-widest text-red-600 transition hover:bg-red-100"
                 >
-                  Delete
+                  Delete Account
                 </button>
               )}
             </div>
 
             {(notice || error) && (
-              <div className="mt-5 space-y-3">
+              <div className="mt-8 space-y-4">
                 {notice && (
-                  <p className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">
+                  <p className="rounded-2xl bg-green-50 px-6 py-4 text-sm font-bold text-green-700 border border-green-100">
                     {notice}
                   </p>
                 )}
                 {error && (
-                  <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+                  <p className="rounded-2xl bg-red-50 px-6 py-4 text-sm font-bold text-red-700 border border-red-100">
                     {error}
                   </p>
                 )}
               </div>
             )}
 
-            <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
-              <div>
+            <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <div className="space-y-2">
                 <label
                   htmlFor="acc-name"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
                 >
                   Full Name
                 </label>
@@ -984,15 +1162,15 @@ export default function AdminPage() {
                   onChange={(event) =>
                     setAccountForm((current) => ({ ...current, name: event.target.value }))
                   }
-                  className={inputClassName()}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
                   required
                 />
               </div>
 
-              <div>
+              <div className="space-y-2">
                 <label
                   htmlFor="acc-email"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
                 >
                   Email Address
                 </label>
@@ -1003,15 +1181,15 @@ export default function AdminPage() {
                   onChange={(event) =>
                     setAccountForm((current) => ({ ...current, email: event.target.value }))
                   }
-                  className={inputClassName()}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
                   required
                 />
               </div>
 
-              <div>
+              <div className="space-y-2">
                 <label
                   htmlFor="acc-password"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
                 >
                   Password {selectedAccount && '(Leave blank to keep current)'}
                 </label>
@@ -1022,18 +1200,18 @@ export default function AdminPage() {
                   onChange={(event) =>
                     setAccountForm((current) => ({ ...current, password: event.target.value }))
                   }
-                  className={inputClassName()}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
                   required={!selectedAccount}
                   autoComplete="new-password"
                 />
               </div>
 
-              <div>
+              <div className="space-y-2">
                 <label
                   htmlFor="acc-role"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
                 >
-                  Role
+                  Assigned Role
                 </label>
                 <select
                   id="acc-role"
@@ -1044,7 +1222,7 @@ export default function AdminPage() {
                       role: event.target.value as AdminRole,
                     }))
                   }
-                  className={inputClassName()}
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all appearance-none cursor-pointer"
                 >
                   {rolesList.map((role) => (
                     <option key={role} value={role}>
@@ -1054,15 +1232,15 @@ export default function AdminPage() {
                 </select>
               </div>
 
-              <div className="lg:col-span-2">
-                <label className="mb-3 block text-sm font-medium text-neutral-700">
-                  Permissions
+              <div className="lg:col-span-2 space-y-6">
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/30 ml-2">
+                  Granular Permissions
                 </label>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {permissionsList.map((permission) => (
                     <label
                       key={permission}
-                      className="flex cursor-pointer items-center gap-3 rounded-lg border border-neutral-200 px-4 py-3 transition hover:border-primary-200 hover:bg-neutral-50"
+                      className="flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-horchata/20 px-6 py-4 transition-all hover:border-cinnamon/20 hover:bg-horchata/5 group"
                     >
                       <input
                         type="checkbox"
@@ -1075,9 +1253,9 @@ export default function AdminPage() {
                               : [...current.permissions, permission],
                           }))
                         }
-                        className="h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-600"
+                        className="h-5 w-5 rounded-full border-horchata text-cinnamon focus:ring-cinnamon accent-cinnamon"
                       />
-                      <span className="text-sm text-neutral-700">
+                      <span className="text-xs font-bold uppercase tracking-widest text-espresso/60 group-hover:text-espresso transition-colors">
                         {permission.replace('manage_', '').replace('_', ' ')}
                       </span>
                     </label>
@@ -1086,20 +1264,20 @@ export default function AdminPage() {
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col-reverse gap-3 border-t border-neutral-200 pt-5 sm:flex-row sm:justify-end">
+            <div className="mt-12 flex flex-col-reverse gap-4 border-t border-espresso/5 pt-8 sm:flex-row sm:justify-end">
               <button
                 type="button"
                 onClick={startNewAccount}
-                className="rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold text-neutral-800 transition hover:border-primary-600 hover:text-primary-600"
+                className="rounded-full border-2 border-espresso/10 px-8 py-3 text-xs font-bold uppercase tracking-widest text-espresso hover:bg-horchata/10 transition-all"
               >
-                Clear
+                Clear Form
               </button>
               <button
                 type="submit"
                 disabled={isSaving}
-                className="rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-full bg-espresso px-12 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-ink disabled:opacity-50 shadow-lg"
               >
-                {isSaving ? 'Saving...' : selectedAccount ? 'Update account' : 'Create account'}
+                {isSaving ? 'Saving...' : selectedAccount ? 'Update Account' : 'Create Account'}
               </button>
             </div>
           </form>

@@ -1,8 +1,12 @@
+import { connectDB } from '@/db/connect';
+import { Contact } from '@/models/Contact';
 import { validationError, errorResponse, successResponse } from '@/utils/api-response';
 import { validateEmail } from '@/utils/helpers';
 
 export async function POST(request: Request) {
   try {
+    await connectDB();
+
     const body = await request.json();
     const { name, email, subject, message } = body;
 
@@ -19,11 +23,15 @@ export async function POST(request: Request) {
       return validationError('Message must be at least 10 characters');
     }
 
-    // In production, you would send an email here or store in database
-    console.log('Contact form submission:', { name, email, subject, message });
+    const contact = await Contact.create({
+      name,
+      email,
+      subject,
+      message,
+    });
 
     return successResponse(
-      { messageId: Math.random().toString(36).substr(2, 9) },
+      { messageId: contact._id },
       'Thank you for your message. We will get back to you soon!',
       201
     );
