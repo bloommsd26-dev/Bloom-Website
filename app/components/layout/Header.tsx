@@ -13,7 +13,7 @@ export function Header() {
     { href: '/about', label: 'Our Story' },
     { href: '/programs', label: 'Work' },
     { href: '/blog', label: 'Blog' },
-    { href: '/impact', label: 'Ledger' },
+    { href: '/impact', label: 'Impact' },
     { href: '/contact', label: 'Contact' },
   ];
 
@@ -96,9 +96,6 @@ export function Header() {
             <div className="flex flex-col gap-4 pt-6">
               <Button variant="primary" size="lg" className="w-full">
                 <Link href="/volunteer">Volunteer Now</Link>
-              </Button>
-              <Button variant="outline" size="lg" className="w-full border-espresso text-espresso">
-                <Link href="/donate">Support Us</Link>
               </Button>
               <Link
                 href="/admin"

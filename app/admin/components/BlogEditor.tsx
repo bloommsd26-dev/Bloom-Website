@@ -2,7 +2,6 @@
 
 import React, { FormEvent, useRef, useState } from 'react';
 import { BlogPost, BlogForm, BlogStatus } from '../types';
-import { RichTextEditor } from '@/components/ui/RichTextEditor';
 import { categories } from '../constants';
 import Image from 'next/image';
 
@@ -254,15 +253,25 @@ export function BlogEditor({
         </div>
 
         <div className="lg:col-span-2 space-y-2">
-          <label
-            htmlFor="content"
-            className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
-          >
-            Post Content
-          </label>
-          <RichTextEditor
-            content={form.content}
-            onChange={(html) => setForm((current) => ({ ...current, content: html }))}
+          <div className="flex items-center justify-between ml-2">
+            <label
+              htmlFor="content"
+              className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40"
+            >
+              Post Content (Markdown Supported)
+            </label>
+            <span className="text-[10px] font-bold text-cinnamon/60 italic">
+              Paste your markdown directly here
+            </span>
+          </div>
+          <textarea
+            id="content"
+            value={form.content}
+            onChange={(e) => setForm((current) => ({ ...current, content: e.target.value }))}
+            className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-3xl p-8 text-espresso focus:border-cinnamon focus:bg-white outline-none transition-all min-h-[500px] font-mono text-sm leading-relaxed"
+            placeholder="# Your Title
+Write your story here..."
+            required
           />
         </div>
 

@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { Button } from '@/components/ui/Button';
-import { ImpactCounter } from '@/components/cards/ImpactCounter';
 import { generateNGOOrganizationSchema, generateProgramSchema } from '@/lib/utils/schema';
 
 const programs = [
@@ -29,12 +28,6 @@ const programs = [
     image:
       'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
   },
-];
-
-const ledgerItems = [
-  { number: 100, label: 'Active student members', suffix: '+' },
-  { number: 18, label: 'Average children per circle', suffix: '' },
-  { number: 500, label: 'Logged session hours', suffix: '+' },
 ];
 
 export default function Home() {
@@ -95,34 +88,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* The Ledger: Minimalist Data with Soft Containers */}
-      <section className="section-padding bg-ice-cube/10 border-y border-espresso/5">
-        <Container>
-          <div className="mb-16">
-            <p className="eyebrow">The Ledger</p>
-            <h2 className="accent-statement">Numbers we stand behind.</h2>
-          </div>
-          <div className="space-y-4">
-            {ledgerItems.map((item, idx) => (
-              <div key={idx} className="ledger-row group">
-                <div className="w-32">
-                  <ImpactCounter number={item.number} label="" suffix={item.suffix} />
-                </div>
-                <div className="flex-1">
-                  <p className="font-heading text-2xl font-semibold group-hover:text-cinnamon transition-colors">
-                    {item.label}
-                  </p>
-                  <p className="text-espresso/60 mt-1 max-w-lg">
-                    Every session is recorded in our distribution logs and attendance sheets to
-                    ensure continuity of care.
-                  </p>
-                </div>
-              </div>
-            ))}
           </div>
         </Container>
       </section>
@@ -213,9 +178,6 @@ export default function Home() {
               <div className="flex flex-wrap justify-center gap-6">
                 <Button size="lg" className="bg-espresso text-white hover:bg-ink px-12">
                   <Link href="/volunteer">Volunteer Now</Link>
-                </Button>
-                <Button variant="outline" size="lg" className="border-espresso text-espresso px-12">
-                  <Link href="/donate">Support Us</Link>
                 </Button>
               </div>
             </div>

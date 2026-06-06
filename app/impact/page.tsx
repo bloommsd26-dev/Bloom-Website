@@ -8,7 +8,7 @@ import { ImpactCounter } from '@/components/cards/ImpactCounter';
 import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
 export const metadata: Metadata = generateMetadata(
-  'The Ledger | Bloom Impact',
+  'Impact | Bloom',
   'A transparent record of Bloom’s work: sessions logged, children supported, and the student-led hours behind the initiative.'
 );
 
@@ -59,7 +59,7 @@ const stories = [
 export default function ImpactPage() {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', item: '/' },
-    { name: 'The Ledger', item: '/impact' },
+    { name: 'Impact', item: '/impact' },
   ]);
 
   return (
@@ -72,7 +72,7 @@ export default function ImpactPage() {
       <section className="pt-24 pb-20 bg-white">
         <Container>
           <div className="max-w-4xl">
-            <p className="eyebrow">The Ledger</p>
+            <p className="eyebrow">Impact</p>
             <h1 className="accent-statement mb-8 text-5xl sm:text-7xl">Numbers and notes.</h1>
             <p className="story-copy text-espresso/70">
               We only publish figures we can stand behind. Our impact is not found in one-time
@@ -156,8 +156,8 @@ export default function ImpactPage() {
             <div className="lg:col-span-6">
               <h2 className="accent-statement mb-8">Transparency by default.</h2>
               <p className="story-copy text-espresso/70">
-                Every rupee donated and every hour volunteered is logged. We are a student-run
-                organization held to professional standards of accountability.
+                Every resource distributed and every hour volunteered is logged. We are a
+                student-run initiative held to professional standards of accountability.
               </p>
             </div>
             <div className="lg:col-span-5 lg:col-start-7 bg-white p-10 rounded-3xl shadow-sm border border-espresso/5">
@@ -165,8 +165,8 @@ export default function ImpactPage() {
                 Request Records
               </p>
               <p className="text-espresso/60 mb-8 leading-relaxed">
-                Detailed impact reports, distribution logs, and attendance summaries are available
-                to our donors and supporters upon request.
+                Detailed impact records, session logs, and attendance summaries are available to our
+                members and community partners upon request.
               </p>
               <Button variant="outline" className="w-full border-espresso text-espresso">
                 <Link href="/contact">Request a Report</Link>

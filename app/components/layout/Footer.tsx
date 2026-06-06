@@ -20,12 +20,11 @@ export function Footer() {
     ],
     'Get Involved': [
       { label: 'Volunteer', href: '/volunteer' },
-      { label: 'Donate', href: '/donate' },
       { label: 'Partner', href: '/contact' },
     ],
     Resources: [
-      { label: 'Field Notes', href: '/blog' },
-      { label: 'The Ledger', href: '/impact' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Impact', href: '/impact' },
       { label: 'Contact', href: '/contact' },
     ],
   };

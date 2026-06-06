@@ -60,7 +60,7 @@ export default function ContactPage() {
     },
     {
       q: 'Can I donate items instead of money?',
-      a: 'Yes. We run regular Care Drives for notebooks, storybooks, and creative supplies. Check our "Donate" page for currently needed items.',
+      a: 'Yes. We run regular Care Drives for notebooks, storybooks, and creative supplies. Contact us directly to know about current collection points.',
     },
     {
       q: 'Is Bloom a registered NGO?',
