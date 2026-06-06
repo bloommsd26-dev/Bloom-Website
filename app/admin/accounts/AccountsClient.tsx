@@ -99,7 +99,7 @@ export default function AccountsClient({ initialAccounts }: AccountsClientProps)
 
     try {
       await deleteAccountAction(selectedAccountId);
-      setAccounts(prev => prev.filter(acc => acc._id !== selectedAccountId));
+      setAccounts((prev) => prev.filter((acc) => acc._id !== selectedAccountId));
       setNotice('Account deleted.');
       startNewAccount();
     } catch (err) {

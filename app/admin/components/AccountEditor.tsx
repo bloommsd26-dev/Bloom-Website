@@ -109,7 +109,9 @@ export function AccountEditor({
           <input
             id="acc-username"
             value={form.username}
-            onChange={(event) => setForm((current) => ({ ...current, username: event.target.value }))}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, username: event.target.value }))
+            }
             className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon focus:bg-white outline-none transition-all"
             required
           />
@@ -126,7 +128,9 @@ export function AccountEditor({
             id="acc-password"
             type="password"
             value={form.password}
-            onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, password: event.target.value }))
+            }
             className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon focus:bg-white outline-none transition-all"
             autoComplete="new-password"
             placeholder={!selectedAccount ? 'User can set this later' : ''}

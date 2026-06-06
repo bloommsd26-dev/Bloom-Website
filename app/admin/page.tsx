@@ -18,7 +18,9 @@ export default function AdminRoot() {
 
   return (
     <div className="flex items-center justify-center min-h-[50vh]">
-      <p className="text-xs font-bold uppercase tracking-widest text-espresso/40">Loading Dashboard...</p>
+      <p className="text-xs font-bold uppercase tracking-widest text-espresso/40">
+        Loading Dashboard...
+      </p>
     </div>
   );
 }

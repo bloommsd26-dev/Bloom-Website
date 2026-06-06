@@ -17,10 +17,10 @@ export function apiHandler(handler: ApiHandler) {
       return await handler(request, ...args);
     } catch (error: any) {
       console.error(`[API ERROR] ${request.method} ${request.url}:`, error);
-      
+
       const message = error?.message || 'An unexpected error occurred';
       const status = error?.status || 500;
-      
+
       return errorResponse(message, status);
     }
   };

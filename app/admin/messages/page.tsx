@@ -10,7 +10,7 @@ import { ContactDTO } from '@/lib/types';
  */
 export default async function AdminMessagesPage() {
   await connectDB();
-  
+
   const messagesRaw = await Contact.find({}).sort({ createdAt: -1 }).lean();
   const messages = serialize(messagesRaw) as ContactDTO[];
 

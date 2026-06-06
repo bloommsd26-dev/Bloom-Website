@@ -35,7 +35,7 @@ export default function MessagesClient({ initialMessages }: MessagesClientProps)
 
     try {
       await updateMessageStatusAction(id, status);
-      setMessages(prev => prev.map(m => m._id === id ? { ...m, status } : m));
+      setMessages((prev) => prev.map((m) => (m._id === id ? { ...m, status } : m)));
       setNotice('Status updated.');
     } catch (err) {
       setError('Failed to update message.');
@@ -50,7 +50,7 @@ export default function MessagesClient({ initialMessages }: MessagesClientProps)
 
     try {
       await deleteMessageAction(selectedMessageId);
-      setMessages(prev => prev.filter(m => m._id !== selectedMessageId));
+      setMessages((prev) => prev.filter((m) => m._id !== selectedMessageId));
       setNotice('Message deleted.');
       setSelectedMessageId(null);
     } catch (err) {

@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/content', label: 'Content', roles: ['super_admin', 'admin', 'editor'] },
     { href: '/admin/messages', label: 'Messages', roles: ['super_admin', 'admin'] },
     { href: '/admin/accounts', label: 'Admin Accounts', roles: ['super_admin'] },
-  ].filter(link => !adminRole || link.roles.includes(adminRole));
+  ].filter((link) => !adminRole || link.roles.includes(adminRole));
 
   async function handleLogout() {
     try {
@@ -82,9 +82,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {children}
-      </section>
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</section>
     </main>
   );
 }

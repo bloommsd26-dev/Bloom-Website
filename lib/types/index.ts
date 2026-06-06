@@ -8,10 +8,10 @@ export type Serialized<T> = {
   [K in keyof T]: T[K] extends Date
     ? string
     : T[K] extends Types.ObjectId
-    ? string
-    : T[K] extends object
-    ? Serialized<T[K]>
-    : T[K];
+      ? string
+      : T[K] extends object
+        ? Serialized<T[K]>
+        : T[K];
 };
 
 export type ApiResponse<T> = {

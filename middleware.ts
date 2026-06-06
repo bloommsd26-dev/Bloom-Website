@@ -10,13 +10,11 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1. Define paths that DO NOT require authentication
-  const isPublicAdminRoute = 
-    pathname.startsWith('/admin/login') || 
-    pathname.startsWith('/api/admin/auth');
+  const isPublicAdminRoute =
+    pathname.startsWith('/admin/login') || pathname.startsWith('/api/admin/auth');
 
   // 2. Only run middleware on /admin and /api/admin routes
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
-    
     // Allow public admin routes to pass through
     if (isPublicAdminRoute) {
       return NextResponse.next();
@@ -46,10 +44,10 @@ export async function middleware(request: NextRequest) {
 function handleUnauthorized(request: NextRequest, pathname: string) {
   // If it's an API request, return 401 Unauthorized
   if (pathname.startsWith('/api/admin')) {
-    return new NextResponse(
-      JSON.stringify({ success: false, error: 'Unauthorized' }),
-      { status: 401, headers: { 'content-type': 'application/json' } }
-    );
+    return new NextResponse(JSON.stringify({ success: false, error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'content-type': 'application/json' },
+    });
   }
 
   // If it's a page request, redirect to the login page

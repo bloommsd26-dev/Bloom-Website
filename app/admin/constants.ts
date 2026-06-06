@@ -34,4 +34,11 @@ export const permissionsList = [
 
 export const rolesList: AdminRole[] = ['super_admin', 'admin', 'editor', 'viewer'];
 
-export const categories = ['updates', 'education', 'mentorship', 'inspiration', 'impact', 'volunteering'];
+export const categories = [
+  'updates',
+  'education',
+  'mentorship',
+  'inspiration',
+  'impact',
+  'volunteering',
+];

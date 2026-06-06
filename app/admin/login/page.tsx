@@ -11,7 +11,7 @@ import { AdminRole, ApiResponse } from '../types';
  */
 export default function AdminLoginPage() {
   const router = useRouter();
-  
+
   const [login, setLogin] = useState({ username: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -45,7 +45,7 @@ export default function AdminLoginPage() {
 
       window.localStorage.setItem('bloom_admin_name', payload.data.admin.name);
       window.localStorage.setItem('bloom_admin_role', payload.data.admin.role);
-      
+
       router.push('/admin/content');
     } catch (authError) {
       setLoginError(
@@ -89,7 +89,7 @@ export default function AdminLoginPage() {
 
       window.localStorage.setItem('bloom_admin_name', payload.data.admin.name);
       window.localStorage.setItem('bloom_admin_role', payload.data.admin.role);
-      
+
       router.push('/admin/content');
     } catch (authError) {
       setClaimError(authError instanceof Error ? authError.message : 'Failed to claim account');

@@ -18,7 +18,7 @@ export function withAuth(handler: Function) {
         return errorResponse('Invalid or expired token', 401);
       }
 
-      // We no longer mutate the request object. 
+      // We no longer mutate the request object.
       // Handlers can re-verify the token from cookies if they need user info.
       return handler(request, ...args);
     } catch (error) {

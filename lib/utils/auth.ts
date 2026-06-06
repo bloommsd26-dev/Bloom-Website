@@ -37,7 +37,10 @@ export async function comparePasswords(password: string, hash: string): Promise<
 /**
  * Edge & Node.js: Generate a secure JWT
  */
-export async function generateToken(payload: AuthPayload, expiresIn: string = '7d'): Promise<string> {
+export async function generateToken(
+  payload: AuthPayload,
+  expiresIn: string = '7d'
+): Promise<string> {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()

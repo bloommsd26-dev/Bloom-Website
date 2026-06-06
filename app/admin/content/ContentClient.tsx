@@ -118,7 +118,7 @@ export default function ContentClient({ initialBlogs }: ContentClientProps) {
 
     try {
       await deleteBlogAction(selectedBlogId);
-      setBlogs(prev => prev.filter(b => b._id !== selectedBlogId));
+      setBlogs((prev) => prev.filter((b) => b._id !== selectedBlogId));
       setNotice('Post deleted.');
       startNewPost();
     } catch (deleteError) {

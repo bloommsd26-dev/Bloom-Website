@@ -64,5 +64,5 @@ const BlogSchema: Schema<BlogDocument> = new Schema(
 // Create text index for search
 BlogSchema.index({ title: 'text', content: 'text', tags: 'text' });
 
-export const Blog: Model<BlogDocument> = 
+export const Blog: Model<BlogDocument> =
   mongoose.models.Blog || mongoose.model<BlogDocument>('Blog', BlogSchema);

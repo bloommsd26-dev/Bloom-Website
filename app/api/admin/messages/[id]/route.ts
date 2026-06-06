@@ -8,7 +8,11 @@ async function updateMessage(request: Request, { params }: { params: Promise<{ i
   const body = await request.json();
   const { status } = body;
 
-  const message = await Contact.findByIdAndUpdate(id, { status }, { new: true, runValidators: true });
+  const message = await Contact.findByIdAndUpdate(
+    id,
+    { status },
+    { new: true, runValidators: true }
+  );
 
   if (!message) {
     return notFoundError('Message not found');

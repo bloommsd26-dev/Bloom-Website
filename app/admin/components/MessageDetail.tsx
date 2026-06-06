@@ -22,9 +22,7 @@ export function MessageDetail({
         <div className="w-20 h-20 bg-horchata/20 rounded-full flex items-center justify-center mb-6">
           <span className="text-4xl">✉️</span>
         </div>
-        <h3 className="font-heading text-2xl font-bold text-espresso mb-2">
-          No message selected
-        </h3>
+        <h3 className="font-heading text-2xl font-bold text-espresso mb-2">No message selected</h3>
         <p className="text-espresso/40 max-w-xs">
           Select an inquiry from the sidebar to view details and take action.
         </p>
@@ -79,8 +77,8 @@ export function MessageDetail({
                 else onUpdateStatus(selectedMessage._id, 'replied');
               }}
               className={clsx(
-                "rounded-full bg-cinnamon px-8 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-cinnamon/90 shadow-md",
-                isSaving && "opacity-50 cursor-not-allowed"
+                'rounded-full bg-cinnamon px-8 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-cinnamon/90 shadow-md',
+                isSaving && 'opacity-50 cursor-not-allowed'
               )}
             >
               Reply via Email

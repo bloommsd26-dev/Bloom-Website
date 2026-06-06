@@ -10,7 +10,7 @@ import { AdminDTO } from '@/lib/types';
  */
 export default async function AdminAccountsPage() {
   await connectDB();
-  
+
   const accountsRaw = await Admin.find({}).sort({ createdAt: -1 }).lean();
   const accounts = serialize(accountsRaw) as AdminDTO[];
 

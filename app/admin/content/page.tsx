@@ -10,7 +10,7 @@ import { BlogDTO } from '@/lib/types';
  */
 export default async function AdminContentPage() {
   await connectDB();
-  
+
   const blogsRaw = await Blog.find({}).sort({ createdAt: -1 }).lean();
   const blogs = serialize(blogsRaw) as BlogDTO[];
 
