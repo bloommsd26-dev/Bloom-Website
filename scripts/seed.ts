@@ -23,7 +23,7 @@ async function seedDatabase() {
     const adminPassword = await hashPassword(process.env.ADMIN_PASSWORD || 'ChangeMe123!');
     const superAdmin = await Admin.create({
       name: 'Bloom Super Admin',
-      email: process.env.ADMIN_EMAIL || 'admin@bloom.org',
+      email: process.env.ADMIN_EMAIL || 'bloom.msd26@gmail.com',
       username: process.env.ADMIN_USERNAME || 'admin',
       passwordHash: adminPassword,
       role: 'super_admin',
@@ -34,7 +34,7 @@ async function seedDatabase() {
     const regularAdminPassword = await hashPassword('RegularAdmin123!');
     const regularAdmin = await Admin.create({
       name: 'Bloom Team Lead',
-      email: 'lead@bloom.org',
+      email: 'bloom.msd26+lead@gmail.com',
       username: 'lead',
       passwordHash: regularAdminPassword,
       role: 'admin',
@@ -270,7 +270,7 @@ async function seedDatabase() {
     console.log('\nDatabase seeding completed successfully!');
     console.log(`
 Admin Credentials:
-Email: ${process.env.ADMIN_EMAIL || 'admin@bloom.org'}
+Email: ${process.env.ADMIN_EMAIL || 'bloom.msd26@gmail.com'}
 Password: ${process.env.ADMIN_PASSWORD || 'ChangeMe123!'}
 
 Data Created:

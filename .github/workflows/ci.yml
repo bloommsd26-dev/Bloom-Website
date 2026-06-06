@@ -58,6 +58,6 @@ jobs:
           # Use GitHub Secrets for secure build process
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          ADMIN_EMAIL: ci@bloom.org
+          ADMIN_EMAIL: bloom.msd26@gmail.com
           ADMIN_PASSWORD: ci_password_dummy
           NEXT_PUBLIC_SITE_URL: http://localhost:3000

@@ -60,7 +60,7 @@ Create a `.env.local` file in the root:
 ```env
 MONGODB_URI=your_mongodb_uri
 JWT_SECRET=your_strong_jwt_secret
-ADMIN_EMAIL=master@bloom.org
+ADMIN_EMAIL=bloom.msd26@gmail.com
 ADMIN_PASSWORD=your_secure_password
 ADMIN_USERNAME=bloom_master
 ```

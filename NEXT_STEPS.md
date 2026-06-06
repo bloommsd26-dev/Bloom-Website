@@ -27,7 +27,7 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/bloom
 JWT_SECRET=your-super-secret-jwt-key-min-32-characters-long-1234567890
 
 # Admin Credentials (CHANGE IMMEDIATELY AFTER FIRST LOGIN)
-ADMIN_EMAIL=admin@bloom.org
+ADMIN_EMAIL=bloom.msd26@gmail.com
 ADMIN_PASSWORD=ChangeMe123!
 
 # Site URL
@@ -149,7 +149,7 @@ git push -u origin main
 
 ### High Priority (Do First)
 
-- [ ] Replace "hello@bloom.org" with your email
+- [ ] Replace "bloom.msd26@gmail.com" with your email (already updated)
 - [ ] Update phone number in footer
 - [ ] Update address in footer/contact page
 - [ ] Add your logo to header

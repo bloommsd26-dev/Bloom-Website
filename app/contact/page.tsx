@@ -207,10 +207,10 @@ export default function ContactPage() {
                       leads:
                     </p>
                     <Link
-                      href="mailto:tech@bloom.org"
+                      href="mailto:bloom.msd26@gmail.com"
                       className="text-cinnamon font-black text-2xl hover:underline underline-offset-8"
                     >
-                      tech@bloom.org
+                      bloom.msd26@gmail.com
                     </Link>
                   </div>
                 </div>

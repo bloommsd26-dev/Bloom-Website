@@ -39,4 +39,4 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within this project, please send an e-mail to **security@bloom.org**. We will respond as soon as possible to investigate and remediate the issue.
+If you discover a security vulnerability within this project, please send an e-mail to **bloom.msd26@gmail.com**. We will respond as soon as possible to investigate and remediate the issue.
