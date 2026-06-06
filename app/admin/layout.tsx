@@ -14,6 +14,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [adminRole, setAdminRole] = React.useState<string | null>(null);
+  const [isSigningOut, setIsSigningOut] = React.useState(false);
 
   React.useEffect(() => {
     setAdminRole(window.localStorage.getItem('bloom_admin_role'));
@@ -31,6 +32,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   ].filter((link) => !adminRole || link.roles.includes(adminRole));
 
   async function handleLogout() {
+    setIsSigningOut(true);
     try {
       await fetch('/api/admin/auth/logout', { method: 'POST' });
     } catch (e) {
@@ -73,9 +75,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="rounded-full bg-espresso px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition hover:bg-ink"
+                disabled={isSigningOut}
+                className="rounded-full bg-espresso px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition hover:bg-ink disabled:opacity-50"
               >
-                Sign out
+                {isSigningOut ? 'Signing out...' : 'Sign out'}
               </button>
             </div>
           </div>
