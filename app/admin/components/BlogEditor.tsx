@@ -3,6 +3,7 @@
 import React, { FormEvent } from 'react';
 import { BlogPost, BlogForm, BlogStatus } from '../types';
 import { RichTextEditor } from '@/components/ui/RichTextEditor';
+import { categories } from '../constants';
 
 interface BlogEditorProps {
   selectedBlog: BlogPost | null;
@@ -100,6 +101,82 @@ export function BlogEditor({
 
         <div className="space-y-2">
           <label
+            htmlFor="category"
+            className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+          >
+            Category
+          </label>
+          <select
+            id="category"
+            value={form.category}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, category: event.target.value }))
+            }
+            className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all appearance-none cursor-pointer capitalize"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="lg:col-span-2 space-y-2">
+          <label
+            htmlFor="excerpt"
+            className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+          >
+            Short Excerpt (Required)
+          </label>
+          <textarea
+            id="excerpt"
+            value={form.excerpt}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, excerpt: event.target.value }))
+            }
+            className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all min-h-[100px] resize-none"
+            placeholder="A brief summary of the post for cards and search results..."
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label
+            htmlFor="coverImage"
+            className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+          >
+            Cover Image URL
+          </label>
+          <input
+            id="coverImage"
+            value={form.coverImage}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, coverImage: event.target.value }))
+            }
+            className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
+            placeholder="https://images.unsplash.com/..."
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label
+            htmlFor="tags"
+            className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+          >
+            Tags (comma separated)
+          </label>
+          <input
+            id="tags"
+            value={form.tags}
+            onChange={(event) => setForm((current) => ({ ...current, tags: event.target.value }))}
+            className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
+            placeholder="education, initiative, study"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label
             htmlFor="status"
             className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
           >
@@ -129,6 +206,50 @@ export function BlogEditor({
             content={form.content}
             onChange={(html) => setForm((current) => ({ ...current, content: html }))}
           />
+        </div>
+
+        <div className="lg:col-span-2 mt-8 pt-8 border-t border-espresso/5 space-y-8">
+          <div>
+            <h3 className="text-xs font-black uppercase tracking-widest text-espresso/30 mb-6">
+              SEO & Discovery (Optional)
+            </h3>
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <div className="space-y-2">
+                <label
+                  htmlFor="seoTitle"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+                >
+                  Meta Title
+                </label>
+                <input
+                  id="seoTitle"
+                  value={form.seoTitle}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, seoTitle: event.target.value }))
+                  }
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
+                  placeholder="Defaults to post title..."
+                />
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="seoDescription"
+                  className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
+                >
+                  Meta Description
+                </label>
+                <input
+                  id="seoDescription"
+                  value={form.seoDescription}
+                  onChange={(event) =>
+                    setForm((current) => ({ ...current, seoDescription: event.target.value }))
+                  }
+                  className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
+                  placeholder="Defaults to excerpt..."
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
