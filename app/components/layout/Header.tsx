@@ -12,7 +12,7 @@ export function Header() {
   const navLinks = [
     { href: '/about', label: 'Our Story' },
     { href: '/programs', label: 'Work' },
-    { href: '/blog', label: 'Field Notes' },
+    { href: '/blog', label: 'Blog' },
     { href: '/impact', label: 'Ledger' },
     { href: '/contact', label: 'Contact' },
   ];
