@@ -57,3 +57,28 @@ export function withRole(...roles: string[]) {
     };
   };
 }
+
+/**
+ * Validates authentication and roles for Server Components.
+ * Redirects or throws if unauthorized.
+ */
+export async function validateServerAuth(...allowedRoles: string[]) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
+
+  if (!token) {
+    return null;
+  }
+
+  const decoded = await verifyToken(token);
+
+  if (!decoded) {
+    return null;
+  }
+
+  if (allowedRoles.length > 0 && !allowedRoles.includes(decoded.role)) {
+    return null;
+  }
+
+  return decoded;
+}
