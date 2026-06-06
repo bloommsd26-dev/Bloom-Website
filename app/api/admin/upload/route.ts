@@ -7,30 +7,20 @@ export const dynamic = 'force-dynamic';
 
 async function uploadImage(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const filename = searchParams.get('filename');
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
 
-    if (!filename) {
-      return errorResponse('Filename is required', 400);
-    }
-
-    // Read the request body as a blob - more reliable in some serverless environments
-    const blobData = await request.blob();
-
-    if (!blobData || blobData.size === 0) {
-      return errorResponse('No file data provided or file is empty', 400);
+    if (!file) {
+      return errorResponse('No file provided', 400);
     }
 
     // Explicitly check for token
     if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      console.error('[UPLOAD ERROR] BLOB_READ_WRITE_TOKEN is missing in environment');
-      return errorResponse(
-        'Server configuration error: Upload token missing. Please redeploy the app.',
-        500
-      );
+      console.error('[UPLOAD ERROR] BLOB_READ_WRITE_TOKEN is missing');
+      return errorResponse('Server configuration error: Upload token missing', 500);
     }
 
-    const blob = await put(filename, blobData, {
+    const blob = await put(file.name, file, {
       access: 'public',
       addRandomSuffix: true,
     });

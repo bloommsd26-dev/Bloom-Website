@@ -39,9 +39,12 @@ export function BlogEditor({
     setIsUploading(true);
 
     try {
-      const response = await fetch(`/api/admin/upload?filename=${encodeURIComponent(file.name)}`, {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch(`/api/admin/upload`, {
         method: 'POST',
-        body: file,
+        body: formData,
       });
 
       const result = await response.json();
