@@ -1,21 +1,42 @@
-# Security Policy
+# Bloom Security Policy & Operations
 
-## Supported Versions
+## Security Features
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+### 🔐 Authentication
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+- **JWT-based Admin Access**: Secure stateless authentication using JSON Web Tokens.
+- **Bcrypt Hashing**: All administrative passwords are salted and hashed using `bcryptjs`.
+- **Server-Side Validation**: All admin pages and API routes verify sessions on the server to prevent data leaks.
+
+### 🛡️ Protections
+
+- **API Rate Limiting**: Public endpoints (`/api/contact`, `/api/volunteers`) are rate-limited (5 requests per minute per IP) to prevent spam and automated abuse.
+- **Security Headers**: The application uses strict security headers, including `X-Content-Type-Options`, `X-Frame-Options`, and `X-XSS-Protection`.
+- **Input Validation**: All data is validated using `Zod` and `Mongoose` schemas before database persistence.
+
+### 🕵️ Monitoring
+
+- **Error Tracking**: Integrated with **Sentry** for real-time error reporting and performance monitoring across the stack.
+- **CodeQL**: Automated static analysis is enabled on the repository to catch vulnerabilities like tainted format strings and XSS.
+
+## Operations & Maintenance
+
+### 💾 Database Backups
+
+**Critical Action**: Database backups must be managed via **MongoDB Atlas**.
+
+1. Log in to the MongoDB Atlas Dashboard.
+2. Navigate to **Deployment > Clusters**.
+3. Select the **Backup** tab for your production cluster.
+4. Ensure **Continuous Backup** or **Cloud Backup** is enabled.
+5. Set the policy to **Daily** snapshots with at least a 7-day retention period.
+
+### 🔑 Secret Management
+
+- Never commit `.env` or `.env.local` files to source control.
+- Rotate the `JWT_SECRET` immediately if an administrative account is compromised.
+- Store production secrets securely in the Vercel Dashboard or your chosen hosting provider's environment settings.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
-
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+If you discover a security vulnerability within this project, please send an e-mail to **security@bloom.org**. We will respond as soon as possible to investigate and remediate the issue.
