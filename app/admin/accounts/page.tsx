@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 
 /**
  * Admin Accounts Page (Server Component)
- * Manages administrative access, roles, and permissions.
+ * Manages administrative access and roles.
  */
 export default async function AdminAccountsPage() {
   const session = await validateServerAuth('super_admin');

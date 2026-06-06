@@ -18,7 +18,7 @@ async function getAdmin(_request: Request, { params }: { params: Promise<{ id: s
 async function updateAdmin(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await request.json();
-  const { name, email, username, password, role, permissions } = body;
+  const { name, email, username, password, role } = body;
 
   const admin = await Admin.findById(id).select('+passwordHash');
   if (!admin) {
@@ -29,7 +29,6 @@ async function updateAdmin(request: Request, { params }: { params: Promise<{ id:
   if (email) admin.email = email;
   if (username) admin.username = username;
   if (role) admin.role = role;
-  if (permissions) admin.permissions = permissions;
   if (password) {
     admin.passwordHash = await hashPassword(password);
   }

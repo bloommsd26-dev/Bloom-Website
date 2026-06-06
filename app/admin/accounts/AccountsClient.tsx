@@ -51,7 +51,6 @@ export default function AccountsClient({ initialAccounts }: AccountsClientProps)
       username: acc.username,
       password: '',
       role: acc.role,
-      permissions: acc.permissions,
     });
     setNotice('');
     setError('');

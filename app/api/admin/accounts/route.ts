@@ -11,7 +11,7 @@ async function getAdmins() {
 
 async function createAdmin(request: Request) {
   const body = await request.json();
-  const { name, email, username, password, role, permissions } = body;
+  const { name, email, username, password, role } = body;
 
   if (!name || !email || !username || !role) {
     return validationError('Name, email, username, and role are required');
@@ -31,7 +31,6 @@ async function createAdmin(request: Request) {
     username,
     passwordHash,
     role,
-    permissions: permissions || [],
   });
 
   const adminResponse = newAdmin.toObject();

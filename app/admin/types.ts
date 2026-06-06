@@ -1,24 +1,22 @@
 export type BlogStatus = 'draft' | 'published';
 export type AdminRole = 'super_admin' | 'admin' | 'editor' | 'viewer';
 
-export type AdminAccount = {
+export interface AdminAccount {
   _id: string;
   name: string;
   email: string;
   username: string;
   role: AdminRole;
-  permissions: string[];
-  createdAt?: string;
-};
+  createdAt: string;
+}
 
-export type AdminForm = {
+export interface AdminForm {
   name: string;
   email: string;
   username: string;
   password?: string;
   role: AdminRole;
-  permissions: string[];
-};
+}
 
 export type MessageStatus = 'new' | 'read' | 'replied' | 'archived';
 

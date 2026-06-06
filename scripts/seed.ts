@@ -27,15 +27,6 @@ async function seedDatabase() {
       username: process.env.ADMIN_USERNAME || 'admin',
       passwordHash: adminPassword,
       role: 'super_admin',
-      permissions: [
-        'manage_blogs',
-        'manage_programs',
-        'manage_donations',
-        'manage_volunteers',
-        'manage_impact',
-        'manage_admins',
-        'manage_settings',
-      ],
     });
     console.log('Created super admin user:', superAdmin.email);
 
@@ -47,7 +38,6 @@ async function seedDatabase() {
       username: 'lead',
       passwordHash: regularAdminPassword,
       role: 'admin',
-      permissions: ['manage_blogs', 'manage_programs', 'manage_volunteers', 'manage_impact'],
     });
     console.log('Created regular admin user:', regularAdmin.email);
 

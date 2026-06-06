@@ -72,7 +72,6 @@ export interface IAdmin {
   username: string;
   passwordHash?: string;
   role: AdminRole;
-  permissions: string[];
   createdAt: Date;
   updatedAt: Date;
 }

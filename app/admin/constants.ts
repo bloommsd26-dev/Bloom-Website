@@ -19,18 +19,7 @@ export const emptyAccountForm: AdminForm = {
   username: '',
   password: '',
   role: 'viewer',
-  permissions: [],
 };
-
-export const permissionsList = [
-  'manage_blogs',
-  'manage_programs',
-  'manage_donations',
-  'manage_volunteers',
-  'manage_impact',
-  'manage_admins',
-  'manage_settings',
-];
 
 export const rolesList: AdminRole[] = ['super_admin', 'admin', 'editor', 'viewer'];
 

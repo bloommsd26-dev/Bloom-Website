@@ -33,8 +33,8 @@ This is a high-performance, full-stack Next.js application built with a focus on
 
 Access the dashboard at `/admin`.
 
-- **Super Admin**: Central control account (Master) capable of managing other admin accounts, roles, and permissions.
-- **Admin/Editor/Viewer**: Scoped roles with specific permissions for content management, volunteer review, and impact tracking.
+- **Super Admin**: Central control account (Master) capable of managing other admin accounts and roles.
+- **Admin/Editor/Viewer**: Scoped roles for content management, volunteer review, and impact tracking.
 - **CRUD UI**: Complete web interface for managing blog posts and administrative access.
 
 ## ⚙️ Getting Started
@@ -104,7 +104,6 @@ Visit `http://localhost:3000` to see the site and `http://localhost:3000/admin` 
 ### Admin Management
 
 - To create a new admin, log in as a **Super Admin**, navigate to the **Admin Accounts** tab, and fill in the details.
-- Always assign the minimum required permissions to new accounts for security.
 
 ## 🚢 Deployment (Vercel)
 

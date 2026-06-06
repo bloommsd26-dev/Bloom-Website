@@ -2,7 +2,7 @@
 
 import React, { FormEvent } from 'react';
 import { AdminAccount, AdminForm, AdminRole } from '../types';
-import { rolesList, permissionsList } from '../constants';
+import { rolesList } from '../constants';
 
 interface AccountEditorProps {
   selectedAccount: AdminAccount | null;
@@ -161,37 +161,6 @@ export function AccountEditor({
               </option>
             ))}
           </select>
-        </div>
-
-        <div className="lg:col-span-2 space-y-6">
-          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/30 ml-2">
-            Granular Permissions
-          </label>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {permissionsList.map((permission) => (
-              <label
-                key={permission}
-                className="flex cursor-pointer items-center gap-4 rounded-2xl border-2 border-horchata/20 px-6 py-4 transition-all hover:border-cinnamon/20 hover:bg-horchata/5 group"
-              >
-                <input
-                  type="checkbox"
-                  checked={form.permissions.includes(permission)}
-                  onChange={() =>
-                    setForm((current) => ({
-                      ...current,
-                      permissions: current.permissions.includes(permission)
-                        ? current.permissions.filter((p) => p !== permission)
-                        : [...current.permissions, permission],
-                    }))
-                  }
-                  className="h-5 w-5 rounded-full border-horchata text-cinnamon focus:ring-cinnamon accent-cinnamon"
-                />
-                <span className="text-xs font-bold uppercase tracking-widest text-espresso/60 group-hover:text-espresso transition-colors">
-                  {permission.replace('manage_', '').replace('_', ' ')}
-                </span>
-              </label>
-            ))}
-          </div>
         </div>
       </div>
 

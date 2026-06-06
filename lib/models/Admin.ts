@@ -32,20 +32,6 @@ const AdminSchema: Schema<AdminDocument> = new Schema(
       enum: ['super_admin', 'admin', 'editor', 'viewer'],
       default: 'viewer',
     },
-    permissions: [
-      {
-        type: String,
-        enum: [
-          'manage_blogs',
-          'manage_programs',
-          'manage_donations',
-          'manage_volunteers',
-          'manage_impact',
-          'manage_admins',
-          'manage_settings',
-        ],
-      },
-    ],
   },
   { timestamps: true }
 );

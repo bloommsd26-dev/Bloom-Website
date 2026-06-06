@@ -45,7 +45,7 @@ A **production-grade Next.js website** for Bloom — a student-led social impact
 
 ### ✅ Database Models
 
-- **Admin** - Admin user accounts with roles/permissions
+- **Admin** - Admin user accounts with roles
 - **Blog** - Blog posts with text search indexing
 - **Program** - Five program focus areas with metrics
 - **Donation** - Donation campaigns and tracking
