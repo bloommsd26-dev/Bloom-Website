@@ -21,9 +21,8 @@ export function generateNGOOrganizationSchema() {
       addressCountry: 'IN',
     },
     sameAs: [
-      'https://instagram.com/bloominitiative',
-      'https://linkedin.com/company/bloominitiative',
-      'https://twitter.com/bloominitiative',
+      'https://www.instagram.com/bloom_msd',
+      'https://www.linkedin.com/in/bloom-maxfort-school-dwarka-246594413',
     ],
     founder: {
       '@type': 'Organization',

@@ -226,13 +226,21 @@ export default function ContactPage() {
           <div className="text-center">
             <p className="eyebrow">Find us online</p>
             <div className="flex flex-wrap justify-center gap-8 sm:gap-16 mt-12">
-              {['Instagram', 'LinkedIn', 'Twitter'].map((social) => (
+              {[
+                { label: 'Instagram', href: 'https://www.instagram.com/bloom_msd' },
+                {
+                  label: 'LinkedIn',
+                  href: 'https://www.linkedin.com/in/bloom-maxfort-school-dwarka-246594413',
+                },
+              ].map((social) => (
                 <Link
-                  key={social}
-                  href="#"
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="font-heading text-3xl sm:text-5xl font-black uppercase tracking-tighter hover:text-cinnamon transition-all hover:scale-110"
                 >
-                  {social}
+                  {social.label}
                 </Link>
               ))}
             </div>

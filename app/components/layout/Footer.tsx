@@ -54,13 +54,21 @@ export function Footer() {
               prompts, and a promise to return.
             </p>
             <div className="flex gap-8">
-              {['Instagram', 'LinkedIn', 'Twitter'].map((social) => (
+              {[
+                { label: 'Instagram', href: 'https://www.instagram.com/bloom_msd' },
+                {
+                  label: 'LinkedIn',
+                  href: 'https://www.linkedin.com/in/bloom-maxfort-school-dwarka-246594413',
+                },
+              ].map((social) => (
                 <Link
-                  key={social}
-                  href="#"
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[10px] font-bold uppercase tracking-[0.2em] hover:text-cinnamon transition-colors"
                 >
-                  {social}
+                  {social.label}
                 </Link>
               ))}
             </div>
