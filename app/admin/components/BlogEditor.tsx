@@ -39,7 +39,7 @@ export function BlogEditor({
     setIsUploading(true);
 
     try {
-      const response = await fetch(`/api/admin/upload?filename=${file.name}`, {
+      const response = await fetch(`/api/admin/upload?filename=${encodeURIComponent(file.name)}`, {
         method: 'POST',
         body: file,
       });
@@ -49,11 +49,13 @@ export function BlogEditor({
       if (result.success && result.data.url) {
         setForm((prev) => ({ ...prev, coverImage: result.data.url }));
       } else {
-        alert('Failed to upload image');
+        const errorMsg = result.error || 'Failed to upload image';
+        console.error('[UPLOAD CLIENT ERROR]:', errorMsg);
+        alert(`Upload Failed: ${errorMsg}`);
       }
     } catch (uploadError) {
       console.error('Upload error:', uploadError);
-      alert('Error uploading image');
+      alert('Error uploading image. Check console for details.');
     } finally {
       setIsUploading(false);
     }
