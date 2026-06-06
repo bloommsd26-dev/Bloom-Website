@@ -4,26 +4,33 @@ import { apiHandler } from '@/lib/api/handler';
 import { errorResponse, successResponse } from '@/utils/api-response';
 
 async function uploadImage(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const filename = searchParams.get('filename');
-
-  if (!filename) {
-    return errorResponse('Filename is required', 400);
-  }
-
-  if (!request.body) {
-    return errorResponse('No body provided', 400);
-  }
-
   try {
+    const { searchParams } = new URL(request.url);
+    const filename = searchParams.get('filename');
+
+    if (!filename) {
+      return errorResponse('Filename is required', 400);
+    }
+
+    if (!request.body) {
+      return errorResponse('No file data provided', 400);
+    }
+
+    // Explicitly check for token to give better error message if missing
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      console.error('[UPLOAD ERROR] BLOB_READ_WRITE_TOKEN is missing');
+      return errorResponse('Server configuration error: Upload token missing', 500);
+    }
+
     const blob = await put(filename, request.body, {
       access: 'public',
+      addRandomSuffix: true, // Prevent filename collisions
     });
 
     return successResponse(blob);
-  } catch (error) {
-    console.error('Blob upload error:', error);
-    return errorResponse('Failed to upload image to Vercel Blob', 500);
+  } catch (error: any) {
+    console.error('[UPLOAD API ERROR]:', error);
+    return errorResponse(error.message || 'Failed to upload image', 500);
   }
 }
 
