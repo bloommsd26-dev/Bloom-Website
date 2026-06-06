@@ -69,7 +69,9 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-10 animate-fadeInUp">
       <div>
-        <h2 className="eyebrow mb-2">Welcome back, {session.email.split('@')[0]}</h2>
+        <h2 className="eyebrow mb-2">
+          Welcome back, {session.username || session.email.split('@')[0]}
+        </h2>
         <h1 className="font-heading text-4xl font-black uppercase tracking-tighter text-espresso">
           Dashboard Overview
         </h1>

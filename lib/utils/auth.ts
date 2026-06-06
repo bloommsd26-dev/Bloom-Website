@@ -17,6 +17,7 @@ export const AUTH_COOKIE_NAME = 'bloom_admin_token';
 export type AuthPayload = JWTPayload & {
   id: string;
   email: string;
+  username?: string;
   role: 'super_admin' | 'admin' | 'editor' | 'viewer';
 };
 

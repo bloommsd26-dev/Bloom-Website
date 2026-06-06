@@ -24,6 +24,7 @@ async function loginAccount(request: Request) {
       {
         id: 'env-admin',
         email: adminEmail,
+        username: envUsername || 'admin',
         role: 'super_admin',
       },
       '7d'
@@ -70,6 +71,7 @@ async function loginAccount(request: Request) {
     {
       id: String(admin._id),
       email: admin.email,
+      username: admin.username,
       role: admin.role,
     },
     '7d'

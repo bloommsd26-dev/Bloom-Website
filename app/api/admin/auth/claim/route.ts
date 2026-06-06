@@ -39,6 +39,7 @@ async function claimAccount(request: Request) {
     {
       id: String(admin._id),
       email: admin.email,
+      username: admin.username,
       role: admin.role,
     },
     '7d'
