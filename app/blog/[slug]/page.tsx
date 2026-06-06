@@ -6,8 +6,7 @@ import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { generateMetadata as createSeoMetadata } from '@/utils/seo';
 import { generateBlogPostSchema } from '@/lib/utils/schema';
-
-export const revalidate = 60; // Revalidate every minute
+import { getBlogBySlug } from '@/lib/db/blog-fetcher';
 
 export async function generateStaticParams() {
   try {
@@ -22,50 +21,13 @@ export async function generateStaticParams() {
   }
 }
 
-type BlogDetail = {
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  coverImage?: string;
-  author?: string;
-  category?: string;
-  readingTime?: number;
-  seoTitle?: string;
-  seoDescription?: string;
-  createdAt?: Date;
-};
-
-const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
-
-async function getBlog(slug: string): Promise<BlogDetail | null> {
-  if (demoBlogSlugs.includes(slug)) {
-    return null;
-  }
-
-  try {
-    await connectDB();
-
-    const blog = await Blog.findOne({ slug, status: 'published' })
-      .select(
-        'title slug excerpt content coverImage author category readingTime seoTitle seoDescription createdAt'
-      )
-      .lean<BlogDetail | null>();
-
-    return blog;
-  } catch (error) {
-    console.error('Error loading blog post:', error);
-    return null;
-  }
-}
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const blog = await getBlog(slug);
+  const blog = await getBlogBySlug(slug);
 
   if (!blog) {
     return createSeoMetadata('Blog post', 'Bloom field note.');
@@ -76,7 +38,7 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const blog = await getBlog(slug);
+  const blog = await getBlogBySlug(slug);
 
   if (!blog) {
     notFound();

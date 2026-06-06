@@ -2,30 +2,16 @@ import { Container } from '@/components/layout/Container';
 import { BlogCard } from '@/components/cards/BlogCard';
 import type { Metadata } from 'next';
 import { generateMetadata } from '@/utils/seo';
-import { connectDB } from '@/db/connect';
-import { Blog } from '@/models/Blog';
 import { generateBreadcrumbSchema } from '@/lib/utils/schema';
-
-export const revalidate = 60; // Revalidate every minute (or use on-demand)
+import { getPublishedBlogs } from '@/lib/db/blog-fetcher';
 
 export const metadata: Metadata = generateMetadata(
   'Blog | Bloom',
   'Weekly records, student perspectives, and community stories from the rooms Bloom works in.'
 );
 
-async function getBlogs() {
-  try {
-    await connectDB();
-    const blogs = await Blog.find({ status: 'published' }).sort({ createdAt: -1 }).lean();
-    return JSON.parse(JSON.stringify(blogs));
-  } catch (error) {
-    console.error('Error fetching blogs:', error);
-    return [];
-  }
-}
-
 export default async function BlogPage() {
-  const blogs = await getBlogs();
+  const blogs = await getPublishedBlogs();
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', item: '/' },
