@@ -11,7 +11,6 @@ export async function middleware(request: NextRequest) {
 
   // 1. Define paths that DO NOT require authentication
   const isPublicAdminRoute = 
-    pathname === '/admin' || // The root admin page handles its own auth-check/login-view
     pathname.startsWith('/admin/login') || 
     pathname.startsWith('/api/admin/auth');
 
@@ -53,8 +52,8 @@ function handleUnauthorized(request: NextRequest, pathname: string) {
     );
   }
 
-  // If it's a page request, redirect to the admin root (which shows login)
-  const loginUrl = new URL('/admin', request.url);
+  // If it's a page request, redirect to the login page
+  const loginUrl = new URL('/admin/login', request.url);
   return NextResponse.redirect(loginUrl);
 }
 
@@ -62,5 +61,5 @@ function handleUnauthorized(request: NextRequest, pathname: string) {
  * Configure which paths the middleware runs on
  */
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*'],
+  matcher: ['/admin', '/admin/:path*', '/api/admin/:path*'],
 };
