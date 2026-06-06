@@ -4,6 +4,7 @@ import { calculateReadingTime, generateSlug } from '@/utils/helpers';
 import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
 import { revalidatePath, revalidateTag } from 'next/cache';
+import { del } from '@vercel/blob';
 
 async function updateBlog(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -40,6 +41,20 @@ async function updateBlog(request: Request, { params }: { params: Promise<{ id: 
     return validationError('A blog with this title already exists');
   }
 
+  // Handle image cleanup if image is being changed
+  if (
+    coverImage &&
+    existingBlog.coverImage &&
+    existingBlog.coverImage !== coverImage &&
+    existingBlog.coverImage.includes('public.blob.vercel-storage.com')
+  ) {
+    try {
+      await del(existingBlog.coverImage);
+    } catch (error) {
+      console.error('[CLEANUP ERROR] Failed to delete old image from Vercel Blob:', error);
+    }
+  }
+
   const blog = await Blog.findByIdAndUpdate(
     id,
     {
@@ -68,11 +83,26 @@ async function updateBlog(request: Request, { params }: { params: Promise<{ id: 
 
 async function deleteBlog(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const blog = await Blog.findByIdAndDelete(id);
+
+  // 1. Find the blog first to get the image URL
+  const blog = await Blog.findById(id);
 
   if (!blog) {
     return notFoundError('Blog post not found');
   }
+
+  // 2. If there's a cover image from Vercel Blob, delete it
+  if (blog.coverImage && blog.coverImage.includes('public.blob.vercel-storage.com')) {
+    try {
+      await del(blog.coverImage);
+    } catch (error) {
+      console.error('[CLEANUP ERROR] Failed to delete image from Vercel Blob:', error);
+      // We continue with blog deletion even if image deletion fails
+    }
+  }
+
+  // 3. Delete the blog post from database
+  await Blog.findByIdAndDelete(id);
 
   revalidateTag('blogs');
   revalidatePath('/blog');
