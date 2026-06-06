@@ -16,7 +16,7 @@ export function apiHandler(handler: ApiHandler) {
       await connectDB();
       return await handler(request, ...args);
     } catch (error: any) {
-      console.error(`[API ERROR] ${request.method} ${request.url}:`, error);
+      console.error('[API ERROR]', request.method, request.url, error);
 
       const message = error?.message || 'An unexpected error occurred';
       const status = error?.status || 500;
