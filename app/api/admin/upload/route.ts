@@ -3,6 +3,8 @@ import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
 import { errorResponse, successResponse } from '@/utils/api-response';
 
+export const dynamic = 'force-dynamic';
+
 async function uploadImage(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
