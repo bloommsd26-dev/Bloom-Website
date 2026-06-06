@@ -1,9 +1,10 @@
 'use client';
 
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import { BlogPost, BlogForm, BlogStatus } from '../types';
 import { RichTextEditor } from '@/components/ui/RichTextEditor';
 import { categories } from '../constants';
+import Image from 'next/image';
 
 interface BlogEditorProps {
   selectedBlog: BlogPost | null;
@@ -28,6 +29,36 @@ export function BlogEditor({
   notice,
   error,
 }: BlogEditorProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+
+    try {
+      const response = await fetch(`/api/admin/upload?filename=${file.name}`, {
+        method: 'POST',
+        body: file,
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.data.url) {
+        setForm((prev) => ({ ...prev, coverImage: result.data.url }));
+      } else {
+        alert('Failed to upload image');
+      }
+    } catch (uploadError) {
+      console.error('Upload error:', uploadError);
+      alert('Error uploading image');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <form
       onSubmit={onSave}
@@ -141,22 +172,44 @@ export function BlogEditor({
           />
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           <label
             htmlFor="coverImage"
             className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40 ml-2"
           >
-            Cover Image URL
+            Featured Image
           </label>
-          <input
-            id="coverImage"
-            value={form.coverImage}
-            onChange={(event) =>
-              setForm((current) => ({ ...current, coverImage: event.target.value }))
-            }
-            className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-2xl px-6 py-4 text-espresso focus:border-cinnamon outline-none transition-all"
-            placeholder="https://images.unsplash.com/..."
-          />
+          <div className="flex flex-col gap-4">
+            {form.coverImage ? (
+              <div className="relative h-48 w-full overflow-hidden rounded-2xl border border-espresso/10 group">
+                <Image src={form.coverImage} alt="Preview" fill className="object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setForm((prev) => ({ ...prev, coverImage: '' }))}
+                  className="absolute top-2 right-2 p-2 rounded-full bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="h-48 w-full flex flex-col items-center justify-center border-2 border-dashed border-horchata/30 rounded-2xl bg-horchata/5 cursor-pointer hover:border-cinnamon/20 hover:bg-white transition-all"
+              >
+                <span className="text-2xl mb-2">🖼️</span>
+                <p className="text-xs font-bold text-espresso/40">
+                  {isUploading ? 'Uploading...' : 'Click to upload featured image'}
+                </p>
+              </div>
+            )}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileUpload}
+              className="hidden"
+              accept="image/*"
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
