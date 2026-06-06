@@ -58,19 +58,27 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </div>
           <div className="flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-1 rounded-full bg-horchata/20 p-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`rounded-full px-6 py-2 text-xs font-bold uppercase tracking-widest transition ${
-                    pathname.startsWith(link.href)
-                      ? 'bg-espresso text-white shadow-md'
-                      : 'text-espresso/50 hover:text-espresso'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                // Precise active state logic
+                // Dashboard is only active on the exact /admin path
+                // Other links are active if the path starts with their href
+                const isActive =
+                  link.href === '/admin' ? pathname === '/admin' : pathname.startsWith(link.href);
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`rounded-full px-6 py-2 text-xs font-bold uppercase tracking-widest transition ${
+                      isActive
+                        ? 'bg-espresso text-white shadow-md'
+                        : 'text-espresso/50 hover:text-espresso'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </div>
             <div className="flex items-center gap-6 border-l border-espresso/10 pl-6">
               <button

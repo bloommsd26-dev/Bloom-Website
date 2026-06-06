@@ -12,12 +12,18 @@ import Link from 'next/link';
  * Provides an overview of site metrics and quick navigation.
  */
 export default async function AdminDashboardPage() {
-  const session = await validateServerAuth('super_admin', 'admin', 'editor', 'viewer');
+  const session = await validateServerAuth();
   if (!session) {
+    console.error('[DASHBOARD AUTH] No session found, redirecting to login');
     redirect('/admin/login');
   }
 
-  await connectDB();
+  try {
+    await connectDB();
+  } catch (dbError) {
+    console.error('[DASHBOARD DB] Connection failed:', dbError);
+    // Even if DB fails, we can show the UI with 0s or an error message
+  }
 
   const [totalBlogs, draftBlogs, totalMessages, newMessages, totalVolunteers, totalPrograms] =
     await Promise.all([

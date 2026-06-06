@@ -43,9 +43,15 @@ export async function middleware(request: NextRequest) {
 
   // --- 2. Admin Route Protection ---
   const isPublicAdminRoute =
-    pathname.startsWith('/admin/login') || pathname.startsWith('/api/admin/auth');
+    pathname === '/admin/login' ||
+    pathname.startsWith('/admin/login/') ||
+    pathname.startsWith('/api/admin/auth');
 
-  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+  if (
+    pathname === '/admin' ||
+    pathname.startsWith('/admin/') ||
+    pathname.startsWith('/api/admin/')
+  ) {
     if (isPublicAdminRoute) {
       return NextResponse.next();
     }
