@@ -7,7 +7,7 @@ import { Blog } from '@/models/Blog';
 import { generateMetadata as createSeoMetadata } from '@/utils/seo';
 import { generateBlogPostSchema } from '@/lib/utils/schema';
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 60; // Revalidate every minute
 
 export async function generateStaticParams() {
   try {

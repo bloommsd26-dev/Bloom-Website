@@ -3,6 +3,7 @@ import { successResponse, validationError, notFoundError } from '@/utils/api-res
 import { calculateReadingTime, generateSlug } from '@/utils/helpers';
 import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
+import { revalidatePath } from 'next/cache';
 
 async function updateBlog(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -58,6 +59,9 @@ async function updateBlog(request: Request, { params }: { params: Promise<{ id: 
     { new: true, runValidators: true }
   );
 
+  revalidatePath('/blog');
+  revalidatePath(`/blog/${slug}`);
+
   return successResponse({ blog }, 'Blog post updated successfully');
 }
 
@@ -68,6 +72,8 @@ async function deleteBlog(_request: Request, { params }: { params: Promise<{ id:
   if (!blog) {
     return notFoundError('Blog post not found');
   }
+
+  revalidatePath('/blog');
 
   return successResponse({ blogId: id }, 'Blog post deleted successfully');
 }

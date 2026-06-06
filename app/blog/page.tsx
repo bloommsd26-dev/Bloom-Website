@@ -6,10 +6,10 @@ import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { generateBreadcrumbSchema } from '@/lib/utils/schema';
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 60; // Revalidate every minute (or use on-demand)
 
 export const metadata: Metadata = generateMetadata(
-  'Field Notes | Bloom',
+  'Blog | Bloom',
   'Weekly records, student perspectives, and community stories from the rooms Bloom works in.'
 );
 
@@ -29,7 +29,7 @@ export default async function BlogPage() {
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', item: '/' },
-    { name: 'Field Notes', item: '/blog' },
+    { name: 'Blog', item: '/blog' },
   ]);
 
   return (
@@ -41,11 +41,11 @@ export default async function BlogPage() {
       <section className="pt-24 pb-20 bg-white">
         <Container>
           <div className="max-w-4xl">
-            <p className="eyebrow">Field Notes</p>
+            <p className="eyebrow">Blog</p>
             <h1 className="accent-statement mb-8 text-6xl sm:text-8xl">Recorded trust.</h1>
             <p className="story-copy text-espresso/80">
-              Our blog is a collection of field notes from our sessions—what we planned, what
-              actually happened, and what we are carrying into the next visit.
+              Our blog is a collection of updates from our sessions—what we planned, what actually
+              happened, and what we are carrying into the next visit.
             </p>
           </div>
         </Container>

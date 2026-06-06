@@ -3,6 +3,7 @@ import { successResponse, validationError } from '@/utils/api-response';
 import { generateSlug, calculateReadingTime, parsePaginationParams } from '@/utils/helpers';
 import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
+import { revalidatePath } from 'next/cache';
 
 const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
 
@@ -76,6 +77,8 @@ async function createBlog(request: Request) {
     status: status || 'draft',
     readingTime,
   });
+
+  revalidatePath('/blog');
 
   return successResponse({ blogId: blog._id }, 'Blog post created successfully', 201);
 }
