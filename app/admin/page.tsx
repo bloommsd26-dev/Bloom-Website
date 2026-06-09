@@ -6,6 +6,8 @@ import { Program } from '@/models/Program';
 import { validateServerAuth } from '@/lib/middleware/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { DashboardCharts } from './components/charts/DashboardCharts';
+import { subDays } from 'date-fns';
 
 /**
  * Admin Dashboard Page (Server Component)
@@ -22,18 +24,43 @@ export default async function AdminDashboardPage() {
     await connectDB();
   } catch (dbError) {
     console.error('[DASHBOARD DB] Connection failed:', dbError);
-    // Even if DB fails, we can show the UI with 0s or an error message
   }
 
-  const [totalBlogs, draftBlogs, totalMessages, newMessages, totalVolunteers, totalPrograms] =
-    await Promise.all([
-      Blog.countDocuments({}),
-      Blog.countDocuments({ status: 'draft' }),
-      Contact.countDocuments({}),
-      Contact.countDocuments({ status: 'new' }),
-      Volunteer.countDocuments({}),
-      Program.countDocuments({}),
-    ]);
+  const thirtyDaysAgo = subDays(new Date(), 30);
+
+  const [
+    totalBlogs,
+    draftBlogs,
+    totalMessages,
+    newMessages,
+    totalVolunteers,
+    totalPrograms,
+    volunteersByStatusRaw,
+    blogsByCategoryRaw,
+    messagesByDateRaw,
+  ] = await Promise.all([
+    Blog.countDocuments({}),
+    Blog.countDocuments({ status: 'draft' }),
+    Contact.countDocuments({}),
+    Contact.countDocuments({ status: 'new' }),
+    Volunteer.countDocuments({}),
+    Program.countDocuments({}),
+    Volunteer.aggregate([{ $group: { _id: '$status', count: { $sum: 1 } } }]),
+    Blog.aggregate([
+      { $match: { status: 'published' } },
+      { $group: { _id: '$category', count: { $sum: 1 } } },
+    ]),
+    Contact.aggregate([
+      { $match: { createdAt: { $gte: thirtyDaysAgo } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]),
+  ]);
 
   const stats = [
     {
@@ -54,17 +81,44 @@ export default async function AdminDashboardPage() {
       label: 'Volunteers',
       value: totalVolunteers,
       detail: 'total applications',
-      href: '/admin/messages', // Or wherever volunteers are managed in future
+      href: '/admin/volunteers',
       color: 'bg-purple-50 text-purple-700 border-purple-100',
     },
     {
       label: 'Programs',
       value: totalPrograms,
       detail: 'active focus areas',
-      href: '/',
+      href: '/programs',
       color: 'bg-orange-50 text-orange-700 border-orange-100',
     },
   ];
+
+  // Format aggregations for frontend
+  const volunteersByStatus = volunteersByStatusRaw.map(v => ({
+    status: v._id,
+    count: v.count,
+  }));
+
+  const blogsByCategory = blogsByCategoryRaw.map(b => ({
+    category: b._id,
+    count: b.count,
+  }));
+
+  const messagesByDate = [];
+  for (let i = 29; i >= 0; i--) {
+    const date = subDays(new Date(), i).toISOString().split('T')[0];
+    const match = messagesByDateRaw.find(m => m._id === date);
+    messagesByDate.push({
+      date,
+      count: match ? match.count : 0,
+    });
+  }
+
+  const chartData = {
+    volunteersByStatus,
+    blogsByCategory,
+    messagesByDate,
+  };
 
   return (
     <div className="space-y-10 animate-fadeInUp">
@@ -99,6 +153,8 @@ export default async function AdminDashboardPage() {
           </Link>
         ))}
       </div>
+
+      <DashboardCharts data={chartData} />
 
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-8 space-y-6">
