@@ -3,9 +3,11 @@
 import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { BlogPost, BlogStatus, BlogForm, ApiResponse } from '../types';
 import { emptyForm } from '../constants';
-import { BlogSidebar } from '../components/BlogSidebar';
 import { BlogEditor } from '../components/BlogEditor';
 import { deleteBlogAction } from '@/lib/actions/admin';
+import { DataTable } from '../components/DataTable';
+import { ColumnDef } from '@tanstack/react-table';
+import { BLOG_STATUSES } from '@/lib/constants';
 
 interface ContentClientProps {
   initialBlogs: BlogPost[];
@@ -128,29 +130,100 @@ export default function ContentClient({ initialBlogs }: ContentClientProps) {
     }
   }
 
+  const columns: ColumnDef<BlogPost>[] = [
+    {
+      accessorKey: 'title',
+      header: 'Title',
+      cell: ({ row }) => <span className="font-bold line-clamp-1">{row.getValue('title')}</span>,
+    },
+    {
+      accessorKey: 'category',
+      header: 'Category',
+      cell: ({ row }) => (
+        <span className="px-2 py-0.5 rounded-md bg-horchata/10 text-espresso/60 text-[8px] font-black uppercase tracking-widest">
+          {row.getValue('category')}
+        </span>
+      ),
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => {
+        const status = row.getValue('status') as BlogStatus;
+        return (
+          <span
+            className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+              status === 'published' ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-400'
+            }`}
+          >
+            {status}
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: 'updatedAt',
+      header: 'Modified',
+      cell: ({ row }) => (
+        <span className="tabular-nums text-espresso/40">
+          {new Date(row.getValue('updatedAt') || '').toLocaleDateString()}
+        </span>
+      ),
+    },
+  ];
+
   return (
-    <div className="editorial-grid items-start">
-      <BlogSidebar
-        blogs={filteredBlogs}
-        selectedBlogId={selectedBlogId}
-        isLoading={false}
-        statusFilter={statusFilter}
-        onSelect={editPost}
-        onNew={startNewPost}
-        onFilterChange={setStatusFilter}
-      />
-      <div className="lg:col-span-7 lg:col-start-6">
-        <BlogEditor
-          selectedBlog={selectedBlog}
-          form={form}
-          isSaving={isSaving}
-          onSave={handleSave}
-          onDelete={deletePost}
-          onClear={startNewPost}
-          setForm={setForm}
-          notice={notice}
-          error={error}
-        />
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h2 className="font-heading text-4xl font-black uppercase tracking-tighter text-espresso">
+            CMS Content
+          </h2>
+          <div className="flex items-center gap-4 mt-2">
+            {(['all', ...BLOG_STATUSES] as const).map((status) => (
+              <button
+                key={status}
+                type="button"
+                onClick={() => setStatusFilter(status)}
+                className={`text-[10px] font-black uppercase tracking-widest transition ${
+                  statusFilter === status ? 'text-cinnamon' : 'text-espresso/30 hover:text-espresso'
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button
+          onClick={startNewPost}
+          className="rounded-full bg-espresso text-white px-8 py-3 text-[10px] font-black uppercase tracking-widest transition hover:bg-ink shadow-lg active:scale-[0.98]"
+        >
+          Create New Post
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div className="lg:col-span-5">
+          <DataTable
+            columns={columns}
+            data={filteredBlogs}
+            onRowClick={editPost}
+            selectedRowId={selectedBlogId || undefined}
+          />
+        </div>
+        <div className="lg:col-span-7">
+          <BlogEditor
+            selectedBlog={selectedBlog}
+            form={form}
+            isSaving={isSaving}
+            onSave={handleSave}
+            onDelete={deletePost}
+            onClear={startNewPost}
+            setForm={setForm}
+            notice={notice}
+            error={error}
+          />
+        </div>
       </div>
     </div>
   );

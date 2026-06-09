@@ -3,9 +3,10 @@
 import { useMemo, useState } from 'react';
 import { AdminAccount, AdminForm, ApiResponse } from '../types';
 import { emptyAccountForm } from '../constants';
-import { AccountSidebar } from '../components/AccountSidebar';
 import { AccountEditor } from '../components/AccountEditor';
 import { deleteAccountAction } from '@/lib/actions/admin';
+import { DataTable } from '../components/DataTable';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface AccountsClientProps {
   initialAccounts: AdminAccount[];
@@ -108,27 +109,69 @@ export default function AccountsClient({ initialAccounts }: AccountsClientProps)
     }
   }
 
+  const columns: ColumnDef<AdminAccount>[] = [
+    {
+      accessorKey: 'name',
+      header: 'Name',
+      cell: ({ row }) => <span className="font-bold">{row.getValue('name')}</span>,
+    },
+    {
+      accessorKey: 'username',
+      header: 'Username',
+      cell: ({ row }) => <span className="text-espresso/60">@{row.getValue('username')}</span>,
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      cell: ({ row }) => (
+        <span className="px-3 py-1 rounded-full bg-horchata/20 text-espresso/40 text-[10px] font-black uppercase tracking-widest">
+          {row.getValue('role')}
+        </span>
+      ),
+    },
+  ];
+
   return (
-    <div className="editorial-grid items-start">
-      <AccountSidebar
-        accounts={accounts}
-        selectedAccountId={selectedAccountId}
-        isLoading={false}
-        onSelect={editAccount}
-        onNew={startNewAccount}
-      />
-      <div className="lg:col-span-7 lg:col-start-6">
-        <AccountEditor
-          selectedAccount={selectedAccount}
-          form={form}
-          isSaving={isSaving}
-          onSave={handleSave}
-          onDelete={handleDelete}
-          onClear={startNewAccount}
-          setForm={setForm}
-          notice={notice}
-          error={error}
-        />
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h2 className="font-heading text-4xl font-black uppercase tracking-tighter text-espresso">
+            Team Management
+          </h2>
+          <p className="text-xs text-espresso/40 mt-1 uppercase font-bold tracking-widest">
+            Control access and roles
+          </p>
+        </div>
+        <button
+          onClick={startNewAccount}
+          className="rounded-full bg-espresso text-white px-8 py-3 text-[10px] font-black uppercase tracking-widest transition hover:bg-ink shadow-lg active:scale-[0.98]"
+        >
+          Invite New Admin
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div className="lg:col-span-7">
+          <DataTable
+            columns={columns}
+            data={accounts}
+            onRowClick={editAccount}
+            selectedRowId={selectedAccountId || undefined}
+          />
+        </div>
+        <div className="lg:col-span-5 sticky top-32">
+          <AccountEditor
+            selectedAccount={selectedAccount}
+            form={form}
+            isSaving={isSaving}
+            onSave={handleSave}
+            onDelete={handleDelete}
+            onClear={startNewAccount}
+            setForm={setForm}
+            notice={notice}
+            error={error}
+          />
+        </div>
       </div>
     </div>
   );

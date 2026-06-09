@@ -7,7 +7,8 @@ import { Contact } from '@/models/Contact';
 import { Admin } from '@/models/Admin';
 import { verifyToken, AUTH_COOKIE_NAME } from '@/utils/auth';
 import { cookies } from 'next/headers';
-import { MessageStatus } from '@/lib/constants';
+import { MessageStatus, VolunteerStatus } from '@/lib/constants';
+import { Volunteer } from '@/models/Volunteer';
 import { AuthPayload } from '@/lib/utils/auth';
 
 /**
@@ -65,6 +66,37 @@ export async function deleteMessageAction(id: string): Promise<{ success: boolea
   await connectDB();
   await Contact.findByIdAndDelete(id);
   revalidatePath('/admin/messages');
+  return { success: true };
+}
+
+/**
+ * VOLUNTEER ACTIONS
+ */
+
+export async function updateVolunteerStatusAction(
+  id: string,
+  status: VolunteerStatus
+): Promise<{ success: boolean }> {
+  const admin = await getAuthorizedAdmin();
+  if (!admin || !['super_admin', 'admin'].includes(admin.role)) {
+    throw new Error('Unauthorized');
+  }
+
+  await connectDB();
+  await Volunteer.findByIdAndUpdate(id, { status });
+  revalidatePath('/admin/volunteers');
+  return { success: true };
+}
+
+export async function deleteVolunteerAction(id: string): Promise<{ success: boolean }> {
+  const admin = await getAuthorizedAdmin();
+  if (!admin || !['super_admin', 'admin'].includes(admin.role)) {
+    throw new Error('Unauthorized');
+  }
+
+  await connectDB();
+  await Volunteer.findByIdAndDelete(id);
+  revalidatePath('/admin/volunteers');
   return { success: true };
 }
 

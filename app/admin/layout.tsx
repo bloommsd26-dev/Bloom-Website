@@ -29,6 +29,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin', label: 'Dashboard', roles: ['super_admin', 'admin', 'editor', 'viewer'] },
     { href: '/admin/content', label: 'Content', roles: ['super_admin', 'admin', 'editor'] },
     { href: '/admin/messages', label: 'Messages', roles: ['super_admin', 'admin'] },
+    { href: '/admin/volunteers', label: 'Volunteers', roles: ['super_admin', 'admin'] },
     { href: '/admin/accounts', label: 'Admin Accounts', roles: ['super_admin'] },
   ].filter((link) => !adminRole || link.roles.includes(adminRole));
 

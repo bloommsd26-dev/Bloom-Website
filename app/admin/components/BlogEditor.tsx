@@ -4,6 +4,7 @@ import React, { FormEvent, useRef, useState } from 'react';
 import { BlogPost, BlogForm, BlogStatus } from '../types';
 import { categories } from '../constants';
 import Image from 'next/image';
+import RichTextEditor from './RichTextEditor';
 
 interface BlogEditorProps {
   selectedBlog: BlogPost | null;
@@ -258,20 +259,15 @@ export function BlogEditor({
               htmlFor="content"
               className="text-[10px] font-black uppercase tracking-[0.2em] text-espresso/40"
             >
-              Post Content (Markdown Supported)
+              Post Content
             </label>
             <span className="text-[10px] font-bold text-cinnamon/60 italic">
-              Paste your markdown directly here
+              Rich text editor enabled
             </span>
           </div>
-          <textarea
-            id="content"
-            value={form.content}
-            onChange={(e) => setForm((current) => ({ ...current, content: e.target.value }))}
-            className="w-full bg-horchata/5 border-2 border-horchata/30 rounded-3xl p-8 text-espresso focus:border-cinnamon focus:bg-white outline-none transition-all min-h-[500px] font-mono text-sm leading-relaxed"
-            placeholder="# Your Title
-Write your story here..."
-            required
+          <RichTextEditor
+            content={form.content}
+            onChange={(html) => setForm((current) => ({ ...current, content: html }))}
           />
         </div>
 
