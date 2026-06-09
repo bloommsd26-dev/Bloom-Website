@@ -3,6 +3,7 @@ import { hashPassword } from '@/utils/auth';
 import { successResponse, validationError } from '@/utils/api-response';
 import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
+import { adminAccountSchema } from '@/lib/validations';
 
 async function getAdmins() {
   const admins = await Admin.find({}).sort({ createdAt: -1 });
@@ -11,11 +12,13 @@ async function getAdmins() {
 
 async function createAdmin(request: Request) {
   const body = await request.json();
-  const { name, email, username, password, role } = body;
+  const result = adminAccountSchema.safeParse(body);
 
-  if (!name || !email || !username || !role) {
-    return validationError('Name, email, username, and role are required');
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
   }
+
+  const { name, email, username, password, role } = result.data;
 
   const existingAdmin = await Admin.findOne({
     $or: [{ email }, { username }],

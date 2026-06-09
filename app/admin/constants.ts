@@ -1,4 +1,5 @@
-import { BlogForm, AdminForm, AdminRole } from './types';
+import { BlogForm, AdminForm } from './types';
+import { BLOG_CATEGORIES, ADMIN_ROLES } from '@/lib/constants';
 
 export const emptyForm: BlogForm = {
   title: '',
@@ -21,13 +22,6 @@ export const emptyAccountForm: AdminForm = {
   role: 'viewer',
 };
 
-export const rolesList: AdminRole[] = ['super_admin', 'admin', 'editor', 'viewer'];
+export const rolesList = [...ADMIN_ROLES];
 
-export const categories = [
-  'updates',
-  'education',
-  'mentorship',
-  'inspiration',
-  'impact',
-  'volunteering',
-];
+export const categories = [...BLOG_CATEGORIES];

@@ -5,10 +5,18 @@ import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { del } from '@vercel/blob';
+import { blogSchema } from '@/lib/validations';
+import { logger } from '@/utils/logger';
 
 async function updateBlog(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await request.json();
+  const result = blogSchema.safeParse(body);
+
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
+  }
+
   const {
     title,
     excerpt,
@@ -20,15 +28,7 @@ async function updateBlog(request: Request, { params }: { params: Promise<{ id: 
     seoTitle,
     seoDescription,
     status,
-  } = body;
-
-  if (!title || !excerpt || !content || !author) {
-    return validationError('Title, excerpt, content, and author are required');
-  }
-
-  if (status && !['draft', 'published'].includes(status)) {
-    return validationError('Invalid blog status');
-  }
+  } = result.data;
 
   const existingBlog = await Blog.findById(id);
   if (!existingBlog) {
@@ -51,7 +51,7 @@ async function updateBlog(request: Request, { params }: { params: Promise<{ id: 
     try {
       await del(existingBlog.coverImage);
     } catch (error) {
-      console.error('[CLEANUP ERROR] Failed to delete old image from Vercel Blob:', error);
+      logger.error('[CLEANUP ERROR] Failed to delete old image from Vercel Blob', error);
     }
   }
 
@@ -96,7 +96,7 @@ async function deleteBlog(_request: Request, { params }: { params: Promise<{ id:
     try {
       await del(blog.coverImage);
     } catch (error) {
-      console.error('[CLEANUP ERROR] Failed to delete image from Vercel Blob:', error);
+      logger.error('[CLEANUP ERROR] Failed to delete image from Vercel Blob', error);
       // We continue with blog deletion even if image deletion fails
     }
   }

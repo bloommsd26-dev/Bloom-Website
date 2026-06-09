@@ -7,7 +7,7 @@ import { Contact } from '@/models/Contact';
 import { Admin } from '@/models/Admin';
 import { verifyToken, AUTH_COOKIE_NAME } from '@/utils/auth';
 import { cookies } from 'next/headers';
-import { MessageStatus } from '@/app/admin/types';
+import { MessageStatus } from '@/lib/constants';
 import { AuthPayload } from '@/lib/utils/auth';
 
 /**

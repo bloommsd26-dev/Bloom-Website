@@ -4,20 +4,20 @@ import { generateSlug, calculateReadingTime, parsePaginationParams } from '@/uti
 import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
 import { revalidatePath, revalidateTag } from 'next/cache';
-
-const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
+import { DEMO_BLOG_SLUGS, BLOG_STATUSES } from '@/lib/constants';
+import { blogSchema } from '@/lib/validations';
 
 async function getBlogs(request: Request) {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get('status') || 'published';
   const { page, limit, skip } = parsePaginationParams(searchParams);
 
-  if (!['draft', 'published', 'all'].includes(status)) {
+  if (status !== 'all' && !BLOG_STATUSES.includes(status as any)) {
     return validationError('Invalid blog status');
   }
 
   const query: any = {
-    slug: { $nin: demoBlogSlugs },
+    slug: { $nin: DEMO_BLOG_SLUGS },
   };
   if (status !== 'all') query.status = status;
 
@@ -38,6 +38,12 @@ async function getBlogs(request: Request) {
 
 async function createBlog(request: Request) {
   const body = await request.json();
+  const result = blogSchema.safeParse(body);
+
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
+  }
+
   const {
     title,
     excerpt,
@@ -49,11 +55,7 @@ async function createBlog(request: Request) {
     seoTitle,
     seoDescription,
     status,
-  } = body;
-
-  if (!title || !excerpt || !content || !author) {
-    return validationError('Title, excerpt, content, and author are required');
-  }
+  } = result.data;
 
   const slug = generateSlug(title);
   const readingTime = calculateReadingTime(content);

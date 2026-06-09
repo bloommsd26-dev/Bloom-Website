@@ -2,6 +2,7 @@
 
 import { Message, MessageStatus } from '../types';
 import { Skeleton } from '@/components/ui/Skeleton';
+import { MESSAGE_STATUSES } from '@/lib/constants';
 
 interface MessageSidebarProps {
   messages: Message[];
@@ -28,8 +29,8 @@ export function MessageSidebar({
         </h2>
       </div>
 
-      <div className="grid grid-cols-4 gap-1 mb-6">
-        {(['all', 'new', 'read', 'replied'] as const).map((status) => (
+      <div className="grid grid-cols-5 gap-1 mb-6">
+        {(['all', ...MESSAGE_STATUSES] as const).map((status) => (
           <button
             key={status}
             type="button"

@@ -1,8 +1,9 @@
 import { Volunteer } from '@/models/Volunteer';
 import { successResponse, validationError } from '@/utils/api-response';
-import { parsePaginationParams, validateEmail, validatePhone } from '@/utils/helpers';
+import { parsePaginationParams } from '@/utils/helpers';
 import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
+import { volunteerSchema } from '@/lib/validations';
 
 async function getVolunteers(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -25,24 +26,22 @@ async function getVolunteers(request: Request) {
 
 async function postVolunteer(request: Request) {
   const body = await request.json();
-  const { name, email, phone, interests, skills, availability, message } = body;
 
-  // Validation
-  if (!name || !email || !phone) {
-    return validationError('Name, email, and phone are required');
+  // Normalize skills if it's a string
+  if (typeof body.skills === 'string') {
+    body.skills = body.skills
+      .split(',')
+      .map((s: string) => s.trim())
+      .filter(Boolean);
   }
 
-  if (!validateEmail(email)) {
-    return validationError('Please provide a valid email address');
+  const result = volunteerSchema.safeParse(body);
+
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
   }
 
-  if (!validatePhone(phone)) {
-    return validationError('Please provide a valid phone number');
-  }
-
-  if (!Array.isArray(interests) || interests.length === 0) {
-    return validationError('Please select at least one area of interest');
-  }
+  const { name, email, phone, interests, skills, availability, message } = result.data;
 
   // Check if email already exists
   const existingVolunteer = await Volunteer.findOne({ email });
@@ -56,15 +55,9 @@ async function postVolunteer(request: Request) {
     email,
     phone,
     interests,
-    skills:
-      typeof skills === 'string'
-        ? skills
-            .split(',')
-            .map((skill) => skill.trim())
-            .filter(Boolean)
-        : [],
-    availability: availability || 'flexible',
-    message: message || '',
+    skills,
+    availability,
+    message,
   });
 
   return successResponse(

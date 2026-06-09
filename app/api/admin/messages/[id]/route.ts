@@ -1,12 +1,19 @@
 import { Contact } from '@/models/Contact';
-import { successResponse, notFoundError } from '@/utils/api-response';
+import { successResponse, notFoundError, validationError } from '@/utils/api-response';
 import { withRole } from '@/lib/middleware/auth';
 import { apiHandler } from '@/lib/api/handler';
+import { messageUpdateSchema } from '@/lib/validations';
 
 async function updateMessage(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const body = await request.json();
-  const { status } = body;
+  const result = messageUpdateSchema.safeParse(body);
+
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
+  }
+
+  const { status } = result.data;
 
   const message = await Contact.findByIdAndUpdate(
     id,

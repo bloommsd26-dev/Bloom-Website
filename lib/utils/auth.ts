@@ -1,16 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import type { JWTPayload } from 'jose';
+import { env } from '@/lib/env';
 
 const SALT_ROUNDS = 10;
-
-function getJwtSecret() {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    throw new Error('JWT_SECRET environment variable is not set');
-  }
-  return new TextEncoder().encode(secret);
-}
+const JWT_SECRET_ENCODED = new TextEncoder().encode(env.JWT_SECRET);
 
 export const AUTH_COOKIE_NAME = 'bloom_admin_token';
 
@@ -46,7 +40,7 @@ export async function generateToken(
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime(expiresIn)
-    .sign(getJwtSecret());
+    .sign(JWT_SECRET_ENCODED);
 }
 
 /**
@@ -54,7 +48,7 @@ export async function generateToken(
  */
 export async function verifyToken(token: string): Promise<AuthPayload | null> {
   try {
-    const { payload } = await jwtVerify(token, getJwtSecret());
+    const { payload } = await jwtVerify(token, JWT_SECRET_ENCODED);
     return payload as AuthPayload;
   } catch (error) {
     return null;

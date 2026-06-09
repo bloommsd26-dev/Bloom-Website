@@ -1,5 +1,6 @@
-export type BlogStatus = 'draft' | 'published';
-export type AdminRole = 'super_admin' | 'admin' | 'editor' | 'viewer';
+import { BlogStatus, AdminRole, MessageStatus } from '@/lib/constants';
+
+export type { BlogStatus, AdminRole, MessageStatus };
 
 export interface AdminAccount {
   _id: string;
@@ -17,8 +18,6 @@ export interface AdminForm {
   password?: string;
   role: AdminRole;
 }
-
-export type MessageStatus = 'new' | 'read' | 'replied' | 'archived';
 
 export type Message = {
   _id: string;

@@ -6,6 +6,7 @@ import { generateMetadata } from '@/utils/seo';
 import { generateNGOOrganizationSchema } from '@/lib/utils/schema';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { env } from '@/lib/env';
 import './globals.css';
 
 const libreBaskerville = Libre_Baskerville({
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     'Bloom',
     'A student-run Maxfort School initiative built around weekly study circles, voice rooms, creative labs, and care drives.'
   ),
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
   icons: {
     icon: '/favicon.png',
     shortcut: '/favicon.png',

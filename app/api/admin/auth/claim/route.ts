@@ -3,18 +3,17 @@ import { hashPassword, generateToken, AUTH_COOKIE_NAME } from '@/utils/auth';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
 import { cookies } from 'next/headers';
 import { apiHandler } from '@/lib/api/handler';
+import { claimSchema } from '@/lib/validations';
 
 async function claimAccount(request: Request) {
   const body = await request.json();
-  const { identifier, password } = body;
+  const result = claimSchema.safeParse(body);
 
-  if (!identifier || !password) {
-    return validationError('Email/Username and password are required');
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
   }
 
-  if (password.length < 6) {
-    return validationError('Password must be at least 6 characters long');
-  }
+  const { identifier, password } = result.data;
 
   // Find admin by email or username
   const admin = await Admin.findOne({

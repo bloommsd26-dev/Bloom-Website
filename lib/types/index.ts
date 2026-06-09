@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { BlogStatus, MessageStatus, AdminRole } from '@/app/admin/types';
+import { BlogStatus, MessageStatus, AdminRole, VolunteerStatus, ProgramFocusArea } from '@/lib/constants';
 
 /**
  * UTILITY TYPES
@@ -91,7 +91,7 @@ export interface IVolunteer {
   skills: string[];
   availability: string;
   message: string;
-  status: 'pending' | 'reviewed' | 'accepted' | 'rejected';
+  status: VolunteerStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -108,7 +108,7 @@ export interface IProgram {
   slug: string;
   description: string;
   longDescription: string;
-  focusArea: 'education' | 'personality' | 'creative' | 'women' | 'community';
+  focusArea: ProgramFocusArea;
   image: string;
   activities: string[];
   impact: string;

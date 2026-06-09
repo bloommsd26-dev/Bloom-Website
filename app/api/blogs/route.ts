@@ -2,8 +2,7 @@ import { Blog } from '@/models/Blog';
 import { successResponse } from '@/utils/api-response';
 import { parsePaginationParams } from '@/utils/helpers';
 import { apiHandler } from '@/lib/api/handler';
-
-const demoBlogSlugs = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];
+import { DEMO_BLOG_SLUGS } from '@/lib/constants';
 
 async function getBlogs(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -12,7 +11,7 @@ async function getBlogs(request: Request) {
 
   const query: any = {
     status: 'published',
-    slug: { $nin: demoBlogSlugs },
+    slug: { $nin: DEMO_BLOG_SLUGS },
   };
 
   if (category && category !== 'all') {

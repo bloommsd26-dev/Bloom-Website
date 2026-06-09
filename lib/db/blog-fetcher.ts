@@ -3,6 +3,7 @@ import { Blog } from '../models/Blog';
 import { unstable_cache } from 'next/cache';
 import { BlogDTO } from '../types';
 import { serialize } from '../utils/helpers';
+import { DEMO_BLOG_SLUGS } from '../constants';
 
 /**
  * Fetch all published blogs with caching
@@ -11,7 +12,12 @@ export const getPublishedBlogs = unstable_cache(
   async () => {
     try {
       await connectDB();
-      const blogsRaw = await Blog.find({ status: 'published' }).sort({ createdAt: -1 }).lean();
+      const blogsRaw = await Blog.find({
+        status: 'published',
+        slug: { $nin: DEMO_BLOG_SLUGS },
+      })
+        .sort({ createdAt: -1 })
+        .lean();
       return serialize(blogsRaw) as BlogDTO[];
     } catch (error) {
       console.error('Error fetching blogs in fetcher:', error);

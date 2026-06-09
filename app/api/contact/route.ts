@@ -1,24 +1,17 @@
 import { Contact } from '@/models/Contact';
 import { validationError, successResponse } from '@/utils/api-response';
-import { validateEmail } from '@/utils/helpers';
 import { apiHandler } from '@/lib/api/handler';
+import { contactSchema } from '@/lib/validations';
 
 async function postContact(request: Request) {
   const body = await request.json();
-  const { name, email, subject, message } = body;
+  const result = contactSchema.safeParse(body);
 
-  // Validation
-  if (!name || !email || !subject || !message) {
-    return validationError('All fields are required');
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
   }
 
-  if (!validateEmail(email)) {
-    return validationError('Please provide a valid email address');
-  }
-
-  if (message.length < 10) {
-    return validationError('Message must be at least 10 characters');
-  }
+  const { name, email, subject, message } = result.data;
 
   const contact = await Contact.create({
     name,

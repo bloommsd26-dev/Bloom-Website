@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
+import { env } from '@/lib/env';
 
 const siteConfig = {
   name: 'Bloom',
   description:
     'A student-led social impact initiative empowering children through education and mentorship',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  url: env.NEXT_PUBLIC_SITE_URL,
   image: '/og-image.jpg',
   twitterHandle: '@bloominitiative',
 };

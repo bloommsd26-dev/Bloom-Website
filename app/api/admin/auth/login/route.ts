@@ -3,15 +3,24 @@ import { comparePasswords, generateToken, AUTH_COOKIE_NAME } from '@/utils/auth'
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
 import { cookies } from 'next/headers';
 import { apiHandler } from '@/lib/api/handler';
+import { loginSchema } from '@/lib/validations';
 
 async function loginAccount(request: Request) {
   const body = await request.json();
-  const { email, username, password } = body;
-  const login = String(username || email || '').trim();
 
-  if (!login || !password) {
-    return validationError('Username and password are required');
+  // Normalize input for validation
+  const loginInput = {
+    login: String(body.login || body.username || body.email || '').trim(),
+    password: body.password,
+  };
+
+  const result = loginSchema.safeParse(loginInput);
+
+  if (!result.success) {
+    return validationError(result.error.issues[0].message);
   }
+
+  const { login, password } = result.data;
 
   const envUsername = process.env.ADMIN_USERNAME;
   const envEmail = process.env.ADMIN_EMAIL;
