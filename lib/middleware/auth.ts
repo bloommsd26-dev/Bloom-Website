@@ -68,16 +68,19 @@ export async function validateServerAuth(...allowedRoles: string[]) {
   const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
 
   if (!token) {
+    console.log('[validateServerAuth] No token found in cookies');
     return null;
   }
 
   const decoded = await verifyToken(token);
 
   if (!decoded) {
+    console.log('[validateServerAuth] Token verification failed');
     return null;
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(decoded.role)) {
+    console.log(`[validateServerAuth] Role mismatch: ${decoded.role} not in ${allowedRoles}`);
     return null;
   }
 
