@@ -1,4 +1,5 @@
-import { verifyToken, AUTH_COOKIE_NAME } from '@/utils/auth';
+import { verifyToken } from '@/utils/auth';
+import { AUTH_COOKIE_NAME } from '@/lib/constants';
 import { errorResponse } from '@/utils/api-response';
 import { cookies } from 'next/headers';
 

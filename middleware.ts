@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { AUTH_COOKIE_NAME, verifyToken } from '@/lib/utils/auth';
+import { verifyToken } from '@/lib/utils/auth';
+import { AUTH_COOKIE_NAME } from '@/lib/constants';
 import { checkRateLimit } from '@/lib/utils/rate-limit';
 
 /**

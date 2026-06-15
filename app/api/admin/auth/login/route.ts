@@ -1,5 +1,6 @@
 import { Admin } from '@/models/Admin';
-import { comparePasswords, generateToken, AUTH_COOKIE_NAME } from '@/utils/auth';
+import { comparePasswords, generateToken } from '@/utils/auth';
+import { AUTH_COOKIE_NAME } from '@/lib/constants';
 import { successResponse, errorResponse, validationError } from '@/utils/api-response';
 import { cookies } from 'next/headers';
 import { apiHandler } from '@/lib/api/handler';

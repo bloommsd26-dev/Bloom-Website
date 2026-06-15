@@ -5,9 +5,9 @@ import { connectDB } from '@/db/connect';
 import { Blog } from '@/models/Blog';
 import { Contact } from '@/models/Contact';
 import { Admin } from '@/models/Admin';
-import { verifyToken, AUTH_COOKIE_NAME } from '@/utils/auth';
+import { verifyToken } from '@/utils/auth';
 import { cookies } from 'next/headers';
-import { MessageStatus, VolunteerStatus } from '@/lib/constants';
+import { MessageStatus, VolunteerStatus, AUTH_COOKIE_NAME } from '@/lib/constants';
 import { Volunteer } from '@/models/Volunteer';
 import { AuthPayload } from '@/lib/utils/auth';
 

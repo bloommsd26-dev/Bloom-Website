@@ -2,11 +2,10 @@ import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import type { JWTPayload } from 'jose';
 import { env } from '@/lib/env';
+import { AUTH_COOKIE_NAME } from '../constants';
 
 const SALT_ROUNDS = 10;
 const JWT_SECRET_ENCODED = new TextEncoder().encode(env.JWT_SECRET);
-
-export const AUTH_COOKIE_NAME = 'bloom_admin_token';
 
 export type AuthPayload = JWTPayload & {
   id: string;

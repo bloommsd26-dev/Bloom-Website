@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { deleteCookie } from 'cookies-next';
-import { AUTH_COOKIE_NAME } from '@/lib/utils/auth';
+import { AUTH_COOKIE_NAME } from '@/lib/constants';
 
 interface AdminLayoutProps {
   children: React.ReactNode;

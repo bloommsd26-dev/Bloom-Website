@@ -28,8 +28,21 @@ const envSchema = z.object({
 const result = envSchema.safeParse(process.env);
 
 if (!result.success) {
-  console.error('❌ Invalid environment variables:', result.error.flatten().fieldErrors);
-  throw new Error('Invalid environment variables');
+  const isServer = typeof window === 'undefined';
+  if (isServer) {
+    console.error('❌ Invalid environment variables:', result.error.flatten().fieldErrors);
+    throw new Error('Invalid environment variables');
+  } else {
+    // On the client, we only care if NEXT_PUBLIC_ variables are invalid
+    const publicErrors = Object.keys(result.error.flatten().fieldErrors).filter((key) =>
+      key.startsWith('NEXT_PUBLIC_')
+    );
+    if (publicErrors.length > 0) {
+      console.error('❌ Invalid client-side environment variables:', result.error.flatten().fieldErrors);
+      throw new Error('Invalid environment variables');
+    }
+    // If only server-side variables are missing on the client, it's fine.
+  }
 }
 
-export const env = result.data;
+export const env = result.success ? result.data : (process.env as unknown as z.infer<typeof envSchema>);
