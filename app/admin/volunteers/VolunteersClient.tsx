@@ -220,7 +220,9 @@ export default function VolunteersClient({ initialVolunteers }: VolunteersClient
             </div>
           ) : (
             <div className="rounded-4xl border border-dashed border-espresso/10 p-10 text-center">
-              <p className="text-sm text-espresso/30 italic">Select an application to view details.</p>
+              <p className="text-sm text-espresso/30 italic">
+                Select an application to view details.
+              </p>
             </div>
           )}
 

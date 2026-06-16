@@ -1,5 +1,11 @@
 import { Document, Types } from 'mongoose';
-import { BlogStatus, MessageStatus, AdminRole, VolunteerStatus, ProgramFocusArea } from '@/lib/constants';
+import {
+  BlogStatus,
+  MessageStatus,
+  AdminRole,
+  VolunteerStatus,
+  ProgramFocusArea,
+} from '@/lib/constants';
 
 /**
  * UTILITY TYPES

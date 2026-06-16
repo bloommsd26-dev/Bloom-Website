@@ -38,11 +38,16 @@ if (!result.success) {
       key.startsWith('NEXT_PUBLIC_')
     );
     if (publicErrors.length > 0) {
-      console.error('❌ Invalid client-side environment variables:', result.error.flatten().fieldErrors);
+      console.error(
+        '❌ Invalid client-side environment variables:',
+        result.error.flatten().fieldErrors
+      );
       throw new Error('Invalid environment variables');
     }
     // If only server-side variables are missing on the client, it's fine.
   }
 }
 
-export const env = result.success ? result.data : (process.env as unknown as z.infer<typeof envSchema>);
+export const env = result.success
+  ? result.data
+  : (process.env as unknown as z.infer<typeof envSchema>);

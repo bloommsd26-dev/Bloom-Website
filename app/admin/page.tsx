@@ -94,12 +94,12 @@ export default async function AdminDashboardPage() {
   ];
 
   // Format aggregations for frontend
-  const volunteersByStatus = volunteersByStatusRaw.map(v => ({
+  const volunteersByStatus = volunteersByStatusRaw.map((v) => ({
     status: v._id,
     count: v.count,
   }));
 
-  const blogsByCategory = blogsByCategoryRaw.map(b => ({
+  const blogsByCategory = blogsByCategoryRaw.map((b) => ({
     category: b._id,
     count: b.count,
   }));
@@ -107,7 +107,7 @@ export default async function AdminDashboardPage() {
   const messagesByDate = [];
   for (let i = 29; i >= 0; i--) {
     const date = subDays(new Date(), i).toISOString().split('T')[0];
-    const match = messagesByDateRaw.find(m => m._id === date);
+    const match = messagesByDateRaw.find((m) => m._id === date);
     messagesByDate.push({
       date,
       count: match ? match.count : 0,

@@ -50,8 +50,4 @@ export type ProgramFocusArea = (typeof PROGRAM_FOCUS_AREAS)[number];
 /**
  * DEMO CONTENT
  */
-export const DEMO_BLOG_SLUGS = [
-  'introducing-bloom',
-  'tutoring-changes-lives',
-  'power-of-platform',
-];
+export const DEMO_BLOG_SLUGS = ['introducing-bloom', 'tutoring-changes-lives', 'power-of-platform'];

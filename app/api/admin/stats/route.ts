@@ -30,9 +30,7 @@ async function getAdminStats() {
     Program.countDocuments({}),
 
     // Aggregations for charts
-    Volunteer.aggregate([
-      { $group: { _id: '$status', count: { $sum: 1 } } },
-    ]),
+    Volunteer.aggregate([{ $group: { _id: '$status', count: { $sum: 1 } } }]),
     Blog.aggregate([
       { $match: { status: 'published' } },
       { $group: { _id: '$category', count: { $sum: 1 } } },
@@ -50,12 +48,12 @@ async function getAdminStats() {
   ]);
 
   // Format aggregations for frontend
-  const formattedVolunteersByStatus = volunteersByStatus.map(v => ({
+  const formattedVolunteersByStatus = volunteersByStatus.map((v) => ({
     status: v._id,
     count: v.count,
   }));
 
-  const formattedBlogsByCategory = blogsByCategory.map(b => ({
+  const formattedBlogsByCategory = blogsByCategory.map((b) => ({
     category: b._id,
     count: b.count,
   }));
@@ -64,7 +62,7 @@ async function getAdminStats() {
   const formattedMessagesByDate = [];
   for (let i = 29; i >= 0; i--) {
     const date = subDays(new Date(), i).toISOString().split('T')[0];
-    const match = messagesByDate.find(m => m._id === date);
+    const match = messagesByDate.find((m) => m._id === date);
     formattedMessagesByDate.push({
       date,
       count: match ? match.count : 0,
@@ -93,7 +91,7 @@ async function getAdminStats() {
       volunteersByStatus: formattedVolunteersByStatus,
       blogsByCategory: formattedBlogsByCategory,
       messagesByDate: formattedMessagesByDate,
-    }
+    },
   });
 }
 

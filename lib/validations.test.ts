@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  blogSchema,
-  contactSchema,
-  volunteerSchema,
-  loginSchema,
-} from './validations';
+import { blogSchema, contactSchema, volunteerSchema, loginSchema } from './validations';
 
 describe('Validations', () => {
   describe('loginSchema', () => {

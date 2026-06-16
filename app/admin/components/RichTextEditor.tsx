@@ -152,10 +152,16 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
           <ImageIcon size={18} />
         </MenuButton>
         <div className="flex-grow" />
-        <MenuButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
+        <MenuButton
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().undo()}
+        >
           <Undo size={18} />
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
+        <MenuButton
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().redo()}
+        >
           <Redo size={18} />
         </MenuButton>
       </div>
